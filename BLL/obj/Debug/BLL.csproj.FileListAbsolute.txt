@@ -1,0 +1,17 @@
+E:\Work\RuleEngine\BLL\bin\Debug\BLL.dll
+E:\Work\RuleEngine\BLL\bin\Debug\BLL.pdb
+E:\Work\RuleEngine\BLL\bin\Debug\DAL.dll
+E:\Work\RuleEngine\BLL\bin\Debug\DAL.pdb
+E:\Work\RuleEngine\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+E:\Work\RuleEngine\BLL\obj\Debug\BLL.dll
+E:\Work\RuleEngine\BLL\obj\Debug\BLL.pdb
+E:\Work\RuleEngine\BLL\bin\Debug\itextsharp.dll
+E:\OfficeWork\Lateetud.RuleEngine\BLL\bin\Debug\BLL.dll
+E:\OfficeWork\Lateetud.RuleEngine\BLL\bin\Debug\BLL.pdb
+E:\OfficeWork\Lateetud.RuleEngine\BLL\bin\Debug\DAL.dll
+E:\OfficeWork\Lateetud.RuleEngine\BLL\bin\Debug\itextsharp.dll
+E:\OfficeWork\Lateetud.RuleEngine\BLL\bin\Debug\DAL.pdb
+E:\OfficeWork\Lateetud.RuleEngine\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+E:\OfficeWork\Lateetud.RuleEngine\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+E:\OfficeWork\Lateetud.RuleEngine\BLL\obj\Debug\BLL.dll
+E:\OfficeWork\Lateetud.RuleEngine\BLL\obj\Debug\BLL.pdb

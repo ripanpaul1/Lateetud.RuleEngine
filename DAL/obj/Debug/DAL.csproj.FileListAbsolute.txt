@@ -1,0 +1,11 @@
+E:\Work\RuleEngine\DAL\bin\Debug\DAL.dll
+E:\Work\RuleEngine\DAL\bin\Debug\DAL.pdb
+E:\Work\RuleEngine\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+E:\Work\RuleEngine\DAL\obj\Debug\DAL.dll
+E:\Work\RuleEngine\DAL\obj\Debug\DAL.pdb
+E:\Work\RuleEngine\DAL\bin\Debug\itextsharp.dll
+E:\OfficeWork\Lateetud.RuleEngine\DAL\bin\Debug\DAL.dll
+E:\OfficeWork\Lateetud.RuleEngine\DAL\bin\Debug\DAL.pdb
+E:\OfficeWork\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+E:\OfficeWork\Lateetud.RuleEngine\DAL\obj\Debug\DAL.dll
+E:\OfficeWork\Lateetud.RuleEngine\DAL\obj\Debug\DAL.pdb
