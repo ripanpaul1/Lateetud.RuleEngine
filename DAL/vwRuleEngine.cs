@@ -16,7 +16,7 @@ namespace DAL
         public DateTime CreateDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsActive { get; set; }
-        public string RuleName { get; set; }
+        
         public string RuleMastName { get; set; }
         public string UserName { get; set; }
     }

@@ -31,7 +31,6 @@ namespace DAL
                         _rule.ModifiedDate = Convert.ToDateTime(row["ModifiedDate"]);
                         _rule.IsActive = Convert.ToBoolean(row["IsActive"]);
                        
-                        _rule.RuleName = Convert.ToString(row["RuleName"]);
                         _rule.RuleMastName = Convert.ToString(row["RuleMastName"]);
                         
 
