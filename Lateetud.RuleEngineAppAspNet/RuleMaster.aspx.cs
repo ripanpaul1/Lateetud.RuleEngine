@@ -1304,11 +1304,12 @@ public partial class RuleMaster : System.Web.UI.Page
             objRule.FieldPosition =Convert.ToString( rbtPosition.SelectedValue);
             objRule.IsCheckSynonyms = chkSynonym.Checked;
             objRule.Synonyms = strSynonym;
-            objRule.ExpressionContext = rbtPosition.SelectedValue.ToString();
+            objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
 
             RuleDescHandler ruleDescHandler = new RuleDescHandler();
             ruleDescHandler.AddNew(objRule);
             mvMain.ActiveViewIndex = 1;
+            //gvRule.DataBind();
         }
         else
         {
@@ -1338,14 +1339,15 @@ public partial class RuleMaster : System.Web.UI.Page
                 objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
                 objRule.IsCheckSynonyms = chkSynonym.Checked;
                 objRule.Synonyms = strSynonym;
-                objRule.ExpressionContext = rbtPosition.SelectedValue.ToString();
+                objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
                 RuleDescHandler ruleDescHandler = new RuleDescHandler();
                 ruleDescHandler.Update(objRule);
-                gvRule.DataBind();
+              //  gvRule.DataBind();
                 mvMain.ActiveViewIndex = 1;
             }
         }
         //DataBind();
+        gvRule.DataBind();
     }
 
     protected void ibtnEdit_Click(object sender, ImageClickEventArgs e)
@@ -1372,7 +1374,14 @@ public partial class RuleMaster : System.Web.UI.Page
         ddlRuleSet.SelectedValue = Convert.ToString(objRule.RuleMastID);
         //ddlRuleType.SelectedValue = Convert.ToString();
         ddlSplit.SelectedValue = Convert.ToString(objRule.SplitAs);
+        //rbtPosition.c = Convert.ToString(objRule.FieldPosition);
+        rbtPosition.Items.FindByText(Convert.ToString(objRule.FieldPosition)).Selected = true;
+        chkIgnoreContext.Checked = Convert.ToBoolean(objRule.IsIgnoreKeyword);
         ViewState["NewFile"] = Convert.ToString(objRule.ConvertedDocumentName);
+        ViewState["FileName"] = Convert.ToString(objRule.UploadedFile);
+        ViewState["OldFile"] = Convert.ToString(objRule.OriginalDocumentName);
+        rbExprOptions.Items.FindByValue(Convert.ToString(objRule.ExpressionContext)).Selected = true;
+        chkSynonym.Checked = Convert.ToBoolean(objRule.IsCheckSynonyms);
         mvMain.ActiveViewIndex = 0;
     }
 

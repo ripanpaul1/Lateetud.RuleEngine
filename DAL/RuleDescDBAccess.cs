@@ -125,6 +125,11 @@ namespace DAL
                     _rule.Expression1 = Convert.ToString(row["Expression1"]);
                     _rule.Expression2 = Convert.ToString(row["Expression2"]);
 
+                    _rule.ExpressionContext = Convert.ToString(row["ExpressionContext"]);
+                    _rule.IsIgnoreKeyword = Convert.ToBoolean(row["IsIgnoreKeyword"]);
+                    _rule.IsCheckSynonyms = Convert.ToBoolean(row["IsCheckSynonyms"]);
+                    _rule.FieldPosition = Convert.ToString(row["FieldPosition"]);
+                    _rule.Synonyms = Convert.ToString(row["Synonyms"]);
                 }
             }
 
