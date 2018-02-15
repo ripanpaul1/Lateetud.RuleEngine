@@ -23,9 +23,9 @@ namespace DAL
                     {
                         vwRuleEngine _rule = new vwRuleEngine();
 
-                        _rule.ID = Convert.ToInt32(row["ID"]);
+                        //_rule.ID = Convert.ToInt32(row["ID"]);
                         _rule.RuleMastID = Convert.ToInt32(row["RuleMastID"]);
-                        _rule.RuleDescID = Convert.ToString(row["RuleDescID"]);
+                        //_rule.RuleDescID = Convert.ToString(row["RuleDescID"]);
                         _rule.FolderPath = Convert.ToString(row["FolderPath"]);
                         _rule.CreateDate = Convert.ToDateTime(row["CreateDate"]);
                         _rule.ModifiedDate = Convert.ToDateTime(row["ModifiedDate"]);
