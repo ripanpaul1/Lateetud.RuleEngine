@@ -105,7 +105,27 @@ public partial class ApplyRules : System.Web.UI.Page
 
     protected void btnSaveRule_Click(object sender, EventArgs e)
     {
+        string strRules = string.IsNullOrEmpty(String.Join(",", ddlRule.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                    .Where(li => li.Selected)
+                    .ToList())) ? "All" : (ddlRule.Items.Cast<System.Web.UI.WebControls.ListItem>()
+            .Where(li => li.Selected)
+            .ToList().Count == ddlRule.Items.Cast<System.Web.UI.WebControls.ListItem>().ToList().Count) ? "All" :
+                    String.Join(",", ddlRule.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                    .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
+                    .ToList());
+        RuleEngineDetails objRuleEngine = new RuleEngineDetails();
 
+        objRuleEngine.RuleMastID = Convert.ToInt32(ddlRuleSet.SelectedValue);
+        objRuleEngine.RuleDescID = Convert.ToString(strRules);
+        objRuleEngine.UserID = 0;//Need to change once login page complete
+        objRuleEngine.FolderPath = @"E:\Work\RuleEngine\";
+        objRuleEngine.ModifiedDate = DateTime.Now;
+        objRuleEngine.CreateDate = DateTime.Now;
+        objRuleEngine.IsActive = true;
+
+        RuleEngineDetailsHandler rEHandler = new RuleEngineDetailsHandler();
+
+        rEHandler.UpdateorInsert(objRuleEngine);
     }
 
     protected void btnCancelRule_Click(object sender, EventArgs e)

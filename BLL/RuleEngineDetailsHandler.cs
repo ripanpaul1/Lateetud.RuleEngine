@@ -18,6 +18,10 @@ namespace BLL
         {
             return ruleEngine.AddNew(objRule);
         }
+        public bool UpdateorInsert(RuleEngineDetails objRule)
+        {
+            return ruleEngine.UpdateorInsert(objRule);
+        }
         public List<RuleEngineDetails> GetRuleDetails()
         {
             return ruleEngine.GetRuleList();
