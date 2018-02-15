@@ -90,6 +90,26 @@ public partial class ApplyRules : System.Web.UI.Page
 
     protected void ibtnEdit_Click(object sender, ImageClickEventArgs e)
     {
+        int ruleMastId = int.Parse(((ImageButton)sender).CommandArgument);
+        ddlRuleSet.SelectedValue =Convert.ToString(ruleMastId);
+        ddlRuleSet.Enabled = false;
+
+        RuleDescHandler ruleDescHndlr = new RuleDescHandler();
+        ddlRule.DataSource = ruleDescHndlr.GetRuleDetailsByRuleMastID(Convert.ToInt32(ddlRuleSet.SelectedValue));
+        ddlRule.DataTextField = "RuleName";
+        ddlRule.DataValueField = "ID";
+        ddlRule.DataBind();
+
+        mpRule.Show();
+    }
+
+    protected void btnSaveRule_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnCancelRule_Click(object sender, EventArgs e)
+    {
 
     }
 }
