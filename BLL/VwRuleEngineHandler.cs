@@ -18,5 +18,9 @@ namespace BLL
         {
             return vwRuleDB.GetRuleList();
         }
+        public List<vwRuleEngine> GetRuleDetailsByRuleMastID(long RuleMastID)
+        {
+            return vwRuleDB.GetByRuleMastID(RuleMastID);
+        }
     }
 }
