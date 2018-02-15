@@ -34,5 +34,9 @@ namespace BLL
         {
             return ruleDetails.GetRuleDetailsByRuleMastID(RuleMastID);
         }
+        public List<RuleDesc> GetRuleDescDetailsByIDs(string IDs)
+        {
+            return ruleDetails.GetRuleDescDetailsByIDs(IDs);
+        }
     }
 }
