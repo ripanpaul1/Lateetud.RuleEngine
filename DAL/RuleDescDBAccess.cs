@@ -125,6 +125,11 @@ namespace DAL
                     _rule.Expression1 = Convert.ToString(row["Expression1"]);
                     _rule.Expression2 = Convert.ToString(row["Expression2"]);
 
+                    _rule.ExpressionContext = Convert.ToString(row["ExpressionContext"]);
+                    _rule.IsIgnoreKeyword = Convert.ToBoolean(row["IsIgnoreKeyword"]);
+                    _rule.IsCheckSynonyms = Convert.ToBoolean(row["IsCheckSynonyms"]);
+                    _rule.FieldPosition = Convert.ToString(row["FieldPosition"]);
+                    _rule.Synonyms = Convert.ToString(row["Synonyms"]);
                 }
             }
 
@@ -183,5 +188,64 @@ namespace DAL
 
             return list;
         }
+
+
+        public List<RuleDesc> GetRuleDescDetailsByIDs(string IDs)
+        {
+            List<RuleDesc> list = null;
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@IDs", IDs)
+            };
+            using (DataTable table = SqlDBHelper.ExecuteParamerizedSelectCommand("proc_RuleDesc_LoadByIDs", CommandType.StoredProcedure, parameters))
+            {
+                if (table.Rows.Count > 0)
+                {
+                    list = new List<RuleDesc>();
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        RuleDesc _rule = new RuleDesc();
+
+                        // DataRow row = table.Rows[0];
+                        _rule = new RuleDesc();
+                        _rule.ID = Convert.ToInt32(row["ID"]);
+                        _rule.RuleName = row["RuleName"].ToString();
+                        _rule.EntryDate = Convert.ToDateTime(row["EntryDate"]);
+                        _rule.IsActive = Convert.ToBoolean(row["IsActive"]);
+                        _rule.ModifiedDate = Convert.ToDateTime(row["ModifiedDate"]);
+
+
+                        _rule.RuleMastID = Convert.ToInt32(row["RuleMastID"]);
+
+                        _rule.SplitAs = Convert.ToString(row["SplitAs"]);
+                        _rule.Dictionary = Convert.ToString(row["Dictionary"]);
+                        _rule.OriginalDocumentName = Convert.ToString(row["OriginalDocumentName"]);
+                        _rule.ConvertedDocumentName = Convert.ToString(row["ConvertedDocumentName"]);
+
+                        _rule.NeighbourhoodCount = Convert.ToInt32(row["NeighbourhoodCount"]);
+                        _rule.ContextWord = Convert.ToString(row["ContextWord"]);
+                        _rule.Operator = Convert.ToString(row["Operator"]);
+                        _rule.FieldName = Convert.ToString(row["FieldName"]);
+                        _rule.FieldValue = Convert.ToString(row["FieldValue"]);
+                        _rule.Expression1 = Convert.ToString(row["Expression1"]);
+                        _rule.Expression2 = Convert.ToString(row["Expression2"]);
+
+                        _rule.ExpressionContext = Convert.ToString(row["ExpressionContext"]);
+                        _rule.IsIgnoreKeyword = Convert.ToBoolean(row["IsIgnoreKeyword"]);
+                        _rule.IsCheckSynonyms = Convert.ToBoolean(row["IsCheckSynonyms"]);
+                        _rule.FieldPosition = Convert.ToString(row["FieldPosition"]);
+                        _rule.Synonyms = Convert.ToString(row["Synonyms"]);
+
+                        list.Add(_rule);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        
     }
 }
