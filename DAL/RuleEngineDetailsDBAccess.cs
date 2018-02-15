@@ -29,5 +29,34 @@ namespace DAL
             };
             return SqlDBHelper.ExecuteNonQuery("proc_RuleEngineDetails_AddNew", CommandType.StoredProcedure, parameters);
         }
+
+        public List<RuleEngineDetails> GetRuleList()
+        {
+            List<RuleEngineDetails> list = null;
+
+            using (DataTable table = SqlDBHelper.ExecuteSelectCommand("proc_RuleEngineDetails_GetAll", CommandType.StoredProcedure))
+            {
+                if (table.Rows.Count > 0)
+                {
+                    list = new List<RuleEngineDetails>();
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        RuleEngineDetails _rule = new RuleEngineDetails();
+
+                        _rule.RuleMastID = Convert.ToInt32(row["RuleMastID"]);
+                       
+                        _rule.FolderPath = Convert.ToString(row["FolderPath"]);
+                        _rule.CreateDate = Convert.ToDateTime(row["CreateDate"]);
+                        _rule.ModifiedDate = Convert.ToDateTime(row["ModifiedDate"]);
+                        _rule.IsActive = Convert.ToBoolean(row["IsActive"]);
+                        
+                        list.Add(_rule);
+                    }
+                }
+            }
+
+            return list;
+        }
     }
 }

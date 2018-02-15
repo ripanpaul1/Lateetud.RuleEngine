@@ -18,5 +18,9 @@ namespace BLL
         {
             return ruleEngine.AddNew(objRule);
         }
+        public List<RuleEngineDetails> GetRuleDetails()
+        {
+            return ruleEngine.GetRuleList();
+        }
     }
 }
