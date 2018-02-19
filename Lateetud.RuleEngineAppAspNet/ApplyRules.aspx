@@ -1,17 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ApplyRules.aspx.cs" Inherits="ApplyRules" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Master.master"  CodeFile="ApplyRules.aspx.cs" Inherits="ApplyRules" %>
 
 <%@ Register Assembly="DropDownCheckBoxes" Namespace="Saplin.Controls" TagPrefix="asp" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-            <cc1:ToolkitScriptManager runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+                <cc1:ToolkitScriptManager runat="server">
             </cc1:ToolkitScriptManager>
             <table width="100%">
                 <tr>
@@ -162,7 +154,4 @@
                     </cc1:ModalPopupExtender>
                 </ContentTemplate>
             </asp:UpdatePanel>
-        </div>
-    </form>
-</body>
-</html>
+       </asp:Content>
