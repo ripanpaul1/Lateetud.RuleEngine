@@ -11,4 +11,9 @@ public partial class Master : System.Web.UI.MasterPage
     {
 
     }
+    protected void lnkBtnLogout_Click(object sender, EventArgs e)
+    {
+        Session.Abandon();
+        Response.Redirect("Default.aspx");
+    }
 }

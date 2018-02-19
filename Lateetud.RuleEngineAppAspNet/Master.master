@@ -30,8 +30,10 @@
 	</li>
 	<li class="right"><a href="#nogo57" id="privacy" class="right_link"><span class="down">My Account</span></a>
         <ul class="sub">
-			<li><a href="#nogo54">Logout</a></li>
-			<li><a href="#nogo55">Account Details</a></li>
+			<%--<li><a href="#nogo54">Logout</a></li>--%>
+            <li><a href="#nogo55">Account Details</a></li>
+            <li> <asp:LinkButton ID="btnLogout" runat="server"  OnClick="lnkBtnLogout_Click">Logout</asp:LinkButton></li>
+			
 			
 		</ul>
 	</li>
