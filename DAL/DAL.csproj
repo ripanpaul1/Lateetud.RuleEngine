@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="MyLocationTextExtractionStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleApplicationSummary.cs" />
+    <Compile Include="RuleApplicationSummaryDBAccess.cs" />
     <Compile Include="RuleDesc.cs" />
     <Compile Include="RuleDescDBAccess.cs" />
     <Compile Include="RuleEngineDetails.cs" />

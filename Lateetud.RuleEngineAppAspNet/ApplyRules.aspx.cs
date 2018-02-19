@@ -117,8 +117,8 @@ public partial class ApplyRules : System.Web.UI.Page
 
         objRuleEngine.RuleMastID = Convert.ToInt32(ddlRuleSet.SelectedValue);
         objRuleEngine.RuleDescID = Convert.ToString(strRules);
-        objRuleEngine.UserID = 0;//Need to change once login page complete
-        objRuleEngine.FolderPath = @"E:\Work\RuleEngine\";
+        objRuleEngine.UserID = 1;//Need to change once login page complete
+        objRuleEngine.FolderPath = @"E:\Document\RuleEngineDoc";
         objRuleEngine.ModifiedDate = DateTime.Now;
         objRuleEngine.CreateDate = DateTime.Now;
         objRuleEngine.IsActive = true;

@@ -62,7 +62,7 @@ namespace DAL
                         RuleEngineDetails _rule = new RuleEngineDetails();
 
                         _rule.RuleMastID = Convert.ToInt32(row["RuleMastID"]);
-                       
+                        _rule.RuleDescID = Convert.ToString(row["RuleDescID"]);
                         _rule.FolderPath = Convert.ToString(row["FolderPath"]);
                         _rule.CreateDate = Convert.ToDateTime(row["CreateDate"]);
                         _rule.ModifiedDate = Convert.ToDateTime(row["ModifiedDate"]);
