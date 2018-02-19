@@ -15,7 +15,7 @@ public partial class ApplyRules : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            ViewState["Mode"] = "ADD";
+           
             mvMain.SetActiveView(vwShow);
             BindDLL();
         }

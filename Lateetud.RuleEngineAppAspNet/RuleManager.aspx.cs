@@ -1,9 +1,5 @@
-﻿using iTextSharp.text.pdf;
-using iTextSharp.text;
-using iTextSharp.text.pdf.parser;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,8 +14,12 @@ using System.Globalization;
 using System.Web.UI.DataVisualization.Charting;
 using Microsoft.Office.Interop.Word;
 using WordApplication = Microsoft.Office.Interop.Word.Application;
+using System.IO;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
+using iTextSharp.text;
 
-public partial class RuleMaster : System.Web.UI.Page
+public partial class RuleManager : System.Web.UI.Page
 {
     Dictionary<string, int> chartData = new Dictionary<string, int>();
     protected void Page_Load(object sender, EventArgs e)
@@ -30,9 +30,7 @@ public partial class RuleMaster : System.Web.UI.Page
             BindDLL();
 
         }
-        //DataBind();
     }
-
     private void BindDLL()
     {
         RuleMastHandler ruleMastHndlr = new RuleMastHandler();
@@ -580,7 +578,7 @@ public partial class RuleMaster : System.Web.UI.Page
                         curTxtLength = searchValues[i].Length;
                         lastValueCurTxt = curTxtLength + (strNeighbourhood);
                         if (currPos >= 0)
-                            searchValues[i] = strCompleteContent.Substring(currPos , lastValueCurTxt);
+                            searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
                     }
                     break;
                 case "Before":
@@ -590,7 +588,7 @@ public partial class RuleMaster : System.Web.UI.Page
                         curTxtLength = searchValues[i].Length;
                         lastValueCurTxt = curTxtLength + (strNeighbourhood);
                         if (currPos >= 0)
-                            searchValues[i] = strCompleteContent.Substring(currPos-strNeighbourhood, lastValueCurTxt);
+                            searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
                     }
                     break;
                 default:
@@ -602,8 +600,8 @@ public partial class RuleMaster : System.Web.UI.Page
                         if (currPos >= 0)
                             searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
                     }
-                        break;
-        }
+                    break;
+            }
 
             #endregion
             lblFieldValue.Text = string.Join(", ", searchValues);
@@ -1140,7 +1138,7 @@ public partial class RuleMaster : System.Web.UI.Page
                     currPos = strCompleteContent.IndexOf(searchValues[i]);
                     curTxtLength = searchValues[i].Length;
                     lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
-                    if(currPos>=0)
+                    if (currPos >= 0)
                         searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
                 }
 
@@ -1222,7 +1220,7 @@ public partial class RuleMaster : System.Web.UI.Page
 
                 myLocationTextExtractionStrategy strategy = new myLocationTextExtractionStrategy();
                 strategy.UndercontentHorizontalScaling = 100;
-        
+
 
                 string currentText = PdfTextExtractor.GetTextFromPage(reader, pageno, strategy);
                 for (int i = 0; i < splitText.Length; i++)
@@ -1301,7 +1299,7 @@ public partial class RuleMaster : System.Web.UI.Page
             objRule.Expression2 = string.Empty;
             objRule.UploadedFile = Convert.ToString(ViewState["FileName"]);
             objRule.IsIgnoreKeyword = chkIgnoreContext.Checked;
-            objRule.FieldPosition =Convert.ToString( rbtPosition.SelectedValue);
+            objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
             objRule.IsCheckSynonyms = chkSynonym.Checked;
             objRule.Synonyms = strSynonym;
             objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
@@ -1342,7 +1340,7 @@ public partial class RuleMaster : System.Web.UI.Page
                 objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
                 RuleDescHandler ruleDescHandler = new RuleDescHandler();
                 ruleDescHandler.Update(objRule);
-              //  gvRule.DataBind();
+                //  gvRule.DataBind();
                 mvMain.ActiveViewIndex = 1;
             }
         }
@@ -1566,12 +1564,12 @@ public partial class RuleMaster : System.Web.UI.Page
                         ddlSynonym.DataSource = strSynonyms;
                         ddlSynonym.DataBind();
                     }
-                        //foreach (string strSynonym in strSynonyms)
-                        //{
-                        //    // loop over each synonym in ArrayList
-                        //    // and add to lbSynonym ListBox
-                        //    lbSynonym.Items.Add(strSynonym);
-                        //}
+                    //foreach (string strSynonym in strSynonyms)
+                    //{
+                    //    // loop over each synonym in ArrayList
+                    //    // and add to lbSynonym ListBox
+                    //    lbSynonym.Items.Add(strSynonym);
+                    //}
                 }
         }
         else
