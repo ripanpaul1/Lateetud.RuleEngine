@@ -1,0 +1,15 @@
+﻿Installing assembly 'E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\bin\Debug\Lateetud.RuleEngine.WindowsService.exe'.
+Affected parameters are:
+   i = 
+   logfile = E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\bin\Debug\Lateetud.RuleEngine.WindowsService.InstallLog
+   assemblypath = E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\bin\Debug\Lateetud.RuleEngine.WindowsService.exe
+   logtoconsole = 
+Installing service LateetudRuleEngineService...
+Service LateetudRuleEngineService has been successfully installed.
+Creating EventLog source LateetudRuleEngineService in log Application...
+Committing assembly 'E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\bin\Debug\Lateetud.RuleEngine.WindowsService.exe'.
+Affected parameters are:
+   i = 
+   logfile = E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\bin\Debug\Lateetud.RuleEngine.WindowsService.InstallLog
+   assemblypath = E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\bin\Debug\Lateetud.RuleEngine.WindowsService.exe
+   logtoconsole = 
