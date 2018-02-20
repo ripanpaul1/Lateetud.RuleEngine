@@ -18,5 +18,9 @@ namespace BLL
         {
             return serviceHistoryDB.AddNew(objServiceHistory);
         }
+        public List<ServiceHistory> GetServiceHistoryForLastNRecords()
+        {
+            return serviceHistoryDB.GetServiceHistoryForLastNRecords();
+        }
     }
 }

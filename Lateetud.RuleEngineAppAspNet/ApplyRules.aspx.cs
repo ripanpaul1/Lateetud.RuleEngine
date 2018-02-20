@@ -3,6 +3,7 @@ using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 
 public partial class ApplyRules : System.Web.UI.Page
 {
-
+    private bool isFolderSelect = false;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -118,7 +119,7 @@ public partial class ApplyRules : System.Web.UI.Page
         objRuleEngine.RuleMastID = Convert.ToInt32(ddlRuleSet.SelectedValue);
         objRuleEngine.RuleDescID = Convert.ToString(strRules);
         objRuleEngine.UserID = 1;//Need to change once login page complete
-        objRuleEngine.FolderPath = @"E:\Document\RuleEngineDoc";
+        objRuleEngine.FolderPath = @"E:\Document\RuleEngineDoc";//Convert.ToString(lblFolderName.Text);
         objRuleEngine.ModifiedDate = DateTime.Now;
         objRuleEngine.CreateDate = DateTime.Now;
         objRuleEngine.IsActive = true;
@@ -130,6 +131,32 @@ public partial class ApplyRules : System.Web.UI.Page
 
     protected void btnCancelRule_Click(object sender, EventArgs e)
     {
+
+    }
+
+    protected void btnBrowseFolder_Click(object sender, EventArgs e)
+    {
+        Thread thdSyncRead = new Thread(new ThreadStart(openfolder));
+        thdSyncRead.SetApartmentState(ApartmentState.STA);
+        
+        thdSyncRead.Start();
+    }
+    public void openfolder()
+    {
+
+        FolderBrowserDialog fbd = new FolderBrowserDialog();
+        fbd.ShowNewFolderButton = false;
+        DialogResult result = fbd.ShowDialog();
+        if (fbd.ShowDialog() == DialogResult.OK)
+        {
+            lblFolderName.Text = fbd.SelectedPath;
+            isFolderSelect = true;
+        }
+        else
+        {
+            lblFolderName.Text = "No folder selected";
+            isFolderSelect = false;
+        }
 
     }
 }

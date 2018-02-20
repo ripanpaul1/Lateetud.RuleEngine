@@ -249,6 +249,7 @@
 
                     </asp:View>
                     <asp:View ID="vwShow" runat="server">
+                        <h3 class="auto-style1">&nbsp;</h3>
                         <asp:GridView ID="gvRule" runat="server" DataSourceID="odsRule" Font-Size="11px"
                             Font-Names="Verdana" Width="100%"
                             BorderColor="#8EC2E8" BorderStyle="Solid"

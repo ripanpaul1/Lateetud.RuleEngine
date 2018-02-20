@@ -6,12 +6,18 @@
 <head runat="server">
     <title></title>
  <link rel="stylesheet" type="text/css" href="pro_dropdown_2/pro_dropdown_2.css" />
+    
+    <style>
+        #mainDiv {
+    height:100vh; /*vh stands for view-port height, 1vh is 1% of screen height*/
+}
 
+    </style>
 <script src="pro_dropdown_2/stuHover.js" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div style="background-color: #BAF5D0">
+    <div style="background-color: #e6f4f4" id="mainDiv">
     
 <span class="preload1"></span>
 <span class="preload2"></span>

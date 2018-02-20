@@ -6,13 +6,13 @@
                 <cc1:ToolkitScriptManager runat="server">
             </cc1:ToolkitScriptManager>
             <table width="100%">
-                <tr>
+                <%--<tr>
                     <td style="text-align: right">
                         <asp:LinkButton ID="lnkAddNew" runat="server" OnClick="lnkAddNew_Click">Add New</asp:LinkButton>&nbsp;
                
                         <asp:LinkButton ID="lnkView" runat="server" OnClick="lnkView_Click">View</asp:LinkButton>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td>
                         <asp:MultiView ID="mvMain" runat="server">
@@ -118,7 +118,7 @@
                                                         <tr>
                                                             <td>Select Folder:</td>
                                                             <td>
-                                                                <asp:Button ID="btnBrowseFolder" runat="server" Text="Browse.." />&nbsp; 
+                                                                <asp:Button ID="btnBrowseFolder" runat="server" Text="Browse.." OnClick="btnBrowseFolder_Click" />&nbsp; 
                        
                                                                 <asp:Label ID="lblFolderName" runat="server"></asp:Label>
                                                             </td>
