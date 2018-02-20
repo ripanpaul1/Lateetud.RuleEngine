@@ -192,7 +192,7 @@
                                             </tr>
                                             <tr>
                                                 <td style="background-color: #CCFFCC" colspan="2"><strong>Context Word</strong>
-                                                    <asp:TextBox ID="txtContext" runat="server" Width="500"></asp:TextBox>
+                                                    <asp:TextBox ID="txtContext" runat="server" Width="480"></asp:TextBox>
                                                     &nbsp;
                                                             <asp:CheckBox ID="chkIgnoreContext" runat="server" Text="Ignore Keyword" />
                                                 </td>
@@ -249,7 +249,6 @@
 
                     </asp:View>
                     <asp:View ID="vwShow" runat="server">
-                        <h3 class="auto-style1">&nbsp;</h3>
                         <asp:GridView ID="gvRule" runat="server" DataSourceID="odsRule" Font-Size="11px"
                             Font-Names="Verdana" Width="100%"
                             BorderColor="#8EC2E8" BorderStyle="Solid"

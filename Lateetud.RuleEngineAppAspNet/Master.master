@@ -23,7 +23,7 @@
 <span class="preload2"></span>
 
 <ul id="nav">
-	<li class="top"><a href="#nogo1" class="top_link"><span>Home</span></a></li>
+	<li class="top"><a href="Home.aspx" class="top_link"><span>Home</span></a></li>
 	<li class="top"><a href="RuleManager.aspx" class="top_link"><span>Rule Manager</span></a></li>
 	<li class="top"><a href="ApplyRules.aspx" class="top_link"><span>Apply Rules</span></a></li>
 	<li class="top"><a href="#nogo54" class="top_link"><span>Configuration</span></a></li>

@@ -5,10 +5,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <table width="100%" border="1" style="text-align:center">
         <tr>
-            <td rowspan="2">
+            <td style="width: 101px">
+                <center>
                  <asp:Calendar ID="calFE" runat="server" BorderStyle="None" BackColor="#4b5a61"
                     CellPadding="0" CellSpacing="3" CssClass="week" EnableTheming="True" BorderWidth="0px"
-                    ForeColor="White" Width="300px" Height="200px">
+                    ForeColor="White" Width="400px" Height="200px">
                     <DayStyle CssClass="box" />
                     <NextPrevStyle CssClass="next_arrow" />
                     <TitleStyle CssClass="month_display" BorderStyle="Dotted" BorderWidth="0px" />
@@ -16,16 +17,17 @@
                     <WeekendDayStyle CssClass="box" />
                     <OtherMonthDayStyle CssClass="" />
                 </asp:Calendar>
-
+                    </center>
             </td>
             <td>
                 <img src="images/dashboard_icons/dashboard-icon1.gif" /></td>
             <td>
-                <img src="images/dashboard_icons/popular_dw_hover.gif" /></td>
-            <td>
-                <img src="images/dashboard_icons/information.jpg" height="100" /></td>
+                <img src="images/dashboard_icons/product_management.gif" />
+                <%--<img src="images/dashboard_icons/popular_dw_hover.gif" />--%></td>
+            <td><img src="images/dashboard_icons/composers.gif" />
+                </td>
         </tr>
-        <tr>
+        <%--<tr>
             <td>
                 <img src="images/dashboard_icons/offer.gif" />
                </td>
@@ -33,12 +35,12 @@
                 <img src="images/dashboard_icons/cms1.gif" /></td>
             <td>
                 <img src="images/dashboard_icons/composers.gif" /> </td>
-        </tr>
+        </tr>--%>
         <tr>
-            <td >
-                 <asp:Chart ID="cTestChart" runat="server" Height="200px" Width="200px">
+            <td style="width: 101px" >
+                 <asp:Chart ID="cTestChart" runat="server" Height="200px" Width="400px">
                                         <Series>
-                                            <asp:Series Name="Testing" IsValueShownAsLabel="true">
+                                            <asp:Series Name="Testing" IsValueShownAsLabel="true" IsVisibleInLegend="true">
                                             </asp:Series>
                                         </Series>
                                         <ChartAreas>
@@ -48,11 +50,12 @@
                                         </ChartAreas>
                                     </asp:Chart></td>
             <td >
-                <img src="images/dashboard_icons/product_management.gif" />
+                <img src="images/dashboard_icons/offer.gif" />
                 </td>
             <td><img src="images/dashboard_icons/difficulty.gif" /></td>
             <td>
-                <img src="images/dashboard_icons/user.gif" /></td>
+                <img src="images/dashboard_icons/information.jpg" height="100" />
+                </td>
             
         </tr>
     </table>
