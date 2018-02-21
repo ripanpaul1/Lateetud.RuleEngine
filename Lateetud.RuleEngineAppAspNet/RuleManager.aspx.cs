@@ -22,6 +22,8 @@ using iTextSharp.text;
 public partial class RuleManager : System.Web.UI.Page
 {
     Dictionary<string, int> chartData = new Dictionary<string, int>();
+    //string[] arrSynonymsList = new string[0];
+    StringBuilder strListofSynonyms;// = new StringBuilder();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -1270,7 +1272,7 @@ public partial class RuleManager : System.Web.UI.Page
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         string strMode = ViewState["Mode"].ToString();
-        string strSynonym = string.IsNullOrEmpty(String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+        string strSelectedSynonym = string.IsNullOrEmpty(String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
                     .Where(li => li.Selected)
                     .ToList())) ? "All" : (ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
             .Where(li => li.Selected)
@@ -1278,6 +1280,7 @@ public partial class RuleManager : System.Web.UI.Page
                     String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
                     .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
                     .ToList());
+        string[] arrAllSynonyms = ddlSynonym.Items.Cast<object>().Select(o => o.ToString()).ToArray();
         if (strMode == "ADD")
         {
             RuleDesc objRule = new RuleDesc();
@@ -1301,7 +1304,14 @@ public partial class RuleManager : System.Web.UI.Page
             objRule.IsIgnoreKeyword = chkIgnoreContext.Checked;
             objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
             objRule.IsCheckSynonyms = chkSynonym.Checked;
-            objRule.Synonyms = strSynonym;
+            if (strSelectedSynonym == "All")
+            {
+                
+                objRule.Synonyms = string.Join(",", arrAllSynonyms);
+            }
+            else
+                objRule.Synonyms = strSelectedSynonym;
+            objRule.AllSynonyms = string.Join(",", arrAllSynonyms);
             objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
 
             RuleDescHandler ruleDescHandler = new RuleDescHandler();
@@ -1336,7 +1346,8 @@ public partial class RuleManager : System.Web.UI.Page
                 objRule.IsIgnoreKeyword = chkIgnoreContext.Checked;
                 objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
                 objRule.IsCheckSynonyms = chkSynonym.Checked;
-                objRule.Synonyms = strSynonym;
+                objRule.Synonyms = strSelectedSynonym;
+                objRule.AllSynonyms = string.Join(",", arrAllSynonyms);
                 objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
                 RuleDescHandler ruleDescHandler = new RuleDescHandler();
                 ruleDescHandler.Update(objRule);
@@ -1380,6 +1391,22 @@ public partial class RuleManager : System.Web.UI.Page
         ViewState["OldFile"] = Convert.ToString(objRule.OriginalDocumentName);
         rbExprOptions.Items.FindByValue(Convert.ToString(objRule.ExpressionContext)).Selected = true;
         chkSynonym.Checked = Convert.ToBoolean(objRule.IsCheckSynonyms);
+        if (objRule.AllSynonyms != null && objRule.Synonyms!=null)
+        {
+            ddlSynonym.DataSource = objRule.AllSynonyms.Split(',');
+            ddlSynonym.DataBind();
+            //if(objRule.AllSynonyms==objRule.Synonyms)
+            //{
+            //    ddlSynonym.Items.FindByText("All").Selected = true;
+            //}
+            //else
+            //{
+                foreach(string synonym in objRule.Synonyms.Split(','))
+                {
+                    ddlSynonym.Items.FindByText(synonym).Selected = true;
+                }
+            //}
+        }
         mvMain.ActiveViewIndex = 0;
     }
 
@@ -1508,75 +1535,106 @@ public partial class RuleManager : System.Web.UI.Page
 
     protected void chkSynonym_CheckedChanged(object sender, EventArgs e)
     {
-        Microsoft.Office.Interop.Word.Application appWord;      // word application var
-        object objNull = null;      // word object method calls require
-                                    // references to objects... create
-                                    // object for null and
-        object objFalse = false;      // false entries and language
-
-        object objLanguage = Microsoft.Office.Interop.Word.WdLanguageID.wdEnglishUS; // or appropritate lang!
-
-        try
+        bool isCheckSynonyms = true;
+        string operation = Convert.ToString(ddlOperator.SelectedValue);
+        switch(operation)
         {
-            // Try opening Word app
-            appWord = new Microsoft.Office.Interop.Word.Application();
+            case "After":
+                if(chkIgnoreContext.Checked)
+                    isCheckSynonyms = false;
+                break;
+            case "Before":
+                if(chkIgnoreContext.Checked)
+                    isCheckSynonyms = false;
+                break;
+            default:
+                isCheckSynonyms = true;
+                break;
+                        
         }
-        catch (System.Exception exc)
+        if (isCheckSynonyms && chkSynonym.Checked)
         {
-            // could not open word... show error message and return
-            lblMsg.Text = exc.Message.ToString();
+            Microsoft.Office.Interop.Word.Application appWord;      // word application var
+            object objNull = null;      // word object method calls require
+                                        // references to objects... create
+                                        // object for null and
+            object objFalse = false;      // false entries and language
 
-            return;
-        }
+            object objLanguage = Microsoft.Office.Interop.Word.WdLanguageID.wdEnglishUS; // or appropritate lang!
 
-        // clear synonym listbox lbSynonym
-        //litSyn.Text = "";
-        ddlSynonym.Items.Clear();
-        //lbSynonym.Items.Clear();
+            try
+            {
+                // Try opening Word app
+                appWord = new Microsoft.Office.Interop.Word.Application();
+            }
+            catch (System.Exception exc)
+            {
+                // could not open word... show error message and return
+                lblMsg.Text = exc.Message.ToString();
 
-        // now call get_SynonymInfo to get SynonymInfo structure for
-        // word entered in TextBox tbWord
-        Microsoft.Office.Interop.Word.SynonymInfo si =
-                 appWord.get_SynonymInfo(txtContext.Text, ref (objLanguage));
+                return;
+            }
+
+            // clear synonym listbox lbSynonym
+            //litSyn.Text = "";
+            ddlSynonym.Items.Clear();
+            //lbSynonym.Items.Clear();
+            string strSearchWord = txtContext.Text;
+            // now call get_SynonymInfo to get SynonymInfo structure for
+            // word entered in TextBox tbWord
+            Microsoft.Office.Interop.Word.SynonymInfo si =
+                     appWord.get_SynonymInfo(strSearchWord, ref (objLanguage));
 
 
-        // first find out how many meanings were found for word
-        int iMeanings = (int)si.MeaningCount;
+            // first find out how many meanings were found for word
+            int iMeanings = (int)si.MeaningCount;
 
-        if (si.MeaningCount > 0)
-        {
-            // one or more meanings were found... loop over each
-            // (notice SynonymInfo.MeaningList is type System.ArrayList!)
-            var strMeanings = si.MeaningList as Array;
-            if (strMeanings != null)
-                foreach (var strMeaning in strMeanings)
-                {
-                    // get Synonym List for each meaning... note that
-                    // get_SynonymList takes an object ref, thus we
-                    // must create objMeaning object
-                    var objMeaning = strMeaning;
-
-                    var aSynonyms = si.SynonymList[objMeaning];
-
-                    var strSynonyms = si.SynonymList[objMeaning] as Array;
-                    if (strSynonyms != null)
+            if (si.MeaningCount > 0)
+            {
+                // one or more meanings were found... loop over each
+                // (notice SynonymInfo.MeaningList is type System.ArrayList!)
+                var strMeanings = si.MeaningList as Array;
+                string[] arrSynonymsList = new string[0];
+                strListofSynonyms = new StringBuilder();
+                if (strMeanings != null)
+                    foreach (var strMeaning in strMeanings)
                     {
-                        ddlSynonym.DataSource = strSynonyms;
-                        ddlSynonym.DataBind();
-                    }
-                    //foreach (string strSynonym in strSynonyms)
-                    //{
-                    //    // loop over each synonym in ArrayList
-                    //    // and add to lbSynonym ListBox
-                    //    lbSynonym.Items.Add(strSynonym);
+                        // get Synonym List for each meaning... note that
+                        // get_SynonymList takes an object ref, thus we
+                        // must create objMeaning object
+                        //if (strSearchWord.CompareTo(strMeaning.ToString()) == 0)
+                        //{
+                            var objMeaning = strMeaning;
+
+                            var aSynonyms = si.SynonymList[objMeaning];
+                            var strSynonyms = aSynonyms as Array;
+                            //arrSynonymsList = strSynonyms.OfType<object>().Select(o => o.ToString()).ToArray();
+                        if (strSynonyms != null)
+                        {
+                            //strListofSynonyms.Clear();
+                            //strListofSynonyms = strListofSynonyms.Append(string.Join(",", arrSynonymsList));
+                            ddlSynonym.DataSource = strSynonyms;
+                            ddlSynonym.DataBind();
+                        }
+                            //foreach (string strSynonym in strSynonyms)
+                            //{
+                            //    // loop over each synonym in ArrayList
+                            //    // and add to lbSynonym ListBox
+                            //    lbSynonym.Items.Add(strSynonym);
+                            //}
+                        }
                     //}
-                }
+            }
+            else
+            {
+                // no meanings/synonyms found... set ListBox value to "NONE"
+                ddlSynonym.Texts.SelectBoxCaption = "None";
+                ddlSynonym.Items.Add("NONE");
+            }
         }
         else
         {
-            // no meanings/synonyms found... set ListBox value to "NONE"
-            ddlSynonym.Texts.SelectBoxCaption = "None";
-            ddlSynonym.Items.Add("NONE");
+            ddlSynonym.Items.Clear();
         }
     }
 }

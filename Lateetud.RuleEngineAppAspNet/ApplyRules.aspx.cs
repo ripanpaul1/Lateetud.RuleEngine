@@ -99,6 +99,7 @@ public partial class ApplyRules : System.Web.UI.Page
         ddlRule.DataTextField = "RuleName";
         ddlRule.DataValueField = "ID";
         ddlRule.DataBind();
+        //string ruleDescId=
         //ddlRule.Items.f
         mpRule.Show();
     }

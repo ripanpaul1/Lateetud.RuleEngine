@@ -37,6 +37,7 @@ namespace DAL
             new SqlParameter("@FieldPosition",_rule.FieldPosition),
              new SqlParameter("@IsCheckSynonyms",_rule.IsCheckSynonyms),
             new SqlParameter("@Synonyms",_rule.Synonyms),
+            new SqlParameter("@AllSynonyms",_rule.AllSynonyms),
             new SqlParameter("@ExpressionContext",_rule.ExpressionContext),
             };
             return SqlDBHelper.ExecuteNonQuery("proc_RuleDesc_AddNew", CommandType.StoredProcedure, parameters);
@@ -67,6 +68,7 @@ namespace DAL
             new SqlParameter("@FieldPosition",_rule.FieldPosition),
              new SqlParameter("@IsCheckSynonyms",_rule.IsCheckSynonyms),
             new SqlParameter("@Synonyms",_rule.Synonyms),
+            new SqlParameter("@AllSynonyms",_rule.AllSynonyms),
             new SqlParameter("@ExpressionContext",_rule.ExpressionContext),
             };
 
@@ -130,6 +132,7 @@ namespace DAL
                     _rule.IsCheckSynonyms = Convert.ToBoolean(row["IsCheckSynonyms"]);
                     _rule.FieldPosition = Convert.ToString(row["FieldPosition"]);
                     _rule.Synonyms = Convert.ToString(row["Synonyms"]);
+                    _rule.AllSynonyms = Convert.ToString(row["AllSynonyms"]);
                 }
             }
 

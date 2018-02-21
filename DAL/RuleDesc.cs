@@ -31,6 +31,7 @@ namespace DAL
         public string FieldPosition { get; set; }
         public bool IsCheckSynonyms { get; set; }
         public string Synonyms { get; set; }
+        public string AllSynonyms { get; set; }
         public string ExpressionContext { get; set; }
 
     }
