@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,17 @@ namespace DAL
             }
 
             return list;
+        }
+        public bool Update(Configuration _config)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@ID", _config.ID),
+            new SqlParameter("@ConfigurationValue",_config.ConfigurationValue),
+            new SqlParameter("@ModifiedDate",_config.ModifiedDate),
+            };
+
+            return SqlDBHelper.ExecuteNonQuery("proc_Configuration_Update", CommandType.StoredProcedure, parameters);
         }
     }
 }

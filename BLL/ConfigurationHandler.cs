@@ -14,9 +14,13 @@ namespace BLL
         {
             configurationDB = new ConfigurationDBAccess();
         }
-        public List<Configuration> GetRuleMastDetails()
+        public List<Configuration> GetConfigurationDetails()
         {
             return configurationDB.GetConfiguration();
+        }
+        public bool Update(Configuration config)
+        {
+            return configurationDB.Update(config);
         }
     }
 }

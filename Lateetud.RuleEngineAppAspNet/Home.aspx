@@ -53,7 +53,7 @@
                                         </ChartAreas>
                                     </asp:Chart></td>
             <td >
-                <img src="images/dashboard_icons/offer.gif" />
+               <a href="ServiceConfiguration.aspx"> <img src="images/dashboard_icons/offer.gif" /></a>
                 </td>
             <td><img src="images/dashboard_icons/composers.gif" /></td>
             <td>
