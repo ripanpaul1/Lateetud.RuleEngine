@@ -53,6 +53,8 @@
     <Compile Include="RuleEngineDetailsDBAccess.cs" />
     <Compile Include="RuleMast.cs" />
     <Compile Include="RuleMastDBAccess.cs" />
+    <Compile Include="ServiceHistory.cs" />
+    <Compile Include="ServiceHistoryDBAccess.cs" />
     <Compile Include="SqlDBHelper.cs" />
     <Compile Include="UserMaster.cs" />
     <Compile Include="UserMasterDBAccess.cs" />

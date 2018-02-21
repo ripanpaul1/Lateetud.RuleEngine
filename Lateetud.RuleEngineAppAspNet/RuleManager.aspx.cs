@@ -29,6 +29,7 @@ public partial class RuleManager : System.Web.UI.Page
         if (!IsPostBack)
         {
             mvMain.SetActiveView(vwShow);
+            lblActionMessage.Text = "Showing Existing Rules";
             BindDLL();
 
         }
@@ -55,11 +56,13 @@ public partial class RuleManager : System.Web.UI.Page
     {
         ViewState["Mode"] = "ADD";
         mvMain.SetActiveView(vwAdd);
+        lblActionMessage.Text = "Add New Rules";
     }
 
     protected void lnkView_Click(object sender, EventArgs e)
     {
         mvMain.SetActiveView(vwShow);
+        lblActionMessage.Text = "Showing Existing Rules";
     }
 
     protected void btnShow_Click(object sender, ImageClickEventArgs e)

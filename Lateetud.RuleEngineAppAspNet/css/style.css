@@ -266,3 +266,71 @@ input[type=submit]:active {
 .lt-ie9 input[type=text], .lt-ie9 input[type=password] {
   line-height: 34px;
 }
+/*------------------------------------Calender--------------------------------*/
+.week
+{
+    font-family:Verdana;
+    font-size:10px;
+    font-weight:bold;
+    color:#a3d6eb; 
+}
+.month_name
+{
+    font-family:Verdana;
+    font-size:13px;
+    font-weight:bold;
+    color:#d7e5a7;  
+}
+.box
+{
+    background-color:#2d5869;
+    border:1px solid #70a3b4;
+    font-family:Verdana;
+    font-size:10px;
+    color:White;
+    text-decoration:none;
+    padding:4px;
+}
+.selected_box
+{
+    background-color:#93b216;
+    border:1px solid #cbea44;
+    font-family:Verdana;
+    font-size:10px;
+    color:#fafe90;    
+}
+.next_arrow
+{
+    font-family:Verdana;
+    font-weight:bold;
+    font-size:12px;
+    text-decoration:none;  
+}
+.month_display
+{
+    font-family:Verdana;
+    font-size:13px;
+    color:#d8e6a8;
+    background-color:#5f889a;
+}
+.time
+{
+    font-family:Verdana;
+    font-size:32px;
+    color:#f4f5fa;
+    padding-left:56px;
+    line-height:50px;
+}
+.time1
+{
+    font-family:Verdana;
+    font-size:11px;
+    color:#a3d7ec;
+    font-weight:normal;
+    margin:0 auto;
+}
+.tree_structure
+{
+    width:98%!important;
+    width:99%;
+}

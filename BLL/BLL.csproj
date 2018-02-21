@@ -45,6 +45,7 @@
     <Compile Include="RuleDescHandler.cs" />
     <Compile Include="RuleEngineDetailsHandler.cs" />
     <Compile Include="RuleMastHandler.cs" />
+    <Compile Include="ServiceHistoryHandler.cs" />
     <Compile Include="UserMasterHandler.cs" />
     <Compile Include="VwRuleDescHandler.cs" />
     <Compile Include="VwRuleEngineHandler.cs" />
