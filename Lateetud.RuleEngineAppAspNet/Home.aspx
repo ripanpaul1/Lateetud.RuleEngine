@@ -20,11 +20,13 @@
                     </center>
             </td>
             <td>
-                <img src="images/dashboard_icons/dashboard-icon1.gif" /></td>
+              <a href="Home.aspx">  <img src="images/dashboard_icons/dashboard-icon1.gif" /></a></td>
             <td>
-                <img src="images/dashboard_icons/product_management.gif" />
+                <a href="RuleManager.aspx"> <img src="images/dashboard_icons/product_management.gif" /></a>
                 <%--<img src="images/dashboard_icons/popular_dw_hover.gif" />--%></td>
-            <td><img src="images/dashboard_icons/composers.gif" />
+            <td>
+                <a href="ApplyRules.aspx"> <img src="images/dashboard_icons/difficulty.gif" /></a>
+                
                 </td>
         </tr>
         <%--<tr>
@@ -38,7 +40,8 @@
         </tr>--%>
         <tr>
             <td style="width: 101px" >
-                 <asp:Chart ID="cTestChart" runat="server" Height="200px" Width="400px">
+                <span width="100%"><strong>Snapshot of Rule Service</strong></span>
+                 <asp:Chart ID="cTestChart" runat="server" Height="150px" Width="400px">
                                         <Series>
                                             <asp:Series Name="Testing" IsValueShownAsLabel="true" IsVisibleInLegend="true">
                                             </asp:Series>
@@ -52,7 +55,7 @@
             <td >
                 <img src="images/dashboard_icons/offer.gif" />
                 </td>
-            <td><img src="images/dashboard_icons/difficulty.gif" /></td>
+            <td><img src="images/dashboard_icons/composers.gif" /></td>
             <td>
                 <img src="images/dashboard_icons/information.jpg" height="100" />
                 </td>

@@ -35,6 +35,7 @@
         .clearfix {
             display: inline-block;
         }
+
     </style>
 
     <cc1:ToolkitScriptManager runat="server">
@@ -188,6 +189,24 @@
                                                             </asp:DropDownCheckBoxes>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
+                                                    <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
+                                                        <ProgressTemplate>
+                                                            <div class="modal">
+                                                                <div class="center">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td>Please wait..</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <img alt="" src="images/loader.gif" /></td>
+                                                                        </tr>
+                                                                    </table>
+
+                                                                </div>
+                                                            </div>
+                                                        </ProgressTemplate>
+                                                    </asp:UpdateProgress>
                                                 </td>
                                             </tr>
                                             <tr>
