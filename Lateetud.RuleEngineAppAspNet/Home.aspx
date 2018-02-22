@@ -41,7 +41,7 @@
         <tr>
             <td style="width: 101px" >
                 <span width="100%"><strong>Snapshot of Rule Service</strong></span>
-                 <asp:Chart ID="cTestChart" runat="server" Height="150px" Width="400px">
+                 <asp:Chart ID="cTestChart" runat="server" Height="190px" Width="400px">
                                         <Series>
                                             <asp:Series Name="Testing" IsValueShownAsLabel="true" IsVisibleInLegend="true">
                                             </asp:Series>

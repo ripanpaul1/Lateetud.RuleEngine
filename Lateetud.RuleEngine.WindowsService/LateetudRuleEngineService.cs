@@ -221,7 +221,7 @@ namespace Lateetud.RuleEngine.WindowsService
                     searchValues = new string[0];//Reinitialize result
                     foreach (string strID in strRule)
                     {
-
+                        searchValues = new string[0];//Reinitialize result, Newly Added on 02-21-18
 
                         objRule = objRuleDescH.GetRuleDescDetailsByID(Convert.ToInt32(strID));
                         strOperator = Convert.ToString(objRule.Operator);
