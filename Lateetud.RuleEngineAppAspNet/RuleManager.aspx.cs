@@ -679,10 +679,12 @@ public partial class RuleManager : System.Web.UI.Page
                         searchValues = searchText.Split(',');
                     }
                 #region Synonym Operation
-                foreach (string m in strSynonym.Split(','))
+                if (chkSynonym.Checked)
                 {
-                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m }).ToArray();
-
+                    foreach (string m in strSynonym.Split(','))
+                    {
+                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m }).ToArray();
+                    }
                 }
                 #endregion
                 #region Operator Operation
@@ -1136,18 +1138,53 @@ public partial class RuleManager : System.Web.UI.Page
                         break;
                 }
                 #endregion
-
                 #region Implement Neighbourhood
-                for (int i = 0; i < searchValues.Length; i++)
+                switch (strOperator)
                 {
-                    currPos = strCompleteContent.IndexOf(searchValues[i]);
-                    curTxtLength = searchValues[i].Length;
-                    lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
-                    if (currPos >= 0)
-                        searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                    case "After":
+                        for (int i = 0; i < searchValues.Length; i++)
+                        {
+                            currPos = strCompleteContent.IndexOf(searchValues[i]);
+                            curTxtLength = searchValues[i].Length;
+                            lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                            if (currPos >= 0)
+                                searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
+                        }
+                        break;
+                    case "Before":
+                        for (int i = 0; i < searchValues.Length; i++)
+                        {
+                            currPos = strCompleteContent.IndexOf(searchValues[i]);
+                            curTxtLength = searchValues[i].Length;
+                            lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                            if (currPos >= 0)
+                                searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                        }
+                        break;
+                    default:
+                        for (int i = 0; i < searchValues.Length; i++)
+                        {
+                            currPos = strCompleteContent.IndexOf(searchValues[i]);
+                            curTxtLength = searchValues[i].Length;
+                            lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
+                            if (currPos >= 0)
+                                searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                        }
+                        break;
                 }
 
                 #endregion
+                //#region Implement Neighbourhood
+                //for (int i = 0; i < searchValues.Length; i++)
+                //{
+                //    currPos = strCompleteContent.IndexOf(searchValues[i]);
+                //    curTxtLength = searchValues[i].Length;
+                //    lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
+                //    if (currPos >= 0)
+                //        searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                //}
+
+                //#endregion
                 lblFieldValue.Text = string.Join(", ", searchValues);
 
                 highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
