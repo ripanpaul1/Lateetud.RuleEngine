@@ -11,7 +11,7 @@
             <td>
                 <cc1:ToolkitScriptManager runat="server">
     </cc1:ToolkitScriptManager>
-                <rsweb:ReportViewer ID="rvServiceLog" runat="server" Width="100%"></rsweb:ReportViewer>
+                <rsweb:ReportViewer ID="rvServiceLog" runat="server" Width="100%" Height="500px"></rsweb:ReportViewer>
             </td>
         </tr>
     </table>
