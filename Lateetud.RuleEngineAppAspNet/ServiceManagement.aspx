@@ -13,7 +13,7 @@
                 <asp:Label ID="lblCurrentStatus" runat="server"></asp:Label></td>
         </tr>
         <tr>
-            <td colspan="2"></td>
+            <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td width="30%"><strong>Next available schedule run:</strong></td>
@@ -21,7 +21,7 @@
                 <asp:Label ID="lblNextRun" runat="server"></asp:Label></td>
         </tr>
         <tr>
-            <td colspan="2"></td>
+            <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td width="30%"><strong>Start/Restart the Service:</strong></td>
@@ -29,16 +29,16 @@
                 <asp:Button ID="btnRestart" runat="server" Text="Start" OnClick="btnRestart_Click" /></td>
         </tr>
         <tr>
-            <td colspan="2"></td>
+            <td colspan="2">&nbsp;</td>
         </tr>
          <tr>
             <td width="30%"><strong>Stop the Service:</strong></td>
             <td>
-                <asp:Button ID="btnStop" runat="server" Text="Stop" /></td>
+                <asp:Button ID="btnStop" runat="server" Text="Stop" OnClick="btnStop_Click" /></td>
         </tr>
         <tr>
             <td>
-                <asp:Label ID="lblMsg" runat="server"></asp:Label>
+                <asp:Label ID="lblMsg" runat="server"></asp:Label>&nbsp
             </td>
         </tr>
     </table>

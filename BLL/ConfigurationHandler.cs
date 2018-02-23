@@ -22,5 +22,9 @@ namespace BLL
         {
             return configurationDB.Update(config);
         }
+        public Configuration GetConfigValue(string configKey)
+        {
+            return configurationDB.GetConfigValue(configKey);
+        }
     }
 }

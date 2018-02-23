@@ -27,6 +27,7 @@
 	<li class="top"><a href="RuleManager.aspx" class="top_link"><span>Rule Manager</span></a></li>
 	<li class="top"><a href="ApplyRules.aspx" class="top_link"><span>Apply Rules</span></a></li>
 	<li class="top"><a href="ServiceConfiguration.aspx" class="top_link"><span>Configuration</span></a></li>
+    <li class="top"><a href="ServiceManagement.aspx" class="top_link"><span>Service Management</span></a></li>
 	<li class="top"><a href="#nogo53" id="shop" class="top_link"><span class="down">Reports</span></a>
 		<ul class="sub">
 			<li><a href="ServiceLogReport.aspx">Service Log Report</a></li>

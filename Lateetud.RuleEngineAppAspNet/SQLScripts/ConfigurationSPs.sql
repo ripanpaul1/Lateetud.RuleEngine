@@ -23,3 +23,18 @@ AS
  WHERE ID=@ID
 
 	RETURN
+	
+	go
+--------------------------------------------------
+
+
+ Create PROCEDURE [dbo].[proc_Configuration_LoadByKey]  
+ (  
+ @ConfigurationKey varchar(50)  
+ )  
+    
+AS  
+ Select * from configuration where ConfigurationKey = @ConfigurationKey  
+   
+ RETURN  
+  

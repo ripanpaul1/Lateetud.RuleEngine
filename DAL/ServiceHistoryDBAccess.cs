@@ -83,5 +83,34 @@ namespace DAL
 
             return list;
         }
+
+        public List<ServiceHistory> GetServiceHistoryStatusOfNRecords()
+        {
+            List<ServiceHistory> list = null;
+
+            using (DataTable table = SqlDBHelper.ExecuteSelectCommand("proc_ServiceHistory_GetStatusOfNRecords", CommandType.StoredProcedure))
+            {
+                if (table.Rows.Count > 0)
+                {
+                    list = new List<ServiceHistory>();
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        ServiceHistory _history = new ServiceHistory();
+
+                        _history.ID = Convert.ToInt64(row["ID"]);
+                        _history.RunTime = Convert.ToDateTime(row["RunTime"]);
+                        _history.Comment = Convert.ToString(row["Comment"]);
+                        _history.Status = Convert.ToString(row["Status"]);
+                        _history.RunID = Convert.ToInt32(row["RunID"]);
+                        _history.NoOfFile = Convert.ToInt32(row["NoOfFile"]);
+
+                        list.Add(_history);
+                    }
+                }
+            }
+
+            return list;
+        }
     }
 }

@@ -26,5 +26,9 @@ namespace BLL
         {
             return serviceHistoryDB.GetServiceHistoryList();
         }
+        public List<ServiceHistory> StatusOfNRecords()
+        {
+            return serviceHistoryDB.GetServiceHistoryStatusOfNRecords();
+        }
     }
 }

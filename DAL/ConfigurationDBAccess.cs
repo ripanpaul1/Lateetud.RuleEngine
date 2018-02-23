@@ -52,5 +52,41 @@ namespace DAL
 
             return SqlDBHelper.ExecuteNonQuery("proc_Configuration_Update", CommandType.StoredProcedure, parameters);
         }
+        public Configuration GetConfigValue(string configKey)
+        {
+            Configuration _config = null;
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@ConfigurationKey", configKey)
+            };
+
+            using (DataTable table = SqlDBHelper.ExecuteParamerizedSelectCommand("proc_Configuration_LoadByKey", CommandType.StoredProcedure, parameters))
+            {
+                //check if any record exist or not
+                if (table.Rows.Count == 1)
+                {
+                    DataRow row = table.Rows[0];
+
+
+                    _config = new Configuration();
+                    _config.ID = Convert.ToInt32(row["ID"]);
+
+                    _config.ConfigurationKey = row["ConfigurationKey"].ToString();
+                    _config.ConfigurationValue = row["ConfigurationValue"].ToString();
+                    _config.ConfigurationType = row["ConfigurationType"].ToString();
+                    _config.IsActive = Convert.ToBoolean(row["IsActive"]);
+                    
+                    _config.Comment =Convert.ToString(row["Comment"]);
+                    _config.EntryDate = Convert.ToDateTime(row["EntryDate"]);
+                    _config.ModifiedDate = Convert.ToDateTime(row["ModifiedDate"]);
+                   
+
+
+                }
+            }
+
+            return _config;
+        }
     }
 }
