@@ -37,6 +37,9 @@ public partial class Home : System.Web.UI.Page
         cTestChart.Series["Testing"].ChartType = SeriesChartType.Column;
         cTestChart.Series["Testing"].ChartTypeName = "Column";
         cTestChart.Series["Testing"].Color = Color.DarkOliveGreen;
+
+        cTestChart.ChartAreas["ChartArea1"].AxisX.MajorGrid.LineWidth = 0;
+
         cTestChart.ChartAreas[0].AxisX.Interval = 1;
         
         cTestChart.ChartAreas[0].Area3DStyle.Enable3D = false;

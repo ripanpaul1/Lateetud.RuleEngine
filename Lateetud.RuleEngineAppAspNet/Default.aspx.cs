@@ -27,7 +27,7 @@ public partial class _Default : System.Web.UI.Page
         {
             Session["IsValidUser"] = true;
             Session["User"] = usr;
-            
+            Response.Redirect("Home.aspx");
         }
     }
 }
