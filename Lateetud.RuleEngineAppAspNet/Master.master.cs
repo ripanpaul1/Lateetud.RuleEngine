@@ -16,4 +16,10 @@ public partial class Master : System.Web.UI.MasterPage
         Session.Abandon();
         Response.Redirect("Default.aspx");
     }
+    protected void btnAcctDetails_Click(object sender, EventArgs e)
+    {
+        long id = Convert.ToInt64(Session["UserID"]);
+        Session["SHOWACCTID"] = id;
+        Response.Redirect("UserManager.aspx");
+    }
 }

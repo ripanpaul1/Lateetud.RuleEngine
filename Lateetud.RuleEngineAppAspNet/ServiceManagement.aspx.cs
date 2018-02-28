@@ -55,7 +55,8 @@ public partial class ServiceManagement : System.Web.UI.Page
         {
             if (historyLog.Status == "STOP")
             {
-                lblNextRun.Text = "Currently the service(LateetudRuleEngineService) is not running. Please start the service to know the next run.";
+                strNextRun= "Currently the service(LateetudRuleEngineService) is not running. Please start the service to know the next run.";
+                //lblNextRun.Text = "Currently the service(LateetudRuleEngineService) is not running. Please start the service to know the next run.";
             }
             else
             {
@@ -173,6 +174,8 @@ public partial class ServiceManagement : System.Web.UI.Page
     {
 
         StopStartService();
+        GetCurrentStatus();
+        GetServiceStatus();
     }
 
     protected void btnStop_Click(object sender, EventArgs e)
@@ -203,5 +206,7 @@ public partial class ServiceManagement : System.Web.UI.Page
                 lblMsg.Text = ex.Message.ToString();
             }
         }
+        GetCurrentStatus();
+        GetServiceStatus();
     }
 }

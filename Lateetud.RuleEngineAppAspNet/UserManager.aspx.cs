@@ -15,6 +15,13 @@ public partial class UserManager : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+
+            if (Session["SHOWACCTID"] != null)
+            {
+                int Id = Convert.ToInt32(Session["SHOWACCTID"]);
+                ShowDetails(Id);
+
+            }
             //BindDLL();
             txtPassword.Attributes.Add("value", txtPassword.Text);
         }
@@ -57,7 +64,7 @@ public partial class UserManager : System.Web.UI.Page
     //    ddlUserType.DataValueField = "ID";
     //    ddlUserType.DataBind();
     //    ddlUserType.Items.Insert(0, new ListItem("--Select--", "0"));
-        
+
     //}
     protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -71,12 +78,12 @@ public partial class UserManager : System.Web.UI.Page
         int Id = int.Parse(((ImageButton)sender).CommandName);
         UserMaster objUser = new UserMaster();
         UserMasterHandler userMasterHandler = new UserMasterHandler();
-       
+
         if (Status == "True")
         {
             objUser.ID = Id;
             objUser.IsActive = false;
-            
+
 
             userMasterHandler.UpdateActiveInActiveUser(objUser);
         }
@@ -93,7 +100,7 @@ public partial class UserManager : System.Web.UI.Page
     protected void btnSave_Click(object sender, EventArgs e)
     {
         string strMode = ViewState["mode"].ToString();
-        
+
 
         if (strMode == "ADD")
         {
@@ -148,6 +155,10 @@ public partial class UserManager : System.Web.UI.Page
         int Id = Convert.ToInt32(((ImageButton)sender).CommandArgument);
         Session["UserID"] = Id;
         ResetAll();
+        ShowDetails(Id);
+    }
+    private void ShowDetails(int Id)
+    {
         UserMasterHandler objUserMstrH = new UserMasterHandler();
         UserMaster objUser = objUserMstrH.GetUserDetails(Id);
         txtFirstName.Text = Convert.ToString(objUser.FirstName);
@@ -160,9 +171,13 @@ public partial class UserManager : System.Web.UI.Page
         mvUserManager.ActiveViewIndex = 0;
         ViewState["mode"] = "EDIT";
     }
-
     protected void btnCancel_Click(object sender, EventArgs e)
     {
+        if (Session["SHOWACCTID"] != null)
+        {
+            Response.Redirect("Home.aspx");
+        }
+
         ResetAll();
         mvUserManager.ActiveViewIndex = 1;
     }

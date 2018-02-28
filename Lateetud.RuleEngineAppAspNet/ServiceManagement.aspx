@@ -37,7 +37,7 @@
                 <asp:Button ID="btnStop" runat="server" Text="Stop" OnClick="btnStop_Click" /></td>
         </tr>
         <tr>
-            <td>
+            <td colspan="2">
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>&nbsp
             </td>
         </tr>
