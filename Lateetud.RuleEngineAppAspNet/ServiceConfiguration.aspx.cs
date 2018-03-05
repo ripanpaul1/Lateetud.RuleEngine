@@ -17,6 +17,7 @@ public partial class ServiceConfiguration : System.Web.UI.Page
     protected void gvRule_RowCommand(object sender, GridViewCommandEventArgs e)
     {
 
+
     }
 
     protected void gvRule_RowEditing(object sender, GridViewEditEventArgs e)
