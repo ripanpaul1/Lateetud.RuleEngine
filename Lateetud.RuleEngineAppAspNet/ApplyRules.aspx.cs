@@ -16,7 +16,7 @@ public partial class ApplyRules : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-           
+
             mvMain.SetActiveView(vwShow);
             BindDLL();
         }
@@ -36,17 +36,17 @@ public partial class ApplyRules : System.Web.UI.Page
                     .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
                     .ToList());
             RuleEngineDetails objRuleEngine = new RuleEngineDetails();
-            
+
             objRuleEngine.RuleMastID = Convert.ToInt32(ddlRuleSet.SelectedValue);
             objRuleEngine.RuleDescID = Convert.ToString(strRules);
             objRuleEngine.UserID = 0;//Need to change once login page complete
-            objRuleEngine.FolderPath =@"E:\Work\RuleEngine\";
+            objRuleEngine.FolderPath = @"E:\Work\RuleEngine\";
             objRuleEngine.ModifiedDate = DateTime.Now;
             objRuleEngine.CreateDate = DateTime.Now;
             objRuleEngine.IsActive = true;
 
             RuleEngineDetailsHandler rEHandler = new RuleEngineDetailsHandler();
-            
+
             rEHandler.AddNew(objRuleEngine);
             //mvMain.ActiveViewIndex = 1;
         }
@@ -60,7 +60,7 @@ public partial class ApplyRules : System.Web.UI.Page
         ddlRuleSet.DataBind();
         ddlRuleSet.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Rules--", "0"));
 
-       
+
     }
 
     protected void ddlRuleSet_SelectedIndexChanged(object sender, EventArgs e)
@@ -92,7 +92,7 @@ public partial class ApplyRules : System.Web.UI.Page
     protected void ibtnEdit_Click(object sender, ImageClickEventArgs e)
     {
         int ruleMastId = int.Parse(((ImageButton)sender).CommandArgument);
-        ddlRuleSet.SelectedValue =Convert.ToString(ruleMastId);
+        ddlRuleSet.SelectedValue = Convert.ToString(ruleMastId);
         ddlRuleSet.Enabled = false;
 
         RuleDescHandler ruleDescHndlr = new RuleDescHandler();
@@ -100,8 +100,23 @@ public partial class ApplyRules : System.Web.UI.Page
         ddlRule.DataTextField = "RuleName";
         ddlRule.DataValueField = "ID";
         ddlRule.DataBind();
-        //string ruleDescId=
-        //ddlRule.Items.f
+
+        RuleEngineDetailsHandler ruleEngDtlsHndlr = new RuleEngineDetailsHandler();
+        List<RuleEngineDetails> ruleEngDtls = ruleEngDtlsHndlr.GetRuleDetailsByRuleMastID(Convert.ToInt32(ddlRuleSet.SelectedValue));
+
+
+        foreach (RuleEngineDetails ruleElement in ruleEngDtls)
+        {
+            ddlRule.SelectedValue = Convert.ToString(ruleElement.RuleDescID);
+        }
+        ddlRule.DataBind();
+        string strRuleFilteredText = string.IsNullOrEmpty(String.Join(",", ddlRule.Items.Cast<ListItem>()
+   .Where(li => li.Selected)
+   .ToList())) ? "All" : (ddlRule.Items.Cast<ListItem>()
+   .Where(li => li.Selected)
+   .ToList().Count == ddlRule.Items.Cast<ListItem>().ToList().Count) ? "All" : "Filtered";
+       
+        ddlRule.Texts.SelectBoxCaption = strRuleFilteredText;
         mpRule.Show();
     }
 
@@ -139,7 +154,7 @@ public partial class ApplyRules : System.Web.UI.Page
     {
         Thread thdSyncRead = new Thread(new ThreadStart(openfolder));
         thdSyncRead.SetApartmentState(ApartmentState.STA);
-        
+
         thdSyncRead.Start();
     }
     public void openfolder()

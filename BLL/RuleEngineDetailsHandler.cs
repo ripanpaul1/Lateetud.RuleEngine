@@ -26,5 +26,9 @@ namespace BLL
         {
             return ruleEngine.GetRuleList();
         }
+        public List<RuleEngineDetails> GetRuleDetailsByRuleMastID(long RuleMastID)
+        {
+            return ruleEngine.GetByRuleMastID(RuleMastID);
+        }
     }
 }

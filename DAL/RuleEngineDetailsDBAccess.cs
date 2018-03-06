@@ -75,5 +75,37 @@ namespace DAL
 
             return list;
         }
+
+        public List<RuleEngineDetails> GetByRuleMastID(long RuleMastID)
+        {
+            List<RuleEngineDetails> list = null;
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@RuleMastID", RuleMastID)
+            };
+
+
+            using (DataTable table = SqlDBHelper.ExecuteParamerizedSelectCommand("proc_RuleEngine_LoadByRuleMastID", CommandType.StoredProcedure, parameters))
+            {
+                if (table.Rows.Count > 0)
+                {
+                    list = new List<RuleEngineDetails>();
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        RuleEngineDetails _rule = new RuleEngineDetails();
+
+                        
+                        _rule.RuleDescID = Convert.ToString(row["RuleDescID"]);
+                        
+                        
+                        list.Add(_rule);
+                    }
+                }
+            }
+
+            return list;
+        }
     }
 }
