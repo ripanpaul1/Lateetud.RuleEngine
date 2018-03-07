@@ -63,9 +63,13 @@
                     <img src="images/dashboard_icons/offer.gif" /></a>
             </td>
             <td>
-                <img src="images/dashboard_icons/composers.gif" /></td>
+                <a href="SummaryReport.aspx">
+                    <img src="images/dashboard_icons/composers.gif" /></a>
+                </td>
             <td>
-                <img src="images/dashboard_icons/information.jpg" height="100" />
+                 <a href="ServiceConfiguration.aspx">
+                    <img src="images/dashboard_icons/popular_dw.gif" /></a>
+               
             </td>
 
         </tr>
