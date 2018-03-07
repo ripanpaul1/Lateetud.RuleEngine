@@ -707,20 +707,50 @@ namespace Lateetud.RuleEngine.WindowsService
                     }
 
                     RuleApplicationSummary objRuleSummaryEntry;// = new RuleApplicationSummary();
-                    foreach (var ruleR in ruleResult)
+                    if (ruleResult.Count > 0)
+                    {
+                        foreach (var ruleR in ruleResult)
+                        {
+                            objRuleSummaryEntry = new RuleApplicationSummary();
+
+                            objRuleSummaryEntry.RunID = objRuleSummary.RunID;
+                            objRuleSummaryEntry.FileName = file;
+                            objRuleSummaryEntry.EntryDate = DateTime.Now;
+                            if (string.IsNullOrEmpty(ruleR.ResultValues))
+                            {
+
+                                objRuleSummaryEntry.FieldValue = "N/A";
+                                objRuleSummaryEntry.IsSuccess = false;
+                            }
+                            else
+                            {
+                                objRuleSummaryEntry.FieldValue = ruleR.ResultValues;
+                                objRuleSummaryEntry.IsSuccess = true;
+                            }
+                            objRuleSummaryEntry.FieldValue = ruleR.ResultValues;
+                            objRuleSummaryEntry.RuleDescID = ruleR.RuleDescID;
+
+
+                            RuleApplicationSummaryHandler rEHandler = new RuleApplicationSummaryHandler();
+
+                            rEHandler.AddNew(objRuleSummaryEntry);
+
+                        }
+                    }
+                    else
                     {
                         objRuleSummaryEntry = new RuleApplicationSummary();
 
                         objRuleSummaryEntry.RunID = objRuleSummary.RunID;
                         objRuleSummaryEntry.FileName = file;
                         objRuleSummaryEntry.EntryDate = DateTime.Now;
-                        objRuleSummaryEntry.FieldValue = ruleR.ResultValues;
-                        objRuleSummaryEntry.RuleDescID = ruleR.RuleDescID;
+                        objRuleSummaryEntry.FieldValue = "N/A";
+                        objRuleSummaryEntry.RuleDescID = 0;
+                        objRuleSummaryEntry.IsSuccess = false;
 
                         RuleApplicationSummaryHandler rEHandler = new RuleApplicationSummaryHandler();
 
                         rEHandler.AddNew(objRuleSummaryEntry);
-                        //Console.WriteLine(bike.make);
                     }
                     noOfFile += 1;
                 }

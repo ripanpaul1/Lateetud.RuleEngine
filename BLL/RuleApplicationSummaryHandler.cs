@@ -22,5 +22,9 @@ namespace BLL
         {
             return ruleSummaryDB.GetRunID();
         }
+        public List<RuleApplicationSummary> LoadByRunID(long RunID)
+        {
+            return ruleSummaryDB.RuleApplicationSummary_LoadByRunID(RunID);
+        }
     }
 }

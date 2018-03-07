@@ -14,6 +14,6 @@ namespace DAL
         public long RuleDescID { get; set; }
         public string FieldValue { get; set; }
         public DateTime EntryDate { get; set; }
-       
+        public bool IsSuccess { get; set; }
     }
 }

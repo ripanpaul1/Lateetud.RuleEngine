@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="ServiceLogDS" targetNamespace="http://tempuri.org/ServiceLogDS.xsd" xmlns:mstns="http://tempuri.org/ServiceLogDS.xsd" xmlns="http://tempuri.org/ServiceLogDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="SummaryDS" targetNamespace="http://tempuri.org/SummaryDS.xsd" xmlns:mstns="http://tempuri.org/SummaryDS.xsd" xmlns="http://tempuri.org/SummaryDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
@@ -9,19 +9,9 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="ServiceLogDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="ServiceLogDS" msprop:Generator_UserDSName="ServiceLogDS">
+  <xs:element name="SummaryDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="SummaryDS" msprop:Generator_UserDSName="SummaryDS">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="ServiceLogTbl" msprop:Generator_TableClassName="ServiceLogTblDataTable" msprop:Generator_TableVarName="tableServiceLogTbl" msprop:Generator_RowChangedName="ServiceLogTblRowChanged" msprop:Generator_TablePropName="ServiceLogTbl" msprop:Generator_RowDeletingName="ServiceLogTblRowDeleting" msprop:Generator_RowChangingName="ServiceLogTblRowChanging" msprop:Generator_RowEvHandlerName="ServiceLogTblRowChangeEventHandler" msprop:Generator_RowDeletedName="ServiceLogTblRowDeleted" msprop:Generator_RowClassName="ServiceLogTblRow" msprop:Generator_UserTableName="ServiceLogTbl" msprop:Generator_RowEvArgName="ServiceLogTblRowChangeEvent">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="RunID" msprop:Generator_ColumnVarNameInTable="columnRunID" msprop:Generator_ColumnPropNameInRow="RunID" msprop:Generator_ColumnPropNameInTable="RunIDColumn" msprop:Generator_UserColumnName="RunID" type="xs:string" minOccurs="0" />
-              <xs:element name="NoOfFile" msprop:Generator_ColumnVarNameInTable="columnNoOfFile" msprop:Generator_ColumnPropNameInRow="NoOfFile" msprop:Generator_ColumnPropNameInTable="NoOfFileColumn" msprop:Generator_UserColumnName="NoOfFile" type="xs:string" minOccurs="0" />
-              <xs:element name="RunTime" msprop:Generator_ColumnVarNameInTable="columnRunTime" msprop:Generator_ColumnPropNameInRow="RunTime" msprop:Generator_ColumnPropNameInTable="RunTimeColumn" msprop:Generator_UserColumnName="RunTime" type="xs:string" minOccurs="0" />
-              <xs:element name="Status" msprop:Generator_ColumnVarNameInTable="columnStatus" msprop:Generator_ColumnPropNameInRow="Status" msprop:Generator_ColumnPropNameInTable="StatusColumn" msprop:Generator_UserColumnName="Status" type="xs:string" minOccurs="0" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
         <xs:element name="ApplicationSummary" msprop:Generator_TableClassName="ApplicationSummaryDataTable" msprop:Generator_TableVarName="tableApplicationSummary" msprop:Generator_TablePropName="ApplicationSummary" msprop:Generator_RowDeletingName="ApplicationSummaryRowDeleting" msprop:Generator_RowChangingName="ApplicationSummaryRowChanging" msprop:Generator_RowEvHandlerName="ApplicationSummaryRowChangeEventHandler" msprop:Generator_RowDeletedName="ApplicationSummaryRowDeleted" msprop:Generator_UserTableName="ApplicationSummary" msprop:Generator_RowChangedName="ApplicationSummaryRowChanged" msprop:Generator_RowEvArgName="ApplicationSummaryRowChangeEvent" msprop:Generator_RowClassName="ApplicationSummaryRow">
           <xs:complexType>
             <xs:sequence>

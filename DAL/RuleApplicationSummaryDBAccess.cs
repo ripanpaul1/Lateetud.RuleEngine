@@ -22,7 +22,7 @@ namespace DAL
            new SqlParameter("@FieldValue",_ruleSummary.FieldValue),
           
            new SqlParameter("@EntryDate",_ruleSummary.EntryDate),
-          
+           new SqlParameter("@IsSuccess",_ruleSummary.IsSuccess),
 
             };
             return SqlDBHelper.ExecuteNonQuery("proc_RuleApplicationSummary_AddNew", CommandType.StoredProcedure, parameters);
@@ -46,6 +46,43 @@ namespace DAL
             }
 
             return _ruleSummary;
+        }
+
+        public List<RuleApplicationSummary> RuleApplicationSummary_LoadByRunID(long RunID)
+        {
+            List<RuleApplicationSummary> list = null;
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@RunID", RunID)
+            };
+
+
+            using (DataTable table = SqlDBHelper.ExecuteParamerizedSelectCommand("proc_RuleApplicationSummary_LoadByRunID", CommandType.StoredProcedure, parameters))
+            {
+                if (table.Rows.Count > 0)
+                {
+                    list = new List<RuleApplicationSummary>();
+
+                    foreach (DataRow row in table.Rows)
+                    {
+                        RuleApplicationSummary _rule = new RuleApplicationSummary();
+
+                        
+                        _rule.RunID = Convert.ToInt32(row["RunID"]);
+                        
+                        _rule.FileName = Convert.ToString(row["FileName"]);
+                        _rule.FieldValue = Convert.ToString(row["FieldValue"]);
+                        _rule.EntryDate = Convert.ToDateTime(row["EntryDate"]);
+                        _rule.IsSuccess = Convert.ToBoolean(row["IsSuccess"]);
+                        
+
+                        list.Add(_rule);
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }

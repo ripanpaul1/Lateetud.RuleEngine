@@ -31,15 +31,22 @@
         <tr>
             <td colspan="2">&nbsp;</td>
         </tr>
-         <tr>
+        <tr>
             <td width="30%"><strong>Stop the Service:</strong></td>
             <td>
                 <asp:Button ID="btnStop" runat="server" Text="Stop" OnClick="btnStop_Click" /></td>
         </tr>
         <tr>
             <td colspan="2">
-                <asp:Label ID="lblMsg" runat="server"></asp:Label>&nbsp
+                <asp:Label ID="lblMsg" runat="server" ForeColor="Red"></asp:Label>&nbsp;
             </td>
+        </tr>
+        <tr>
+            <td>
+              <strong>Adhoc Run(One time) the Service:</strong>
+            </td>
+             <td>
+                <asp:Button ID="btnAdjocRun" runat="server" Text="Adhoc Run" OnClick="btnAdjocRun_Click" /></td>
         </tr>
     </table>
 </asp:Content>
