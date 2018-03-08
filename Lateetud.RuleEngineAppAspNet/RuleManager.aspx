@@ -6,25 +6,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script src="js/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
 
-            $(function () {
-                $("input[name='rbtDocType']").click(function () {
-                    alert('a');
-                    if ($("#DOC").is(":checked")) {
-                        $("#fupFile").show();
-                        $("#txtUrl").hide();
-                    } else {
-                        $("#fupFile").hide();
-                        $("#txtUrl").show();
-                    }
-                });
-
-        });
-
-    </script>
     <style type="text/css">
         .auto-style1 {
             text-decoration: underline;
