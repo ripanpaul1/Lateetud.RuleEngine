@@ -6,6 +6,25 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(function () {
+                $("input[name='rbtDocType']").click(function () {
+                    alert('a');
+                    if ($("#DOC").is(":checked")) {
+                        $("#fupFile").show();
+                        $("#txtUrl").hide();
+                    } else {
+                        $("#fupFile").hide();
+                        $("#txtUrl").show();
+                    }
+                });
+
+        });
+
+    </script>
     <style type="text/css">
         .auto-style1 {
             text-decoration: underline;
@@ -35,7 +54,6 @@
         .clearfix {
             display: inline-block;
         }
-
     </style>
 
     <cc1:ToolkitScriptManager runat="server">
@@ -90,9 +108,15 @@
                                 <td class="auto-style4" colspan="4" style="background-color: #FFFFCC"><strong>Define Rule</strong></td>
                             </tr>
                             <tr>
-                                <td class="auto-style5"><strong>Choose Document</strong></td>
                                 <td class="auto-style5">
-                                    <asp:FileUpload ID="fupFile" runat="server" /></td>
+                                    <asp:RadioButtonList ID="rbtDocType" runat="server" RepeatDirection="Horizontal" Font-Bold="True">
+                                        <asp:ListItem Selected="True" Value="DOC">Upload Document</asp:ListItem>
+                                        <asp:ListItem Value="URL">Provide URL</asp:ListItem>
+                                    </asp:RadioButtonList>
+                                </td>
+                                <td class="auto-style5">
+                                    <asp:FileUpload ID="fupFile" runat="server" />&nbsp;<asp:TextBox ID="txtUrl" runat="server"></asp:TextBox>
+                                </td>
                                 <td colspan="2" class="auto-style5">
                                     <asp:ImageButton ID="btnShow" runat="server" ImageUrl="~/images/view2.png" Width="30px" OnClick="btnShow_Click" />
 
