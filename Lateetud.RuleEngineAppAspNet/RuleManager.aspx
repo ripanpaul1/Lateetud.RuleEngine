@@ -12,18 +12,14 @@
             text-decoration: underline;
             color: #0066FF;
         }
-
         .auto-style3 {
         }
-
         .auto-style4 {
             text-decoration: underline;
         }
-
         .auto-style5 {
             height: 28px;
         }
-
         .clearfix:after {
             content: ".";
             display: block;
@@ -32,7 +28,6 @@
             line-height: 0;
             height: 0;
         }
-
         .clearfix {
             display: inline-block;
         }
@@ -188,9 +183,9 @@
                                                         <ContentTemplate>
                                                             <asp:CheckBox ID="chkSynonym" runat="server" Text="Check Synonyms" AutoPostBack="true" OnCheckedChanged="chkSynonym_CheckedChanged" />
                                                             <br />
-                                                            <asp:DropDownCheckBoxes ID="ddlSynonym" runat="server"
-                                                                AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True">
-                                                                <Style SelectBoxWidth="140" DropDownBoxBoxWidth="140" />
+                                                            <asp:DropDownCheckBoxes ID="ddlSynonym"  runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True">
+                                                                
+                                                                <%--<Style SelectBoxWidth="140" DropDownBoxBoxWidth="140" />--%>
                                                                 <Texts SelectBoxCaption="All" SelectAllNode="All" />
                                                             </asp:DropDownCheckBoxes>
                                                         </ContentTemplate>
@@ -243,7 +238,6 @@
                                                 <asp:ListItem>Numeric</asp:ListItem>
                                                 <asp:ListItem>Date</asp:ListItem>
                                             </asp:DropDownList>
-
                                         </td>--%>
                             </tr>
 
@@ -252,7 +246,6 @@
                                 <td class="auto-style3" colspan="4">
                                     <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmit_Click" Text="Submit" BackColor="#0066FF" Font-Bold="True" ForeColor="White" />
                                     &nbsp;<asp:Button ID="btnCancel" runat="server" Text="Cancel" BackColor="#0066FF" Font-Bold="True" ForeColor="White" />
-
                                 </td>
                             </tr>
                             <tr>
@@ -448,4 +441,3 @@
         PopupDragHandleControlID="lblHdrCreateRule" PopupControlID="pnlDetailsCreateRule" BackgroundCssClass="popUpStyle">
     </cc1:ModalPopupExtender>
 </asp:Content>
-

@@ -24,7 +24,7 @@ using iTextSharp.text.html.simpleparser;
 public partial class RuleManager : System.Web.UI.Page
 {
     Dictionary<string, int> chartData = new Dictionary<string, int>();
-    //string[] arrSynonymsList = new string[0];
+   
     StringBuilder strListofSynonyms;// = new StringBuilder();
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -33,7 +33,8 @@ public partial class RuleManager : System.Web.UI.Page
             mvMain.SetActiveView(vwShow);
             lblActionMessage.Text = "Showing Existing Rules";
             BindDLL();
-
+            ddlSynonym.Style.SelectBoxWidth = 140;// Added dynamically to solve design rendering issue
+            ddlSynonym.Style.DropDownBoxBoxWidth = 140;// Added dynamically to solve design rendering issue
         }
     }
     private void BindDLL()
