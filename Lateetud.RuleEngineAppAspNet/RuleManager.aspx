@@ -252,6 +252,7 @@
                                 <td class="auto-style3" colspan="4">
                                     <asp:Button ID="btnSubmit" runat="server" OnClick="btnSubmit_Click" Text="Submit" BackColor="#0066FF" Font-Bold="True" ForeColor="White" />
                                     &nbsp;<asp:Button ID="btnCancel" runat="server" Text="Cancel" BackColor="#0066FF" Font-Bold="True" ForeColor="White" />
+
                                 </td>
                             </tr>
                             <tr>
