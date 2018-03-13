@@ -22,14 +22,14 @@
             </td>
             <td>
                 <a href="Home.aspx">
-                    <img src="images/dashboard_icons/dashboard-icon1.gif" /></a></td>
+                    <img src="images/dashboard_icons/dashboard-icon1.gif" alt="Home" /></a></td>
             <td>
                 <a href="RuleManager.aspx">
-                    <img src="images/dashboard_icons/product_management.gif" /></a>
+                    <img src="images/dashboard_icons/product_management.gif" alt="Rule Manager" /></a>
                 <%--<img src="images/dashboard_icons/popular_dw_hover.gif" />--%></td>
             <td>
                 <a href="ApplyRules.aspx">
-                    <img src="images/dashboard_icons/difficulty.gif" /></a>
+                    <img src="images/dashboard_icons/difficulty.gif" alt="Apply Rule" /></a>
 
             </td>
         </tr>
@@ -60,11 +60,11 @@
             </td>
             <td>
                 <a href="ServiceConfiguration.aspx">
-                    <img src="images/dashboard_icons/offer.gif" /></a>
+                    <img src="images/dashboard_icons/offer.gif" alt="Service Configuration" /></a>
             </td>
             <td>
                 <a href="SummaryReport.aspx">
-                    <img src="images/dashboard_icons/composers.gif" /></a>
+                    <img src="images/dashboard_icons/composers.gif" alt="Summary Report" /></a>
                 </td>
             <td>
                  <a href="ServiceConfiguration.aspx">
