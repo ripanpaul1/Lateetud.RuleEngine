@@ -32,11 +32,11 @@
 		<ul class="sub">
 			<%--<li><a href="ServiceLogReport.aspx">Service Log Report</a></li>--%>
 			<li><a href="SummaryReport.aspx">Summary Report</a></li>
-			<%--<li><a href="#nogo56">Report 3</a></li>--%>
+			<li><a href="DateWiseSummaryReport.aspx">Date Wise Summary</a></li>
 		</ul>
 	</li>
 	<li class="right"><a href="#nogo57" id="privacy" class="right_link"><span class="down">My Account</span></a>
-        <ul class="sub">
+        <ul class="subRight">
 			<%--<li><a href="#nogo54">Logout</a></li>--%>
             <li><%--<a href="#nogo55">Account Details</a>--%>
                 <asp:LinkButton ID="btnAcctDetails" runat="server"  OnClick="btnAcctDetails_Click">Account Details</asp:LinkButton>

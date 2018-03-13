@@ -1,6 +1,7 @@
 ﻿using DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,14 @@ namespace BLL
         public List<RuleApplicationSummary> LoadByRunID(long RunID)
         {
             return ruleSummaryDB.RuleApplicationSummary_LoadByRunID(RunID);
+        }
+        public DataTable GetDateWiseData()
+        {
+            return ruleSummaryDB.GetDateWiseData();
+        }
+        public DataTable GetDateWiseSuccessFailure(DateTime RunDate)
+        {
+            return ruleSummaryDB.GetDateWiseSuccessFailure(RunDate);
         }
     }
 }

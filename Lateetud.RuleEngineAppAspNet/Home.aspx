@@ -67,8 +67,8 @@
                     <img src="images/dashboard_icons/composers.gif" alt="Summary Report" /></a>
                 </td>
             <td>
-                 <a href="ServiceConfiguration.aspx">
-                    <img src="images/dashboard_icons/popular_dw.gif" /></a>
+                 <a href="DateWiseSummaryReport.aspx">
+                    <img src="images/dashboard_icons/popular_dw.gif" alt="Date Wise Summary Report" /></a>
                
             </td>
 

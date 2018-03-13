@@ -59,3 +59,22 @@ ORDER BY EntryDate DESC
    
  RETURN  
   
+  GO
+  Create PROCEDURE [dbo].[proc_RuleApplicationSummary_GetDateWiseData]
+	
+AS
+select count(filename) NoOfFileProcessed,cast(entrydate as date) RunDate
+from dbo.RuleApplicationSummary group by cast(entrydate as date)  order by cast(entrydate as date) desc
+RETURN
+GO
+	
+create PROCEDURE [dbo].[proc_RuleApplicationSummary_GetDateWiseSuccessFailure]
+	 (  
+ @RunDate date  
+ )  
+AS
+select count(filename) NoOfFileProcessed,cast(entrydate as date) RunDate,issuccess
+from dbo.RuleApplicationSummary where cast(entrydate as date)=@RunDate group by cast(entrydate as date),issuccess  order by cast(entrydate as date) desc
+RETURN
+
+Go

@@ -20,7 +20,7 @@ namespace DAL
            new SqlParameter("@FileName",_ruleSummary.FileName),
            new SqlParameter("@RuleDescID",_ruleSummary.RuleDescID),
            new SqlParameter("@FieldValue",_ruleSummary.FieldValue),
-          
+
            new SqlParameter("@EntryDate",_ruleSummary.EntryDate),
            new SqlParameter("@IsSuccess",_ruleSummary.IsSuccess),
 
@@ -38,10 +38,10 @@ namespace DAL
                 if (table.Rows.Count == 1)
                 {
                     DataRow row = table.Rows[0];
-                    
+
                     _ruleSummary = new RuleApplicationSummary();
                     _ruleSummary.RunID = Convert.ToInt32(row["RunID"]);
-                    
+
                 }
             }
 
@@ -68,14 +68,14 @@ namespace DAL
                     {
                         RuleApplicationSummary _rule = new RuleApplicationSummary();
 
-                        
+
                         _rule.RunID = Convert.ToInt32(row["RunID"]);
-                        
+
                         _rule.FileName = Convert.ToString(row["FileName"]);
                         _rule.FieldValue = Convert.ToString(row["FieldValue"]);
                         _rule.EntryDate = Convert.ToDateTime(row["EntryDate"]);
                         _rule.IsSuccess = Convert.ToBoolean(row["IsSuccess"]);
-                        
+
 
                         list.Add(_rule);
                     }
@@ -84,5 +84,29 @@ namespace DAL
 
             return list;
         }
+
+        public DataTable GetDateWiseData()
+        {
+            DataTable table = SqlDBHelper.ExecuteSelectCommand("proc_RuleApplicationSummary_GetDateWiseData", CommandType.StoredProcedure);
+
+            return table;
+
+        }
+        public DataTable GetDateWiseSuccessFailure(DateTime RunDate)
+        {
+            SqlParameter[] parameters = new SqlParameter[]
+           {
+            new SqlParameter("@RunDate", RunDate)
+           };
+
+
+            DataTable table = SqlDBHelper.ExecuteParamerizedSelectCommand("proc_RuleApplicationSummary_GetDateWiseSuccessFailure", CommandType.StoredProcedure, parameters);
+
+            
+            return table;
+
+        }
     }
+
+
 }

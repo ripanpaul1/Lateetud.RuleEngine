@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DateWiseDataDS" targetNamespace="http://tempuri.org/DateWiseDataDS.xsd" xmlns:mstns="http://tempuri.org/DateWiseDataDS.xsd" xmlns="http://tempuri.org/DateWiseDataDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DateWiseDataDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DateWiseDataDS" msprop:Generator_UserDSName="DateWiseDataDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DateWiseTbl" msprop:Generator_TableClassName="DateWiseTblDataTable" msprop:Generator_TableVarName="tableDateWiseTbl" msprop:Generator_RowChangedName="DateWiseTblRowChanged" msprop:Generator_TablePropName="DateWiseTbl" msprop:Generator_RowDeletingName="DateWiseTblRowDeleting" msprop:Generator_RowChangingName="DateWiseTblRowChanging" msprop:Generator_RowEvHandlerName="DateWiseTblRowChangeEventHandler" msprop:Generator_RowDeletedName="DateWiseTblRowDeleted" msprop:Generator_RowClassName="DateWiseTblRow" msprop:Generator_UserTableName="DateWiseTbl" msprop:Generator_RowEvArgName="DateWiseTblRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NoOfFileProcessed" msprop:Generator_ColumnVarNameInTable="columnNoOfFileProcessed" msprop:Generator_ColumnPropNameInRow="NoOfFileProcessed" msprop:Generator_ColumnPropNameInTable="NoOfFileProcessedColumn" msprop:Generator_UserColumnName="NoOfFileProcessed" type="xs:string" minOccurs="0" />
+              <xs:element name="RunDate" msprop:Generator_ColumnVarNameInTable="columnRunDate" msprop:Generator_ColumnPropNameInRow="RunDate" msprop:Generator_ColumnPropNameInTable="RunDateColumn" msprop:Generator_UserColumnName="RunDate" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DateWiseDetailsTbl" msprop:Generator_TableClassName="DateWiseDetailsTblDataTable" msprop:Generator_TableVarName="tableDateWiseDetailsTbl" msprop:Generator_RowChangedName="DateWiseDetailsTblRowChanged" msprop:Generator_TablePropName="DateWiseDetailsTbl" msprop:Generator_RowDeletingName="DateWiseDetailsTblRowDeleting" msprop:Generator_RowChangingName="DateWiseDetailsTblRowChanging" msprop:Generator_RowEvHandlerName="DateWiseDetailsTblRowChangeEventHandler" msprop:Generator_RowDeletedName="DateWiseDetailsTblRowDeleted" msprop:Generator_RowClassName="DateWiseDetailsTblRow" msprop:Generator_UserTableName="DateWiseDetailsTbl" msprop:Generator_RowEvArgName="DateWiseDetailsTblRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NoOfFileProcessed" msprop:Generator_ColumnVarNameInTable="columnNoOfFileProcessed" msprop:Generator_ColumnPropNameInRow="NoOfFileProcessed" msprop:Generator_ColumnPropNameInTable="NoOfFileProcessedColumn" msprop:Generator_UserColumnName="NoOfFileProcessed" type="xs:string" minOccurs="0" />
+              <xs:element name="RunDate" msprop:Generator_ColumnVarNameInTable="columnRunDate" msprop:Generator_ColumnPropNameInRow="RunDate" msprop:Generator_ColumnPropNameInTable="RunDateColumn" msprop:Generator_UserColumnName="RunDate" type="xs:string" minOccurs="0" />
+              <xs:element name="IsSuccess" msprop:Generator_ColumnVarNameInTable="columnIsSuccess" msprop:Generator_ColumnPropNameInRow="IsSuccess" msprop:Generator_ColumnPropNameInTable="IsSuccessColumn" msprop:Generator_UserColumnName="IsSuccess" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
