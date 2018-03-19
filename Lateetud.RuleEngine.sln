@@ -31,8 +31,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Lateetud.RuleEngineAppAspNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lateetud.RuleEngine.WindowsService", "Lateetud.RuleEngine.WindowsService\Lateetud.RuleEngine.WindowsService.csproj", "{56CE66AE-3370-4ED7-9663-E97AFCF89E7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateetudUtility", "LateetudUtility\LateetudUtility.csproj", "{DBCB5A1E-73AE-4D54-A13C-7E0A5CD0B659}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +53,6 @@ Global
 		{56CE66AE-3370-4ED7-9663-E97AFCF89E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56CE66AE-3370-4ED7-9663-E97AFCF89E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56CE66AE-3370-4ED7-9663-E97AFCF89E7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBCB5A1E-73AE-4D54-A13C-7E0A5CD0B659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBCB5A1E-73AE-4D54-A13C-7E0A5CD0B659}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBCB5A1E-73AE-4D54-A13C-7E0A5CD0B659}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBCB5A1E-73AE-4D54-A13C-7E0A5CD0B659}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
