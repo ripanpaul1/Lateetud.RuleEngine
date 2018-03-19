@@ -24,7 +24,7 @@ public partial class ServiceLogReport : System.Web.UI.Page
             rvServiceLog.LocalReport.ReportPath = Server.MapPath("~/Reports/ServiceLogReport.rdlc");
             //creating object of DataSet dsMember and filling the DataSet using SQLDataAdapter   
 
-            
+
             //Providing DataSource for the Report   
 
             ServiceHistoryHandler serviceHistoryHndlr = new ServiceHistoryHandler();
@@ -44,45 +44,49 @@ public partial class ServiceLogReport : System.Web.UI.Page
         rvServiceLog.LocalReport.ReportPath = Server.MapPath("~/Reports/Summary.rdlc");
         ReportParameterInfoCollection DrillThroughValues =
                                 e.Report.GetParameters();
-        
+
 
         foreach (ReportParameterInfo d in DrillThroughValues)
         {
             lblParameter.Text = d.Values[0].ToString().Trim();
         }
-        //LocalReport localreport = (LocalReport)e.Report;
 
 
-        //set path of the Local report   
-        //rvServiceLog.LocalReport.ReportPath = Server.MapPath("~/Reports/Summary.rdlc");
+        if (Convert.ToString(lblParameter.Text) != "0")
+        {
 
-        RuleApplicationSummaryHandler summaryHndlr = new RuleApplicationSummaryHandler();
-        List<RuleApplicationSummary> applicationSummary = summaryHndlr.LoadByRunID(Convert.ToInt32(140));
+            RuleApplicationSummaryHandler summaryHndlr = new RuleApplicationSummaryHandler();
+            List<RuleApplicationSummary> applicationSummary = summaryHndlr.LoadByRunID(Convert.ToInt32(140));
 
-        ReportDataSource rds = new ReportDataSource("SummaryDataSet1", applicationSummary);
+            ReportDataSource rds = new ReportDataSource("SummaryDataSet1", applicationSummary);
 
-        //Fill dataset for Level1.rdlc
-        //SqlConnection thisConnection = new SqlConnection(thisConnectionString);
-        //System.Data.DataSet Level1DataSet = new System.Data.DataSet();
+            //Fill dataset for Level1.rdlc
+            //SqlConnection thisConnection = new SqlConnection(thisConnectionString);
+            //System.Data.DataSet Level1DataSet = new System.Data.DataSet();
 
-        //Level1SearchValue[0] = new SqlParameter("@OrderID",
-        //                       lblParameter.Text.Trim());
-
-
+            //Level1SearchValue[0] = new SqlParameter("@OrderID",
+            //                       lblParameter.Text.Trim());
 
 
-        //ReportDataSource rds = new ReportDataSource("SummaryDataset", applicationSummary);
-        rvServiceLog.LocalReport.DataSources.Clear();
-
-        rvServiceLog.LocalReport.DataSources.Add(rds);
-        rvServiceLog.LocalReport.Refresh();
-       // rvServiceLog.DataBind();
 
 
-        //localreport.DataSources.Clear();
-        //localreport.DataSources.Add(rds);
-        //localreport.Refresh();
-        rvServiceLog.Visible = true;
+            //ReportDataSource rds = new ReportDataSource("SummaryDataset", applicationSummary);
+            rvServiceLog.LocalReport.DataSources.Clear();
+
+            rvServiceLog.LocalReport.DataSources.Add(rds);
+            rvServiceLog.LocalReport.Refresh();
+            // rvServiceLog.DataBind();
+
+
+            //localreport.DataSources.Clear();
+            //localreport.DataSources.Add(rds);
+            //localreport.Refresh();
+            rvServiceLog.Visible = true;
+        }
+        else
+        {
+            mpReport.Show();
+        }
 
     }
 }

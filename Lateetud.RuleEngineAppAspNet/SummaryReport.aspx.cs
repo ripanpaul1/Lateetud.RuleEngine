@@ -21,11 +21,19 @@ public partial class SummaryReport : System.Web.UI.Page
 
     private void rvServiceLogDrillthroughEventHandler(object sender, DrillthroughEventArgs e)
     {
+
         LocalReport localReport = (LocalReport)e.Report;
         RuleApplicationSummaryHandler summaryHndlr = new RuleApplicationSummaryHandler();
-        List<RuleApplicationSummary> applicationSummary = summaryHndlr.LoadByRunID(Convert.ToInt32(lblParameter.Text));
+        List<RuleApplicationSummary> applicationSummary = new List<RuleApplicationSummary>();
+        applicationSummary = summaryHndlr.LoadByRunID(Convert.ToInt32(lblParameter.Text));
         localReport.DataSources.Add(new ReportDataSource("SummaryDataSet1",
             applicationSummary));
+
+        if (applicationSummary == null)
+        {
+            mpReport.Show();
+        }
+
     }
 
     private void LoadSummary()
@@ -65,10 +73,10 @@ public partial class SummaryReport : System.Web.UI.Page
         {
             lblParameter.Text = d.Values[0].ToString().Trim();
         }
-        //rvServiceLog.Reset();
-        //LoadSummary();
-        //rvServiceLog.ServerReport.Refresh();
-        //rvServiceLog.DataBind();
+    }
 
+    protected void btnCancelPopup_Click(object sender, EventArgs e)
+    {
+        LoadLogDetails();
     }
 }

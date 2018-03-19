@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APICallHistoryHandler.cs" />
+    <Compile Include="APIRuleApplicationSummaryHandler.cs" />
     <Compile Include="ConfigurationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleApplicationSummaryHandler.cs" />
@@ -48,6 +50,7 @@
     <Compile Include="RuleMastHandler.cs" />
     <Compile Include="ServiceHistoryHandler.cs" />
     <Compile Include="UserMasterHandler.cs" />
+    <Compile Include="VwAPIRuleApplicationSummaryHandler.cs" />
     <Compile Include="VwRuleDescHandler.cs" />
     <Compile Include="VwRuleEngineHandler.cs" />
   </ItemGroup>

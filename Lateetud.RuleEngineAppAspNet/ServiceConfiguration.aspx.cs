@@ -11,22 +11,27 @@ public partial class ServiceConfiguration : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            LoadGrid();
+        }
     }
-
-    protected void gvRule_RowCommand(object sender, GridViewCommandEventArgs e)
+    private void LoadGrid()
     {
-
-
+        ConfigurationHandler ruleConfigHndlr = new ConfigurationHandler();
+        gvRule.DataSource = ruleConfigHndlr.GetConfigurationDetails();
+        gvRule.DataBind();
     }
-
+    
     protected void gvRule_RowEditing(object sender, GridViewEditEventArgs e)
     {
+        LoadGrid();
         gvRule.EditIndex = e.NewEditIndex;
+
         gvRule.DataBind();
     }
 
-   
+
     protected void gvRule_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         Label lblId = (Label)gvRule.Rows[e.RowIndex].FindControl("lblId");
@@ -41,6 +46,7 @@ public partial class ServiceConfiguration : System.Web.UI.Page
         ConfigurationHandler configHandler = new ConfigurationHandler();
 
         configHandler.Update(config);
+        LoadGrid();
         gvRule.EditIndex = -1;
         gvRule.DataBind();
     }
@@ -52,6 +58,7 @@ public partial class ServiceConfiguration : System.Web.UI.Page
 
     protected void gvRule_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
+        LoadGrid();
         gvRule.EditIndex = -1;
         gvRule.DataBind();
     }

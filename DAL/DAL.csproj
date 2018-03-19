@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APICallHistory.cs" />
+    <Compile Include="APICallHistoryDBAccess.cs" />
+    <Compile Include="APIRuleApplicationSummary.cs" />
+    <Compile Include="APIRuleApplicationSummaryDBAccess.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDBAccess.cs" />
     <Compile Include="MyLocationTextExtractionStrategy.cs" />
@@ -60,6 +64,8 @@
     <Compile Include="SqlDBHelper.cs" />
     <Compile Include="UserMaster.cs" />
     <Compile Include="UserMasterDBAccess.cs" />
+    <Compile Include="VwAPIRuleApplicationSummary.cs" />
+    <Compile Include="VwAPIRuleApplicationSummaryDBAccess.cs" />
     <Compile Include="VwRuleDesc.cs" />
     <Compile Include="VwRuleDescDBAccess.cs" />
     <Compile Include="vwRuleEngine.cs" />
