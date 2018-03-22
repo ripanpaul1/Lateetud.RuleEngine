@@ -34,5 +34,8 @@ namespace DAL
         public string AllSynonyms { get; set; }
         public string ExpressionContext { get; set; }
 
+        public string DocType { get; set; }
+        
+
     }
 }

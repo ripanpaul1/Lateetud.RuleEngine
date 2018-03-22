@@ -12,14 +12,18 @@
             text-decoration: underline;
             color: #0066FF;
         }
+
         .auto-style3 {
         }
+
         .auto-style4 {
             text-decoration: underline;
         }
+
         .auto-style5 {
             height: 28px;
         }
+
         .clearfix:after {
             content: ".";
             display: block;
@@ -28,6 +32,7 @@
             line-height: 0;
             height: 0;
         }
+
         .clearfix {
             display: inline-block;
         }
@@ -183,8 +188,8 @@
                                                         <ContentTemplate>
                                                             <asp:CheckBox ID="chkSynonym" runat="server" Text="Check Synonyms" AutoPostBack="true" OnCheckedChanged="chkSynonym_CheckedChanged" />
                                                             <br />
-                                                            <asp:DropDownCheckBoxes ID="ddlSynonym"  runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True">
-                                                                
+                                                            <asp:DropDownCheckBoxes ID="ddlSynonym" runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True">
+
                                                                 <%--<Style SelectBoxWidth="140" DropDownBoxBoxWidth="140" />--%>
                                                                 <Texts SelectBoxCaption="All" SelectAllNode="All" />
                                                             </asp:DropDownCheckBoxes>
@@ -440,4 +445,38 @@
     <cc1:ModalPopupExtender ID="mpCreateRule" runat="server" TargetControlID="btnPopupCreateRUle"
         PopupDragHandleControlID="lblHdrCreateRule" PopupControlID="pnlDetailsCreateRule" BackgroundCssClass="popUpStyle">
     </cc1:ModalPopupExtender>
+    <script type="text/javascript">
+
+        $(function () {
+            $("input[name='ctl00$ContentPlaceHolder1$rbtDocType']").click(function () {
+               
+                if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
+                    $("#ContentPlaceHolder1_fupFile").show();
+                    $("#ContentPlaceHolder1_txtUrl").hide();
+                    //alert('aa');
+                } else {
+                    $("#ContentPlaceHolder1_fupFile").hide();
+                    $("#ContentPlaceHolder1_txtUrl").show();
+                    //alert('bb');
+                }
+            });
+        });
+        function showHide() {
+            if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
+                $("#ContentPlaceHolder1_fupFile").show();
+                $("#ContentPlaceHolder1_txtUrl").hide();
+                //alert('aa');
+            } else {
+                $("#ContentPlaceHolder1_fupFile").hide();
+                $("#ContentPlaceHolder1_txtUrl").show();
+                //alert('bb');
+            }
+            //$("#ContentPlaceHolder1_fupFile").show();
+            //$("#ContentPlaceHolder1_txtUrl").hide();
+        }
+        $(document).ready(function () {
+            showHide();
+            //$('input[name="ctl00$ContentPlaceHolder1$rbtDocType"]:radio:first').click();
+        });
+    </script>
 </asp:Content>
