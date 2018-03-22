@@ -133,6 +133,7 @@ namespace DAL
                     _rule.FieldPosition = Convert.ToString(row["FieldPosition"]);
                     _rule.Synonyms = Convert.ToString(row["Synonyms"]);
                     _rule.AllSynonyms = Convert.ToString(row["AllSynonyms"]);
+                    _rule.DocType = Convert.ToString(row["DocType"]);
                 }
             }
 
@@ -183,7 +184,7 @@ namespace DAL
                         _rule.FieldValue = Convert.ToString(row["FieldValue"]);
                         _rule.Expression1 = Convert.ToString(row["Expression1"]);
                         _rule.Expression2 = Convert.ToString(row["Expression2"]);
-
+                        _rule.DocType = Convert.ToString(row["DocType"]);
                         list.Add(_rule);
                     }
                 }
@@ -240,7 +241,7 @@ namespace DAL
                         _rule.IsCheckSynonyms = Convert.ToBoolean(row["IsCheckSynonyms"]);
                         _rule.FieldPosition = Convert.ToString(row["FieldPosition"]);
                         _rule.Synonyms = Convert.ToString(row["Synonyms"]);
-
+                        _rule.DocType = Convert.ToString(row["DocType"]);
                         list.Add(_rule);
                     }
                 }

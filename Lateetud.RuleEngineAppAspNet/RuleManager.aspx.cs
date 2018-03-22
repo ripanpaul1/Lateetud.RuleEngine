@@ -30,6 +30,7 @@ public partial class RuleManager : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            ScriptManager.RegisterStartupScript(this.Page,GetType(), "popIt", "showHide();", true);
             mvMain.SetActiveView(vwShow);
             lblActionMessage.Text = "Showing Existing Rules";
             BindDLL();
@@ -60,6 +61,7 @@ public partial class RuleManager : System.Web.UI.Page
         ViewState["Mode"] = "ADD";
         mvMain.SetActiveView(vwAdd);
         lblActionMessage.Text = "Add New Rules";
+        ScriptManager.RegisterStartupScript(this.Page, GetType(), "popIt", "showHide();", true);
     }
 
     protected void lnkView_Click(object sender, EventArgs e)
@@ -617,18 +619,17 @@ public partial class RuleManager : System.Web.UI.Page
                 #endregion
                 lblFieldValue.Text = string.Join(", ", searchValues);
 
-                strHighlightedContent = HighlightKeyWords(strCompleteContent, Convert.ToString(lblFieldValue.Text), "yellow", true);// Heighlight matched item
-                string newFileName = "URL_" + DateTime.Now.Ticks + ".pdf";
-                GeneratePDF(newFileName, strHighlightedContent);
-                ViewState["OldFile"] = strPageUrl;//"TempUpload/" + fupFile.PostedFile.FileName;
-                ViewState["NewFile"] = "TempUpload/" + newFileName;
-                ViewState["FileName"] = newFileName;
-
-                //highlightPDFAnnotation(oldFile, newFile, 1, strSearchTexh);
-                hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
+                //strHighlightedContent = HighlightKeyWords(strCompleteContent, Convert.ToString(lblFieldValue.Text), "yellow", true);// Heighlight matched item
+                //string newFileName = "URL_" + DateTime.Now.Ticks + ".pdf";
+                //GeneratePDF(newFileName, strHighlightedContent);
+                ViewState["OldFile"] = strPageUrl;
+                ViewState["NewFile"] = strPageUrl;//"TempUpload/" + newFileName;
+                ViewState["FileName"] = strPageUrl; //newFileName;
+                
+                //hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
+                
                 DataBind();
-                DataBind();
-                mpShow.Show();
+                //mpShow.Show();
                 
             }
             catch(Exception ex)
@@ -1958,6 +1959,7 @@ public partial class RuleManager : System.Web.UI.Page
             objRule.IsIgnoreKeyword = chkIgnoreContext.Checked;
             objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
             objRule.IsCheckSynonyms = chkSynonym.Checked;
+            objRule.DocType =Convert.ToString(rbtDocType.SelectedValue);
             if (strSelectedSynonym == "All")
             {
 
@@ -2003,6 +2005,7 @@ public partial class RuleManager : System.Web.UI.Page
                 objRule.Synonyms = strSelectedSynonym;
                 objRule.AllSynonyms = string.Join(",", arrAllSynonyms);
                 objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
+                objRule.DocType = Convert.ToString(rbtDocType.SelectedValue);
                 RuleDescHandler ruleDescHandler = new RuleDescHandler();
                 ruleDescHandler.Update(objRule);
                 //  gvRule.DataBind();
@@ -2045,6 +2048,7 @@ public partial class RuleManager : System.Web.UI.Page
         ViewState["OldFile"] = Convert.ToString(objRule.OriginalDocumentName);
         rbExprOptions.Items.FindByValue(Convert.ToString(objRule.ExpressionContext)).Selected = true;
         chkSynonym.Checked = Convert.ToBoolean(objRule.IsCheckSynonyms);
+        rbtDocType.SelectedValue = Convert.ToString(objRule.DocType);
         if (objRule.AllSynonyms != null && objRule.Synonyms != null)
         {
             ddlSynonym.DataSource = objRule.AllSynonyms.Split(',');
