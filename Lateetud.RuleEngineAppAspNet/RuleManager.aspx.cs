@@ -2291,4 +2291,9 @@ public partial class RuleManager : System.Web.UI.Page
             ddlSynonym.Items.Clear();
         }
     }
+
+    protected void ddlDictionary_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
 }

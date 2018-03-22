@@ -20,3 +20,10 @@ E:\Git\Lateetud.RuleEngine\DAL\bin\Debug\DAL.pdb
 E:\Git\Lateetud.RuleEngine\DAL\obj\Debug\DAL.dll
 E:\Git\Lateetud.RuleEngine\DAL\obj\Debug\DAL.pdb
 E:\Git\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Work\Repository\Lateetud.RuleEngine\DAL\bin\Debug\DAL.dll
+C:\Work\Repository\Lateetud.RuleEngine\DAL\bin\Debug\DAL.pdb
+C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CopyComplete
+C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.dll
+C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.pdb

@@ -112,7 +112,7 @@
                                 </td>
                                 <td><strong>Choose Dictionary</strong></td>
                                 <td>
-                                    <asp:DropDownList ID="ddlDictionary" runat="server">
+                                    <asp:DropDownList ID="ddlDictionary" runat="server" OnSelectedIndexChanged="ddlDictionary_SelectedIndexChanged">
                                     </asp:DropDownList>
                                 </td>
                             </tr>
