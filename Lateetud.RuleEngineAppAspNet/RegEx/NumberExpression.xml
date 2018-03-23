@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RegEx>
+  <Exp ID="1" Title="Number">
+    <![CDATA[\D+]]>
+  </Exp>
+</RegEx>
