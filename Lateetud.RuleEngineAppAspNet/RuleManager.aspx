@@ -188,11 +188,7 @@
                                                         <ContentTemplate>
                                                             <asp:CheckBox ID="chkSynonym" runat="server" Text="Check Synonyms" AutoPostBack="true" OnCheckedChanged="chkSynonym_CheckedChanged" />
                                                             <br />
-                                                            <asp:DropDownCheckBoxes ID="ddlSynonym" runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True">
-
-                                                                <%--<Style SelectBoxWidth="140" DropDownBoxBoxWidth="140" />--%>
-                                                                <Texts SelectBoxCaption="All" SelectAllNode="All" />
-                                                            </asp:DropDownCheckBoxes>
+                                                            <asp:DropDownCheckBoxes ID="ddlSynonym" runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True"><Texts SelectBoxCaption="All" SelectAllNode="All" /></asp:DropDownCheckBoxes>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
                                                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
@@ -453,11 +449,11 @@
                 if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                     $("#ContentPlaceHolder1_fupFile").show();
                     $("#ContentPlaceHolder1_txtUrl").hide();
-                    //alert('aa');
+                    
                 } else {
                     $("#ContentPlaceHolder1_fupFile").hide();
                     $("#ContentPlaceHolder1_txtUrl").show();
-                    //alert('bb');
+                    
                 }
             });
         });
@@ -465,14 +461,13 @@
             if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                 $("#ContentPlaceHolder1_fupFile").show();
                 $("#ContentPlaceHolder1_txtUrl").hide();
-                //alert('aa');
+                
             } else {
                 $("#ContentPlaceHolder1_fupFile").hide();
                 $("#ContentPlaceHolder1_txtUrl").show();
-                //alert('bb');
+                
             }
-            //$("#ContentPlaceHolder1_fupFile").show();
-            //$("#ContentPlaceHolder1_txtUrl").hide();
+            
         }
         $(document).ready(function () {
             showHide();

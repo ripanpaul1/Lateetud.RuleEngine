@@ -24,13 +24,13 @@ using iTextSharp.text.html.simpleparser;
 public partial class RuleManager : System.Web.UI.Page
 {
     Dictionary<string, int> chartData = new Dictionary<string, int>();
-   
+
     StringBuilder strListofSynonyms;// = new StringBuilder();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            ScriptManager.RegisterStartupScript(this.Page,GetType(), "popIt", "showHide();", true);
+            ScriptManager.RegisterStartupScript(this.Page, GetType(), "popIt", "showHide();", true);
             mvMain.SetActiveView(vwShow);
             lblActionMessage.Text = "Showing Existing Rules";
             BindDLL();
@@ -77,7 +77,7 @@ public partial class RuleManager : System.Web.UI.Page
             #region Show Result From URL
             try
             {
-               
+
 
                 #region Fetch Data from Web
                 var getHtmlWeb = new HtmlWeb();
@@ -282,8 +282,6 @@ public partial class RuleManager : System.Web.UI.Page
                         switch (strExprOption)
                         {
                             case "Date":
-                                //var re = new Regex(@"\b(?:Jan(?:uary)?|Feb(?:ruary)?|...|Dec(?:ember)?) (?:19[7-9]\d|2\d{3})(?=\D|$)");
-                                //var month = re.Match(strCompleteContent).Groups["month"];
                                 var regex = new Regex(@"\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?:19[7-9]\d|2\d{3})(?=\D|$)");
                                 //var regex = new Regex(@"\b(?:Jan(?:uary)?|Feb(?:ruary)?|...|Dec(?:ember)?) (?:19[7-9]\d|2\d{3})(?=\D|$)");
                                 foreach (Match m in regex.Matches(strCompleteContent))
@@ -625,14 +623,14 @@ public partial class RuleManager : System.Web.UI.Page
                 ViewState["OldFile"] = strPageUrl;
                 ViewState["NewFile"] = strPageUrl;//"TempUpload/" + newFileName;
                 ViewState["FileName"] = strPageUrl; //newFileName;
-                
+
                 //hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
-                
+
                 DataBind();
                 //mpShow.Show();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMsg.Text = ex.Message.ToString();
             }
@@ -1959,7 +1957,7 @@ public partial class RuleManager : System.Web.UI.Page
             objRule.IsIgnoreKeyword = chkIgnoreContext.Checked;
             objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
             objRule.IsCheckSynonyms = chkSynonym.Checked;
-            objRule.DocType =Convert.ToString(rbtDocType.SelectedValue);
+            objRule.DocType = Convert.ToString(rbtDocType.SelectedValue);
             if (strSelectedSynonym == "All")
             {
 
