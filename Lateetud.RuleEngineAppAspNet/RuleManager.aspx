@@ -305,6 +305,8 @@
                                             CommandName='<% # Eval("ID") %>' ToolTip='<% # Convert.ToBoolean(Eval("IsActive")) ? "Click Here To Deactivate" : "Click Here To Activate" %>'></asp:ImageButton>
                                         <asp:ImageButton ID="ibtnEdit" runat="server" ImageUrl="~/images/details_icon2.gif"
                                             CommandArgument='<% # Eval("ID") %>' ToolTip="View Details & Edit" OnClick="ibtnEdit_Click" />
+                                        <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl="~/images/details_icon2.gif"
+                                            CommandArgument='<% # Eval("ID") %>' ToolTip="Validate"/>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -441,6 +443,56 @@
     <cc1:ModalPopupExtender ID="mpCreateRule" runat="server" TargetControlID="btnPopupCreateRUle"
         PopupDragHandleControlID="lblHdrCreateRule" PopupControlID="pnlDetailsCreateRule" BackgroundCssClass="popUpStyle">
     </cc1:ModalPopupExtender>
+    <asp:Button Style="display: none" ID="btnValidate" runat="server"></asp:Button>
+    <cc1:ModalPopupExtender ID="mpValidate" runat="server" TargetControlID="btnValidate"
+        PopupControlID="pnlDetailsValidate" PopupDragHandleControlID="PopupHeader" Drag="true" BackgroundCssClass="popUpStyle">
+    </cc1:ModalPopupExtender>
+    <asp:Panel ID="pnlDetailsValidate" runat="server">
+        <table>
+            <tr>
+                <td>
+                    <span>Rule Name:</span>
+                </td>
+                <td>
+                    <asp:Label ID="Label1" runat="server" Text="Rule Name:"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Expressions:</span>
+                </td>
+                <td>
+                    <asp:Label ID="lblExpressions" runat="server" Text="Expressions:"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:RadioButtonList ID="rbtnExpressions" AutoPostBack="true" runat="server" RepeatDirection="Horizontal">
+                                                                <asp:ListItem Selected="True">None</asp:ListItem>
+                                                                <asp:ListItem>Date</asp:ListItem>
+                                                                <asp:ListItem>Number</asp:ListItem>
+                                                                <asp:ListItem>Amount</asp:ListItem>
+                                                                <asp:ListItem>Percent</asp:ListItem>
+                                                                <asp:ListItem>String</asp:ListItem>
+                                                                <asp:ListItem>Custom</asp:ListItem>
+                    </asp:RadioButtonList>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:TextBox ID="txtCustom" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:Button ID="btnSaveValidate" runat="server" Text="Save" />
+                </td>
+                <td>
+                    <asp:Button ID="btnCancelValidate" runat="server" Text="Cancel" />
+                </td>
+            </tr>
+        </table>
+    </asp:Panel>
     <script type="text/javascript">
 
         $(function () {

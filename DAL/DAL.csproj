@@ -47,6 +47,7 @@
     <Compile Include="APICallHistoryDBAccess.cs" />
     <Compile Include="APIRuleApplicationSummary.cs" />
     <Compile Include="APIRuleApplicationSummaryDBAccess.cs" />
+    <Compile Include="ValidationDBAccess.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDBAccess.cs" />
     <Compile Include="MyLocationTextExtractionStrategy.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="SqlDBHelper.cs" />
     <Compile Include="UserMaster.cs" />
     <Compile Include="UserMasterDBAccess.cs" />
+    <Compile Include="Validation.cs" />
     <Compile Include="VwAPIRuleApplicationSummary.cs" />
     <Compile Include="VwAPIRuleApplicationSummaryDBAccess.cs" />
     <Compile Include="VwRuleDesc.cs" />
