@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RegEx>
+  <Exp ID="1" Title="Percent">
+    <![CDATA[^\s*(\d{0,2})(\.?(\d*))?\s*\%?\s*$]]>
+  </Exp>
+  <Exp ID="2" Title="Percent">
+    <![CDATA[(\d+)%]]>
+  </Exp>
+  <Exp ID="3" Title="Percent">
+    <![CDATA[^(\d{0,4}(?:\.\d{0,2})? | [-]\d{0,2}(?:\.\d{0,2})? )[%]{0,1}$]]>
+  </Exp>
+  
+</RegEx>
