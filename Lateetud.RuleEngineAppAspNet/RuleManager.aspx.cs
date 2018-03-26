@@ -1826,6 +1826,8 @@ public partial class RuleManager : System.Web.UI.Page
         mpCreateRule.Show();
     }
 
+    
+
     protected void btnEditRuleSet_Click(object sender, EventArgs e)
     {
         ViewState["RULESETMode"] = "EDITRULESET";
@@ -1985,4 +1987,30 @@ public partial class RuleManager : System.Web.UI.Page
     {
 
     }
-}
+
+    protected void ibtnValidate_Click(object sender, EventArgs e)
+    {
+        int Id = int.Parse(((ImageButton)sender).CommandArgument);
+        ViewState["VALIDATIONID"] = Id;
+        mpValidateRule.Show();
+    }
+
+    protected void btnValidateRule_Click(object sender, EventArgs e)
+    {
+        int validationID = Convert.ToInt32(ViewState["VALIDATIONID"]);
+        Validation objValidate = new Validation();
+
+        objValidate.RuleDescID = validationID;
+        objValidate.IsActive = true;
+        objValidate.EntryDate = DateTime.Now;
+        objValidate.ModifiedDate = DateTime.Now;
+        objValidate.ExpressionContext = rbtnExpressions.SelectedValue.ToString();
+        objValidate.ExpressionText = txtCustom.Text;
+
+        ValidationHandler validateHandler = new ValidationHandler();
+        validateHandler.Validate(objValidate);
+
+        
+    }
+
+  }
