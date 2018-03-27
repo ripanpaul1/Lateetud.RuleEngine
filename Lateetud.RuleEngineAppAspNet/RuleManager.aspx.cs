@@ -1992,25 +1992,47 @@ public partial class RuleManager : System.Web.UI.Page
     {
         int Id = int.Parse(((ImageButton)sender).CommandArgument);
         ViewState["VALIDATIONID"] = Id;
+        RefreshValidationReset();
+        //ValidationHandler validateHandler = new ValidationHandler();
+        //Validation objValidationRowCheck = new Validation();
+        VwValidationHandler vwvalidateHandler = new VwValidationHandler();
+        VwValidation objValidationRowChk = new VwValidation();
+        objValidationRowChk = vwvalidateHandler.ValidateOnRuleID(Id);
+        if (objValidationRowChk != null)
+        {
+            rbtnExpressions.SelectedValue = objValidationRowChk.ExpressionContext;
+            txtCustom.Text = objValidationRowChk.ExpressionText;
+        }
+
         mpValidateRule.Show();
     }
 
-    protected void btnValidateRule_Click(object sender, EventArgs e)
+    protected void RefreshValidationReset()
     {
-        int validationID = Convert.ToInt32(ViewState["VALIDATIONID"]);
-        Validation objValidate = new Validation();
+        rbtnExpressions.SelectedValue = "None";
+        txtCustom.Text = " ";
+    }
 
-        objValidate.RuleDescID = validationID;
-        objValidate.IsActive = true;
-        objValidate.EntryDate = DateTime.Now;
-        objValidate.ModifiedDate = DateTime.Now;
-        objValidate.ExpressionContext = rbtnExpressions.SelectedValue.ToString();
-        objValidate.ExpressionText = txtCustom.Text;
+    protected void btnValidateSave_Click(object sender, EventArgs e)
+    {
 
-        ValidationHandler validateHandler = new ValidationHandler();
-        validateHandler.Validate(objValidate);
-
+            int validationID = Convert.ToInt32(ViewState["VALIDATIONID"]);
         
+            ValidationHandler objvalidateHandler = new ValidationHandler();
+        
+            Validation objValidate = new Validation();
+
+            objValidate.RuleDescID = validationID;
+            objValidate.IsActive = true;
+            objValidate.EntryDate = DateTime.Now;
+            objValidate.ModifiedDate = DateTime.Now;
+            objValidate.ExpressionContext = rbtnExpressions.SelectedValue.ToString();
+            objValidate.ExpressionText = txtCustom.Text;
+
+
+            objvalidateHandler.InsertAndUpdate(objValidate);
+        
+
     }
 
   }

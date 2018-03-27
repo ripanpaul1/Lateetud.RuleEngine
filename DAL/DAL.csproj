@@ -72,6 +72,8 @@
     <Compile Include="VwRuleDescDBAccess.cs" />
     <Compile Include="vwRuleEngine.cs" />
     <Compile Include="vwRuleEngineDBAccess.cs" />
+    <Compile Include="VwValidation.cs" />
+    <Compile Include="VwValidationDBAccess.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

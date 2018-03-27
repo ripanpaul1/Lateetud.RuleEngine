@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class Validation
+    public class VwValidation
     {
         public long ID { get; set; }
         public long RuleDescID { get; set; }
@@ -15,7 +15,8 @@ namespace DAL
         public DateTime ModifiedDate { get; set; }
         public string ExpressionContext { get; set; }
         public string ExpressionText { get; set; }
-
+        public long RuleMastID { get; set; }
+        public string RuleName { get; set; }
     }
 }
 

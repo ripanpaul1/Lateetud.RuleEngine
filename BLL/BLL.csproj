@@ -54,6 +54,7 @@
     <Compile Include="VwAPIRuleApplicationSummaryHandler.cs" />
     <Compile Include="VwRuleDescHandler.cs" />
     <Compile Include="VwRuleEngineHandler.cs" />
+    <Compile Include="VwValidationHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

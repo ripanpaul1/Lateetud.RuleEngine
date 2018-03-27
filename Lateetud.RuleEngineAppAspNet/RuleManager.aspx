@@ -516,7 +516,7 @@
                                             <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
                                                 Width="60px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
-                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateRule_Click"></asp:Button>
+                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
                                             &nbsp;
                                             <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"

@@ -45,3 +45,56 @@ INSERT INTO [dbo].[Validation]
            )      
       
 END 
+GO
+
+
+
+CREATE PROCEDURE [dbo].[proc_Validate_CheckRuleDescID]    
+     @RuleDescID bigint
+        
+AS    
+BEGIN    
+select * from [dbo].[Validation] where @RuleDescID=RuleDescID
+END  
+Go
+
+CREATE PROCEDURE [dbo].[proc_Validate_InsertAndUpdate]
+	@RuleDescID bigint
+	,@IsActive bit
+	,@EntryDate datetime
+	,@ModifiedDate datetime
+    ,@ExpressionContext nvarchar(64)
+    ,@ExpressionText nvarchar(max)
+    
+AS
+BEGIN
+
+IF Exists(Select RuleDescID from Validation where RuleDescID=@RuleDescID)
+Begin
+Update [dbo].[Validation]
+SET [IsActive]=@IsActive,
+	[EntryDate]=@EntryDate,
+	[ModifiedDate]=@ModifiedDate,
+	[ExpressionContext]=@ExpressionContext,
+	[ExpressionText]=@ExpressionText
+	where [RuleDescID]=@RuleDescID
+End
+Else
+Begin
+INSERT INTO [dbo].[Validation]
+           ([RuleDescID]
+           ,[IsActive]
+           ,[EntryDate]
+           ,[ModifiedDate]
+           ,[ExpressionContext]
+           ,[ExpressionText])
+     VALUES
+           (@RuleDescID 
+    ,@IsActive
+    ,@EntryDate
+	,@ModifiedDate 
+    ,@ExpressionContext 
+    ,@ExpressionText)
+   END
+END
+

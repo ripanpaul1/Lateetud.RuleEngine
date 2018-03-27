@@ -9,14 +9,22 @@ namespace BLL
 {
     public class ValidationHandler
     {
-        ValidationDBAceess ruleDetails = null;
+        ValidationDBAceess validation = null;
         public ValidationHandler()
         {
-            ruleDetails = new ValidationDBAceess();
+            validation = new ValidationDBAceess();
         }
-        public bool Validate(Validation objRule)
+        //public bool AddNew(Validation objRule)
+        //{
+        //    return validation.AddNew(objRule);
+        //}
+        public Validation GetRuleDescDetailsByID(int ID)
         {
-            return ruleDetails.AddNew(objRule);
+            return validation.GetValidationOnRuleID(ID);
+        }
+        public bool InsertAndUpdate(Validation objRule)
+        {
+            return validation.InsertAndUpdate(objRule);
         }
     }
 }
