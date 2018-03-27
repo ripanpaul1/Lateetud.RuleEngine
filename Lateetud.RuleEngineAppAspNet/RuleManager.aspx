@@ -307,8 +307,8 @@
                                             CommandName='<% # Eval("ID") %>' ToolTip='<% # Convert.ToBoolean(Eval("IsActive")) ? "Click Here To Deactivate" : "Click Here To Activate" %>'></asp:ImageButton>
                                         <asp:ImageButton ID="ibtnEdit" runat="server" ImageUrl="~/images/details_icon2.gif"
                                             CommandArgument='<% # Eval("ID") %>' ToolTip="View Details & Edit" OnClick="ibtnEdit_Click" />
-                                        <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl="~/images/approved.gif"
-                                            CommandArgument='<% # Eval("ID") %>' ToolTip="Validate" OnClick="ibtnValidate_Click"/>
+                                        <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl='<% # Convert.ToBoolean(Eval("IsValidated")) ? "~/images/approved.gif" : "~/images/pending.gif" %>'
+                                            CommandArgument='<% # Eval("ID") %>'  ToolTip='<% # Convert.ToBoolean(Eval("IsValidated")) ? "Already Validated" : "Click Here To Validate" %>' OnClick="ibtnValidate_Click"/>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
