@@ -5,3 +5,13 @@ SELECT        dbo.Validation.ID, dbo.Validation.RuleDescID, dbo.Validation.Isact
 FROM            dbo.Validation INNER JOIN
                          dbo.RuleDesc ON dbo.Validation.RuleDescID = dbo.RuleDesc.ID
 GO
+
+
+CREATE PROCEDURE [dbo].[proc_Vw_Validate_CheckRuleDescID]    
+     @RuleDescID bigint
+        
+AS    
+BEGIN    
+select * from [dbo].[Vw_Validation] where @RuleDescID=RuleDescID
+END  
+GO
