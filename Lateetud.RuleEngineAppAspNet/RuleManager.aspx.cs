@@ -2001,7 +2001,8 @@ public partial class RuleManager : System.Web.UI.Page
         if (objValidationRowChk != null)
         {
             rbtnExpressions.SelectedValue = objValidationRowChk.ExpressionContext;
-            txtCustom.Text = objValidationRowChk.ExpressionText;
+            txtExpressions.Text = objValidationRowChk.ExpressionText;
+            txtRuleNameValidate.Text = objValidationRowChk.RuleName;
         }
 
         mpValidateRule.Show();
