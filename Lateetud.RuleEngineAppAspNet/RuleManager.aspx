@@ -36,8 +36,8 @@
         .clearfix {
             display: inline-block;
         }
-        .auto-style7 {
-            width: 341px;
+        .auto-style6 {
+            width: 265px;
         }
     </style>
 
@@ -310,8 +310,8 @@
                                             CommandName='<% # Eval("ID") %>' ToolTip='<% # Convert.ToBoolean(Eval("IsActive")) ? "Click Here To Deactivate" : "Click Here To Activate" %>'></asp:ImageButton>
                                         <asp:ImageButton ID="ibtnEdit" runat="server" ImageUrl="~/images/details_icon2.gif"
                                             CommandArgument='<% # Eval("ID") %>' ToolTip="View Details & Edit" OnClick="ibtnEdit_Click" />
-                                        <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl="~/images/details_icon2.gif"
-                                            CommandArgument='<% # Eval("ID") %>' ToolTip="Validate" OnClick="ibtnValidate_Click"/>
+                                        <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl='<% # Convert.ToBoolean(Eval("IsValidated")) ? "~/images/approved.gif" : "~/images/pending.gif" %>'
+                                            CommandArgument='<% # Eval("ID") %>'  ToolTip='<% # Convert.ToBoolean(Eval("IsValidated")) ? "Already Validated" : "Click Here To Validate" %>' OnClick="ibtnValidate_Click"/>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -452,7 +452,7 @@
     <!-- validation popup-->
     <asp:UpdatePanel ID="UpdatePanelValidate" runat="server">
         <ContentTemplate>
-            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="400px" BorderWidth="1px" BorderStyle="Solid"
+            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="500px" BorderWidth="1px" BorderStyle="Solid"
                 BorderColor="gray" BackColor="#F0F0F0">
                 <table style="font-weight: bold; font-size: 12px; color: white; font-family: Verdana; background-color: gray"
                     width="100%">
@@ -469,22 +469,24 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:Panel ID="pnlInnerValidateRule" Width="400px" runat="server" Height="180px">
+                            <asp:Panel ID="pnlInnerValidateRule" Width="300px" runat="server" Height="200px">
 
                                 <table id="tblWriteValidateRule" runat="server" height="100%" width="100%">
                                     <tr>
                                         <td style="width: 100%; vertical-align: top;" colspan="2">
                                             <%--Design--%>
-                                            <table style="width: 100%;">
+                                            <table>
                                                 <tr>
-                                                    <td class="auto-style7">
+                                                    <td>
                                                         <span><b>Rule Name:</b></span>
-                                                    &nbsp;
-                                                        <asp:Label ID="lblRuleName" runat="server" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="lblRuleName" runat="server"></asp:Label>
+                                                       
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="auto-style7">
+                                                    <td>
                                                         <span><b>Expressions:</b></span>
                                                     </td>
                                                     <td>
@@ -492,7 +494,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="auto-style7" colspan="2">
+                                                    <td>
                                                         <asp:RadioButtonList ID="rbtnExpressions" runat="server" RepeatDirection="Horizontal" Font-Bold="true">
                                                             <asp:ListItem Selected="True">None</asp:ListItem>
                                                             <asp:ListItem>Date</asp:ListItem>
@@ -505,20 +507,20 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="auto-style7" colspan="2">
+                                                    <td>
                                                         <asp:TextBox ID="txtCustom" runat="server"></asp:TextBox>
                                                     </td>
                                                 </tr>
                                         </td>
                                     </tr>
                                     <tr>
-                                        
-                                        <td colspan="2" style="text-align: right">
-                                            <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
+                                        <td>
+                                             <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
                                                 Width="100px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
                                                 BorderColor="#8EC2E8" height="30px" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
-                                            &nbsp;
+                                        </td>
+                                        <td>
                                                 <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
                                                 Width="100px" ToolTip="click to cancel" height="30px" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"

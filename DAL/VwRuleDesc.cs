@@ -35,5 +35,7 @@ namespace DAL
         public string Synonyms { get; set; }
         public string ExpressionContext { get; set; }
 
+        public bool IsActiveValidation { get; set; }
+        public bool IsValidated { get; set; }
     }
 }
