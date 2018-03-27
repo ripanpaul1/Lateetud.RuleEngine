@@ -51,6 +51,9 @@ namespace DAL
                         _rule.Synonyms = Convert.ToString(row["Synonyms"]);
                         _rule.ExpressionContext = Convert.ToString(row["ExpressionContext"]);
 
+
+                        _rule.IsActiveValidation = Convert.ToBoolean(row["IsActiveValidation"]);
+                        _rule.IsValidated = Convert.ToBoolean(row["IsValidated"]);
                         list.Add(_rule);
                     }
                 }
