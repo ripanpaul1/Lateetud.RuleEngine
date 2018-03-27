@@ -188,7 +188,9 @@
                                                         <ContentTemplate>
                                                             <asp:CheckBox ID="chkSynonym" runat="server" Text="Check Synonyms" AutoPostBack="true" OnCheckedChanged="chkSynonym_CheckedChanged" />
                                                             <br />
-                                                            <asp:DropDownCheckBoxes ID="ddlSynonym" runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True"><Texts SelectBoxCaption="All" SelectAllNode="All" /></asp:DropDownCheckBoxes>
+                                                            <asp:DropDownCheckBoxes ID="ddlSynonym" runat="server" Width="140" AddJQueryReference="True" UseButtons="false" UseSelectAllNode="True">
+                                                                <Texts SelectBoxCaption="All" SelectAllNode="All" />
+                                                            </asp:DropDownCheckBoxes>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
                                                     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
@@ -306,7 +308,7 @@
                                         <asp:ImageButton ID="ibtnEdit" runat="server" ImageUrl="~/images/details_icon2.gif"
                                             CommandArgument='<% # Eval("ID") %>' ToolTip="View Details & Edit" OnClick="ibtnEdit_Click" />
                                         <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl="~/images/details_icon2.gif"
-                                            CommandArgument='<% # Eval("ID") %>' ToolTip="Validate"/>
+                                            CommandArgument='<% # Eval("ID") %>' ToolTip="Validate" OnClick="ibtnValidate_Click"/>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -443,69 +445,112 @@
     <cc1:ModalPopupExtender ID="mpCreateRule" runat="server" TargetControlID="btnPopupCreateRUle"
         PopupDragHandleControlID="lblHdrCreateRule" PopupControlID="pnlDetailsCreateRule" BackgroundCssClass="popUpStyle">
     </cc1:ModalPopupExtender>
-    <asp:Button Style="display: none" ID="btnValidate" runat="server"></asp:Button>
-    <cc1:ModalPopupExtender ID="mpValidate" runat="server" TargetControlID="btnValidate"
-        PopupControlID="pnlDetailsValidate" PopupDragHandleControlID="PopupHeader" Drag="true" BackgroundCssClass="popUpStyle">
-    </cc1:ModalPopupExtender>
-    <asp:Panel ID="pnlDetailsValidate" runat="server">
-        <table>
-            <tr>
-                <td>
-                    <span>Rule Name:</span>
-                </td>
-                <td>
-                    <asp:Label ID="Label1" runat="server" Text="Rule Name:"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span>Expressions:</span>
-                </td>
-                <td>
-                    <asp:Label ID="lblExpressions" runat="server" Text="Expressions:"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <asp:RadioButtonList ID="rbtnExpressions" AutoPostBack="true" runat="server" RepeatDirection="Horizontal">
-                                                                <asp:ListItem Selected="True">None</asp:ListItem>
-                                                                <asp:ListItem>Date</asp:ListItem>
-                                                                <asp:ListItem>Number</asp:ListItem>
-                                                                <asp:ListItem>Amount</asp:ListItem>
-                                                                <asp:ListItem>Percent</asp:ListItem>
-                                                                <asp:ListItem>String</asp:ListItem>
-                                                                <asp:ListItem>Custom</asp:ListItem>
-                    </asp:RadioButtonList>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <asp:TextBox ID="txtCustom" runat="server"></asp:TextBox>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <asp:Button ID="btnSaveValidate" runat="server" Text="Save" />
-                </td>
-                <td>
-                    <asp:Button ID="btnCancelValidate" runat="server" Text="Cancel" />
-                </td>
-            </tr>
-        </table>
-    </asp:Panel>
+
+    <!-- validation popup-->
+    <asp:UpdatePanel ID="UpdatePanelValidate" runat="server">
+        <ContentTemplate>
+            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="500px" BorderWidth="1px" BorderStyle="Solid"
+                BorderColor="gray" BackColor="#F0F0F0">
+                <table style="font-weight: bold; font-size: 12px; color: white; font-family: Verdana; background-color: gray"
+                    width="100%">
+                    <tr>
+                        <td style="width: 95%" align="left">
+                            <asp:Label ID="lblHdrValidateRule" runat="server" CssClass="moveCursor" Width="100%">&nbsp;</asp:Label>
+                        </td>
+                        <td style="width: 5%" align="right">
+
+                            <asp:ImageButton ID="ibtnCloseValidateRule" runat="server" ToolTip="close" ImageUrl="~/images/close.gif"></asp:ImageButton>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <asp:Panel ID="pnlInnerValidateRule" Width="300px" runat="server" Height="200px">
+
+                                <table id="tblWriteValidateRule" runat="server" height="100%" width="100%">
+                                    <tr>
+                                        <td style="width: 100%; vertical-align: top;" colspan="2">
+                                            <%--Design--%>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <span>Rule Name:</span>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span>Expressions:</span>
+                                                    </td>
+                                                    <td>
+                                                       
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:RadioButtonList ID="rbtnExpressions" runat="server" RepeatDirection="Horizontal">
+                                                            <asp:ListItem Selected="True">None</asp:ListItem>
+                                                            <asp:ListItem>Date</asp:ListItem>
+                                                            <asp:ListItem>Number</asp:ListItem>
+                                                            <asp:ListItem>Amount</asp:ListItem>
+                                                            <asp:ListItem>Percent</asp:ListItem>
+                                                            <asp:ListItem>String</asp:ListItem>
+                                                            <asp:ListItem>Custom</asp:ListItem>
+                                                        </asp:RadioButtonList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:TextBox ID="txtCustom" runat="server"></asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="20px">
+                                        <td style="width: 10%"></td>
+                                        <td style="width: 90%; vertical-align: text-bottom; padding: 10px; text-align: right;">
+                                            <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
+                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
+                                                Width="60px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
+                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
+                                            &nbsp;
+                                            <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
+                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
+                                                Width="60px" ToolTip="click to cancel" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
+                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add"></asp:Button>&nbsp;</td>
+                                    </tr>
+                                </table>
+                            </asp:Panel>
+                        </td>
+                    </tr>
+                </table>
+            </asp:Panel>
+
+            <asp:Button Style="display: none" ID="btnPopupValidateRule" runat="server"></asp:Button>
+            <cc1:ModalPopupExtender ID="mpValidateRule" runat="server" TargetControlID="btnPopupValidateRUle"
+                PopupDragHandleControlID="lblHdrValidateRule" PopupControlID="pnlDetailsValidateRule" BackgroundCssClass="popUpStyle">
+            </cc1:ModalPopupExtender>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+    <!-- End of validation popup-->
     <script type="text/javascript">
 
         $(function () {
             $("input[name='ctl00$ContentPlaceHolder1$rbtDocType']").click(function () {
-               
+
                 if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                     $("#ContentPlaceHolder1_fupFile").show();
                     $("#ContentPlaceHolder1_txtUrl").hide();
-                    
+
                 } else {
                     $("#ContentPlaceHolder1_fupFile").hide();
                     $("#ContentPlaceHolder1_txtUrl").show();
-                    
+
                 }
             });
         });
@@ -513,13 +558,13 @@
             if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                 $("#ContentPlaceHolder1_fupFile").show();
                 $("#ContentPlaceHolder1_txtUrl").hide();
-                
+
             } else {
                 $("#ContentPlaceHolder1_fupFile").hide();
                 $("#ContentPlaceHolder1_txtUrl").show();
-                
+
             }
-            
+
         }
         $(document).ready(function () {
             showHide();
