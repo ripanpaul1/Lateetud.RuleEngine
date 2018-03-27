@@ -36,6 +36,9 @@
         .clearfix {
             display: inline-block;
         }
+        .auto-style6 {
+            width: 265px;
+        }
     </style>
 
     <cc1:ToolkitScriptManager runat="server">
@@ -475,7 +478,16 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <span>Rule Name:</span>
+                                                        <span><b>Rule Name:</b></span>
+                                                    </td>
+                                                    <td>
+                                                        <asp:Label ID="lblRuleName" runat="server"></asp:Label>
+                                                       
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span><b>Expressions:</b></span>
                                                     </td>
                                                     <td>
                                                         
@@ -483,15 +495,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span>Expressions:</span>
-                                                    </td>
-                                                    <td>
-                                                       
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <asp:RadioButtonList ID="rbtnExpressions" runat="server" RepeatDirection="Horizontal">
+                                                        <asp:RadioButtonList ID="rbtnExpressions" runat="server" RepeatDirection="Horizontal" Font-Bold="true">
                                                             <asp:ListItem Selected="True">None</asp:ListItem>
                                                             <asp:ListItem>Date</asp:ListItem>
                                                             <asp:ListItem>Number</asp:ListItem>
@@ -509,8 +513,21 @@
                                                 </tr>
                                         </td>
                                     </tr>
-
-                                    <tr height="20px">
+                                    <tr>
+                                        <td>
+                                             <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
+                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
+                                                Width="100px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
+                                                BorderColor="#8EC2E8" height="30px" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
+                                        </td>
+                                        <td>
+                                                <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
+                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
+                                                Width="100px" ToolTip="click to cancel" height="30px" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
+                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add"></asp:Button>
+                                        </td>
+                                    </tr>
+                                    <%--<tr height="20px">
                                         <td style="width: 10%"></td>
                                         <td style="width: 90%; vertical-align: text-bottom; padding: 10px; text-align: right;">
                                             <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
@@ -522,7 +539,7 @@
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
                                                 Width="60px" ToolTip="click to cancel" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
                                                 BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add"></asp:Button>&nbsp;</td>
-                                    </tr>
+                                    </tr>--%>
                                 </table>
                             </asp:Panel>
                         </td>
