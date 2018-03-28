@@ -450,9 +450,10 @@
     </cc1:ModalPopupExtender>
 
     <!-- validation popup-->
-    <asp:UpdatePanel ID="UpdatePanelValidate" runat="server">
+    <asp:UpdatePanel ID="UpdatePanelValidate" runat="server" >
+
         <ContentTemplate>
-            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="400px" BorderWidth="1px" BorderStyle="Solid"
+            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="500px" BorderWidth="1px" BorderStyle="Solid"
                 BorderColor="gray" BackColor="#F0F0F0">
                 <table style="font-weight: bold; font-size: 12px; color: white; font-family: Verdana; background-color: gray"
                     width="100%">
@@ -469,7 +470,7 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:Panel ID="pnlInnerValidateRule" Width="400px" runat="server" Height="180px">
+                            <asp:Panel ID="pnlInnerValidateRule" Width="300px" runat="server" Height="200px">
 
                                 <table id="tblWriteValidateRule" runat="server" height="100%" width="100%">
                                     <tr>
@@ -477,9 +478,10 @@
                                             <%--Design--%>
                                             <table>
                                                 <tr>
-                                                    <td colspan="2">
+                                                    <td>
                                                         <span><b>Rule Name:</b></span>
-                                                    
+                                                    </td>
+                                                    <td>
                                                         <asp:Label ID="lblRuleName" runat="server"></asp:Label>
                                                        
                                                     </td>
@@ -507,18 +509,19 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <asp:TextBox ID="txtCustom" runat="server" Width="350"></asp:TextBox>
+                                                        <asp:TextBox ID="txtCustom" runat="server"></asp:TextBox>
                                                     </td>
                                                 </tr>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" style="text-align: right">
+                                        <td>
                                              <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
                                                 Width="100px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
                                                 BorderColor="#8EC2E8" height="30px" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
-                                        &nbsp;
+                                        </td>
+                                        <td>
                                                 <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
                                                 Width="100px" ToolTip="click to cancel" height="30px" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
@@ -547,7 +550,7 @@
 
             <asp:Button Style="display: none" ID="btnPopupValidateRule" runat="server"></asp:Button>
             <cc1:ModalPopupExtender ID="mpValidateRule" runat="server" TargetControlID="btnPopupValidateRUle"
-                PopupDragHandleControlID="lblHdrValidateRule" PopupControlID="pnlDetailsValidateRule" BackgroundCssClass="popUpStyle">
+                PopupDragHandleControlID="lblHdrValidateRule" PopupControlID="pnlDetailsValidateRule" BackgroundCssClass="popUpStyle" >
             </cc1:ModalPopupExtender>
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -569,20 +572,6 @@
                 }
             });
         });
-        $(function () {
-            $("input[name='ctl00$ContentPlaceHolder1$rbtnExpressions']").click(function () {
-
-                if ($("#ContentPlaceHolder1_rbtnExpressions_6").is(":checked")) {
-                    $("#ContentPlaceHolder1_txtCustom").show();
-                    
-
-                } else {
-                    $("#ContentPlaceHolder1_txtCustom").hide();
-                    
-
-                }
-            });
-        });
         function showHide() {
             if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                 $("#ContentPlaceHolder1_fupFile").show();
@@ -595,19 +584,8 @@
             }
 
         }
-        function showHideValidation() {
-            if ($("#ContentPlaceHolder1_rbtnExpressions_6").is(":checked")) {
-                $("#ContentPlaceHolder1_txtCustom").show();
-
-            } else {
-                $("#ContentPlaceHolder1_txtCustom").hide();
-               
-            }
-
-        }
         $(document).ready(function () {
             showHide();
-            showHideValidation();
             //$('input[name="ctl00$ContentPlaceHolder1$rbtDocType"]:radio:first').click();
         });
     </script>

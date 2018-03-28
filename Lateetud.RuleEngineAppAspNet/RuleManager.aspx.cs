@@ -39,6 +39,7 @@ public partial class RuleManager : System.Web.UI.Page
             ddlSynonym.Style.DropDownBoxBoxWidth = 140;// Added dynamically to solve design rendering issue
         }
     }
+
     private void BindDLL()
     {
         RuleMastHandler ruleMastHndlr = new RuleMastHandler();
@@ -2012,6 +2013,7 @@ public partial class RuleManager : System.Web.UI.Page
     {
         rbtnExpressions.SelectedValue = "None";
         txtCustom.Text = " ";
+        lblRuleName.Text = " ";
     }
 
     protected void btnValidateSave_Click(object sender, EventArgs e)
