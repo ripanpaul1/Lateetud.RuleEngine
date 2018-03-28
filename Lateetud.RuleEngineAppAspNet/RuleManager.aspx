@@ -36,8 +36,8 @@
         .clearfix {
             display: inline-block;
         }
-        .auto-style6 {
-            width: 265px;
+        .auto-style7 {
+            height: 96px;
         }
     </style>
 
@@ -255,7 +255,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="auto-style3" colspan="4">
+                                <td class="auto-style7" colspan="4">
                                     <asp:Chart ID="cTestChart" runat="server" Height="200px" Width="1300px">
                                         <Series>
                                             <asp:Series Name="Testing" IsValueShownAsLabel="true">

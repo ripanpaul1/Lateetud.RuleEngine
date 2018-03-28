@@ -977,7 +977,8 @@ public partial class RuleManager : System.Web.UI.Page
                 #endregion
                 lblFieldValue.Text = string.Join(", ", searchValues);
 
-                highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
+                //highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
+                HighlightPDFAnnotationMultipleLine(oldFile, newFile, 1, searchValues);
                 ViewState["OldFile"] = "TempUpload/" + fupFile.PostedFile.FileName;
                 ViewState["NewFile"] = "TempUpload/" + newFileName;
                 ViewState["FileName"] = fupFile.PostedFile.FileName;
@@ -2006,6 +2007,7 @@ public partial class RuleManager : System.Web.UI.Page
             txtCustom.Text = objValidationRowChk.ExpressionText;
         }
 
+
         mpValidateRule.Show();
     }
 
@@ -2037,5 +2039,62 @@ public partial class RuleManager : System.Web.UI.Page
         
 
     }
+    private void HighlightPDFAnnotationMultipleLine(string outputFile, string highLightFile, int pageno, string[] splitText)
+    {
 
-  }
+        PdfReader reader = new PdfReader(outputFile);
+        iTextSharp.text.pdf.PdfContentByte canvas;
+        using (FileStream fs = new FileStream(highLightFile, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            using (PdfStamper stamper = new PdfStamper(reader, fs))
+            {
+
+                myLocationTextExtractionStrategy strategy = new myLocationTextExtractionStrategy();
+                strategy.UndercontentHorizontalScaling = 100;
+
+
+                string currentText = PdfTextExtractor.GetTextFromPage(reader, pageno, strategy);
+                for (int i = 0; i < splitText.Length; i++)
+                {
+                    List<iTextSharp.text.Rectangle> MatchesFound = strategy.GetTextLocations(splitText[i].Trim(), StringComparison.CurrentCultureIgnoreCase);
+
+                    #region Data Addition for Chart
+                    if ((chartData.Count > 0) && (!chartData.ContainsKey(splitText[i].ToString())))
+                    {
+                        chartData.Add(splitText[i].ToString(), MatchesFound.Count);
+                    }
+                    else
+                    {
+                        if (chartData.Count == 0)
+                        {
+                            chartData.Add(splitText[i].ToString(), MatchesFound.Count);
+                        }
+                    }
+                    #endregion
+                    foreach (iTextSharp.text.Rectangle rect in MatchesFound)
+                    {
+                        float[] quad = { rect.Left - 3.0f, rect.Bottom, rect.Right, rect.Bottom, rect.Left - 3.0f, rect.Top + 1.0f, rect.Right, rect.Top + 1.0f };
+                        //Create hightlight
+                        PdfAnnotation highlight = PdfAnnotation.CreateMarkup(stamper.Writer, rect, null, PdfAnnotation.MARKUP_HIGHLIGHT, quad);
+                        //Set the color
+                        highlight.Color = BaseColor.YELLOW;
+
+                        PdfAppearance appearance = PdfAppearance.CreateAppearance(stamper.Writer, rect.Width, rect.Height);
+                        PdfGState state = new PdfGState();
+                        state.BlendMode = new PdfName("Multiply");
+                        appearance.SetGState(state);
+                        appearance.Rectangle(0, 0, rect.Width, rect.Height);
+                        appearance.SetColorFill(BaseColor.YELLOW);
+                        appearance.Fill();
+
+                        highlight.SetAppearance(PdfAnnotation.APPEARANCE_NORMAL, appearance);
+
+                        //Add the annotation
+                        stamper.AddAnnotation(highlight, pageno);
+                    }
+                }
+            }
+        }
+        reader.Close();
+    }
+}
