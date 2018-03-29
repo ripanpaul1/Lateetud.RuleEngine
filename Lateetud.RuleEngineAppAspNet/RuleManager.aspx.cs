@@ -1646,6 +1646,7 @@ public partial class RuleManager : System.Web.UI.Page
             objRule.FieldPosition = Convert.ToString(rbtPosition.SelectedValue);
             objRule.IsCheckSynonyms = chkSynonym.Checked;
             objRule.DocType = Convert.ToString(rbtDocType.SelectedValue);
+            objRule.ParentRuleID = Convert.ToInt32(ddlRule.SelectedValue);
             if (strSelectedSynonym == "All")
             {
 
@@ -1692,6 +1693,7 @@ public partial class RuleManager : System.Web.UI.Page
                 objRule.AllSynonyms = string.Join(",", arrAllSynonyms);
                 objRule.ExpressionContext = rbExprOptions.SelectedValue.ToString();
                 objRule.DocType = Convert.ToString(rbtDocType.SelectedValue);
+                objRule.ParentRuleID = Convert.ToInt32(ddlRule.SelectedValue);
                 RuleDescHandler ruleDescHandler = new RuleDescHandler();
                 ruleDescHandler.Update(objRule);
                 //  gvRule.DataBind();
@@ -2031,11 +2033,19 @@ public partial class RuleManager : System.Web.UI.Page
             objValidate.ModifiedDate = DateTime.Now;
             objValidate.ExpressionContext = rbtnExpressions.SelectedValue.ToString();
             objValidate.ExpressionText = txtCustom.Text;
-
-
             objvalidateHandler.InsertAndUpdate(objValidate);
         
-
     }
-
-  }
+    
+    protected void ddlRuleSet_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        RuleDescHandler ruleDescHndlr = new RuleDescHandler();
+        ddlRule.DataSource = ruleDescHndlr.GetRuleDetailsByRuleMastID(Convert.ToInt32(ddlRuleSet.SelectedValue));
+        ddlRule.DataTextField = "RuleName";
+        ddlRule.DataValueField = "ID";
+        ddlRule.DataBind();
+        ddlRule.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Rules--", "0"));
+        ScriptManager.RegisterStartupScript(this.Page, GetType(), "popIt", "showHide();", true);
+        upnlRule.Update();
+    }
+}

@@ -36,9 +36,6 @@
         .clearfix {
             display: inline-block;
         }
-        .auto-style6 {
-            width: 265px;
-        }
     </style>
 
     <cc1:ToolkitScriptManager runat="server">
@@ -65,13 +62,17 @@
                             <tr>
                                 <td class="auto-style3" width="25%"><strong>Rule Set</strong></td>
                                 <td colspan="3" style="width: 50%">
-                                    <%--<asp:TextBox ID="txtRuleset" runat="server"></asp:TextBox>--%>&nbsp;
-                                            <asp:DropDownList ID="ddlRuleSet" runat="server"></asp:DropDownList>
-                                    <asp:LinkButton ID="btnCreateRuleSet" runat="server" OnClick="btnCreateRuleSet_Click">Create</asp:LinkButton>
-                                    &nbsp;<asp:LinkButton ID="btnEditRuleSet" runat="server" OnClick="btnEditRuleSet_Click">Edit</asp:LinkButton>
-                                    &nbsp;
+                                    <%--<asp:TextBox ID="txtRuleset" runat="server"></asp:TextBox>--%>
+                                    <asp:UpdatePanel ID="upnlRuleSet" runat="server" UpdateMode="Always">
+                                        <ContentTemplate>
+                                            &nbsp;<asp:DropDownList ID="ddlRuleSet" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlRuleSet_SelectedIndexChanged">
+                                            </asp:DropDownList>
+                                            <asp:LinkButton ID="btnCreateRuleSet" runat="server" OnClick="btnCreateRuleSet_Click">Create</asp:LinkButton>
+                                            &nbsp;<asp:LinkButton ID="btnEditRuleSet" runat="server" OnClick="btnEditRuleSet_Click">Edit</asp:LinkButton>
+                                            &nbsp;
                                             <asp:LinkButton ID="btnDeleteRuleSet" runat="server">Delete</asp:LinkButton>
-
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                 </td>
                             </tr>
 
@@ -93,16 +94,23 @@
                                 <td class="auto-style4" colspan="4" style="background-color: #FFFFCC"><strong>Define Rule</strong></td>
                             </tr>
                             <tr>
-                                <td class="auto-style5">
+                                <td colspan="2" class="auto-style5">
                                     <asp:RadioButtonList ID="rbtDocType" runat="server" RepeatDirection="Horizontal" Font-Bold="True">
                                         <asp:ListItem Selected="True" Value="DOC">Upload Document</asp:ListItem>
                                         <asp:ListItem Value="URL">Provide URL</asp:ListItem>
+                                        <asp:ListItem Value="RULE">Apply on Previous Rule</asp:ListItem>
                                     </asp:RadioButtonList>
                                 </td>
                                 <td class="auto-style5">
+                                    <asp:UpdatePanel ID="upnlRule" runat="server" UpdateMode="Conditional">
+                                        <ContentTemplate>
                                     <asp:FileUpload ID="fupFile" runat="server" />&nbsp;<asp:TextBox ID="txtUrl" runat="server"></asp:TextBox>
+                                    
+                                            &nbsp;<asp:DropDownList ID="ddlRule" runat="server"></asp:DropDownList>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                 </td>
-                                <td colspan="2" class="auto-style5">
+                                <td class="auto-style5">
                                     <asp:ImageButton ID="btnShow" runat="server" ImageUrl="~/images/view2.png" Width="30px" OnClick="btnShow_Click" />
 
                                 </td>
@@ -141,14 +149,14 @@
                                                     <asp:DropDownList ID="ddlOperator" runat="server">
                                                         <asp:ListItem>Any</asp:ListItem>
                                                         <asp:ListItem>Any of</asp:ListItem>
-                                                        <asp:ListItem>Anything but</asp:ListItem>
-                                                        <%--<asp:ListItem>Anything</asp:ListItem>--%>
+                                                        <%-- <asp:ListItem>Anything but</asp:ListItem>
+                                                        <asp:ListItem>Anything</asp:ListItem>--%>
                                                         <asp:ListItem>End of line</asp:ListItem>
                                                         <%--<asp:ListItem>Find</asp:ListItem>
                                                                 <asp:ListItem>Line break</asp:ListItem>
                                                                 <asp:ListItem>Maybe</asp:ListItem>--%>
-                                                        <asp:ListItem>Range</asp:ListItem>
-                                                        <%-- <asp:ListItem>Something</asp:ListItem>
+                                                        <%--  <asp:ListItem>Range</asp:ListItem>
+                                                        <asp:ListItem>Something</asp:ListItem>
                                                                 <asp:ListItem>Something but</asp:ListItem>--%>
                                                         <asp:ListItem>Tab</asp:ListItem>
                                                         <asp:ListItem Value="RegEx">Regular Expression</asp:ListItem>
@@ -311,7 +319,7 @@
                                         <asp:ImageButton ID="ibtnEdit" runat="server" ImageUrl="~/images/details_icon2.gif"
                                             CommandArgument='<% # Eval("ID") %>' ToolTip="View Details & Edit" OnClick="ibtnEdit_Click" />
                                         <asp:ImageButton ID="ibtnValidate" runat="server" ImageUrl='<% # Convert.ToBoolean(Eval("IsValidated")) ? "~/images/approved.gif" : "~/images/pending.gif" %>'
-                                            CommandArgument='<% # Eval("ID") %>'  ToolTip='<% # Convert.ToBoolean(Eval("IsValidated")) ? "Already Validated" : "Click Here To Validate" %>' OnClick="ibtnValidate_Click"/>
+                                            CommandArgument='<% # Eval("ID") %>' ToolTip='<% # Convert.ToBoolean(Eval("IsValidated")) ? "Already Validated" : "Click Here To Validate" %>' OnClick="ibtnValidate_Click" />
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -450,10 +458,10 @@
     </cc1:ModalPopupExtender>
 
     <!-- validation popup-->
-    <asp:UpdatePanel ID="UpdatePanelValidate" runat="server" >
+    <asp:UpdatePanel ID="UpdatePanelValidate" runat="server">
 
         <ContentTemplate>
-            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="500px" BorderWidth="1px" BorderStyle="Solid"
+            <asp:Panel ID="pnlDetailsValidateRule" runat="server" Width="400px" BorderWidth="1px" BorderStyle="Solid"
                 BorderColor="gray" BackColor="#F0F0F0">
                 <table style="font-weight: bold; font-size: 12px; color: white; font-family: Verdana; background-color: gray"
                     width="100%">
@@ -470,7 +478,7 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:Panel ID="pnlInnerValidateRule" Width="300px" runat="server" Height="200px">
+                            <asp:Panel ID="pnlInnerValidateRule" Width="400px" runat="server" Height="180px">
 
                                 <table id="tblWriteValidateRule" runat="server" height="100%" width="100%">
                                     <tr>
@@ -478,24 +486,21 @@
                                             <%--Design--%>
                                             <table>
                                                 <tr>
-                                                    <td>
+                                                    <td colspan="2">
                                                         <span><b>Rule Name:</b></span>
-                                                    </td>
-                                                    <td>
+                                                        &nbsp;
                                                         <asp:Label ID="lblRuleName" runat="server"></asp:Label>
-                                                       
+
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <span><b>Expressions:</b></span>
                                                     </td>
-                                                    <td>
-                                                        
-                                                    </td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td colspan="2">
                                                         <asp:RadioButtonList ID="rbtnExpressions" runat="server" RepeatDirection="Horizontal" Font-Bold="true">
                                                             <asp:ListItem Selected="True">None</asp:ListItem>
                                                             <asp:ListItem>Date</asp:ListItem>
@@ -508,39 +513,28 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
-                                                        <asp:TextBox ID="txtCustom" runat="server"></asp:TextBox>
+                                                    <td colspan="2">
+                                                        <asp:TextBox ID="txtCustom" runat="server" Width="350"></asp:TextBox>
                                                     </td>
                                                 </tr>
+                                            </table>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                             <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
-                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
-                                                Width="100px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
-                                                BorderColor="#8EC2E8" height="30px" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
-                                        </td>
-                                        <td>
-                                                <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
-                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
-                                                Width="100px" ToolTip="click to cancel" height="30px" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
-                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add"></asp:Button>
-                                        </td>
-                                    </tr>
-                                    <%--<tr height="20px">
-                                        <td style="width: 10%"></td>
-                                        <td style="width: 90%; vertical-align: text-bottom; padding: 10px; text-align: right;">
+                                        <td colspan="2" style="text-align: right">
                                             <asp:Button ID="btnValidateRule" runat="server" ForeColor="White"
                                                 Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
-                                                Width="60px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
-                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
+                                                Width="100px" ToolTip="click to save" Text="Save" BorderWidth="0px" BorderStyle="Solid"
+                                                BorderColor="#8EC2E8" Height="30px" BackColor="Gray" ValidationGroup="Add" OnClick="btnValidateSave_Click"></asp:Button>
                                             &nbsp;
-                                            <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
-                                                Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
-                                                Width="60px" ToolTip="click to cancel" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
-                                                BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add"></asp:Button>&nbsp;</td>
-                                    </tr>--%>
+                                                <asp:Button ID="btnCancelValidateRule" runat="server" ForeColor="White"
+                                                    Font-Size="12px" Font-Names="Arial" Font-Bold="True" CausesValidation="true"
+                                                    Width="100px" ToolTip="click to cancel" Height="30px" Text="Cancel" BorderWidth="0px" BorderStyle="Solid"
+                                                    BorderColor="#8EC2E8" BackColor="Gray" ValidationGroup="Add"></asp:Button>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+
                                 </table>
                             </asp:Panel>
                         </td>
@@ -550,7 +544,7 @@
 
             <asp:Button Style="display: none" ID="btnPopupValidateRule" runat="server"></asp:Button>
             <cc1:ModalPopupExtender ID="mpValidateRule" runat="server" TargetControlID="btnPopupValidateRUle"
-                PopupDragHandleControlID="lblHdrValidateRule" PopupControlID="pnlDetailsValidateRule" BackgroundCssClass="popUpStyle" >
+                PopupDragHandleControlID="lblHdrValidateRule" PopupControlID="pnlDetailsValidateRule" BackgroundCssClass="popUpStyle">
             </cc1:ModalPopupExtender>
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -564,11 +558,29 @@
                 if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                     $("#ContentPlaceHolder1_fupFile").show();
                     $("#ContentPlaceHolder1_txtUrl").hide();
+                    $("#ContentPlaceHolder1_ddlRule").hide();
 
                 } else {
-                    $("#ContentPlaceHolder1_fupFile").hide();
-                    $("#ContentPlaceHolder1_txtUrl").show();
+                    if ($("#ContentPlaceHolder1_rbtDocType_1").is(":checked")) {
+                        $("#ContentPlaceHolder1_fupFile").hide();
+                        $("#ContentPlaceHolder1_txtUrl").show();
+                        $("#ContentPlaceHolder1_ddlRule").hide();
+                    }
+                    else {
+                        $("#ContentPlaceHolder1_fupFile").hide();
+                        $("#ContentPlaceHolder1_txtUrl").hide();
+                        $("#ContentPlaceHolder1_ddlRule").show();
+                    }
+                }
+            });
+        });
+        $(function () {
+            $("input[name='ctl00$ContentPlaceHolder1$rbtnExpressions']").click(function () {
 
+                if ($("#ContentPlaceHolder1_rbtnExpressions_6").is(":checked")) {
+                    $("#ContentPlaceHolder1_txtCustom").show();
+                } else {
+                    $("#ContentPlaceHolder1_txtCustom").hide();
                 }
             });
         });
@@ -576,16 +588,33 @@
             if ($("#ContentPlaceHolder1_rbtDocType_0").is(":checked")) {
                 $("#ContentPlaceHolder1_fupFile").show();
                 $("#ContentPlaceHolder1_txtUrl").hide();
+                $("#ContentPlaceHolder1_ddlRule").hide();
 
             } else {
-                $("#ContentPlaceHolder1_fupFile").hide();
-                $("#ContentPlaceHolder1_txtUrl").show();
+                if ($("#ContentPlaceHolder1_rbtDocType_1").is(":checked")) {
+                    $("#ContentPlaceHolder1_fupFile").hide();
+                    $("#ContentPlaceHolder1_txtUrl").show();
+                    $("#ContentPlaceHolder1_ddlRule").hide();
+                }
+                else {
 
+                    $("#ContentPlaceHolder1_fupFile").hide();
+                    $("#ContentPlaceHolder1_txtUrl").hide();
+                    $("#ContentPlaceHolder1_ddlRule").show();
+                }
             }
 
         }
+        function ShowHideValidation() {
+            if ($("#ContentPlaceHolder1_rbtnExpressions_6").is(":checked")) {
+                $("#ContentPlaceHolder1_txtCustom").show();
+            } else {
+                $("#ContentPlaceHolder1_txtCustom").hide();
+            }
+        }
         $(document).ready(function () {
             showHide();
+            ShowHideValidation();
             //$('input[name="ctl00$ContentPlaceHolder1$rbtDocType"]:radio:first').click();
         });
     </script>
