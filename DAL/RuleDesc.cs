@@ -35,7 +35,7 @@ namespace DAL
         public string ExpressionContext { get; set; }
 
         public string DocType { get; set; }
+        public long ParentRuleID { get; set; }
         
-
     }
 }

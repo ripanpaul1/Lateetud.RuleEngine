@@ -39,6 +39,8 @@ namespace DAL
             new SqlParameter("@Synonyms",_rule.Synonyms),
             new SqlParameter("@AllSynonyms",_rule.AllSynonyms),
             new SqlParameter("@ExpressionContext",_rule.ExpressionContext),
+             new SqlParameter("@DocType",_rule.DocType),
+            new SqlParameter("@ParentRuleID",_rule.ParentRuleID),
             };
             return SqlDBHelper.ExecuteNonQuery("proc_RuleDesc_AddNew", CommandType.StoredProcedure, parameters);
         }
@@ -70,6 +72,8 @@ namespace DAL
             new SqlParameter("@Synonyms",_rule.Synonyms),
             new SqlParameter("@AllSynonyms",_rule.AllSynonyms),
             new SqlParameter("@ExpressionContext",_rule.ExpressionContext),
+            new SqlParameter("@DocType",_rule.DocType),
+            new SqlParameter("@ParentRuleID",_rule.ParentRuleID),
             };
 
             return SqlDBHelper.ExecuteNonQuery("proc_RuleDesc_Update", CommandType.StoredProcedure, parameters);
