@@ -123,7 +123,7 @@
                                     <asp:DropDownList ID="ddlSplit" runat="server">
                                         <asp:ListItem>Lines </asp:ListItem>
                                         <asp:ListItem>Words </asp:ListItem>
-                                        <asp:ListItem>Sections</asp:ListItem>
+                                        <%--<asp:ListItem>Sections</asp:ListItem>--%>
                                     </asp:DropDownList>
                                 </td>
                                 <td><strong>Choose Dictionary</strong></td>

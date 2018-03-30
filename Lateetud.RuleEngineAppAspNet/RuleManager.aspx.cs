@@ -53,7 +53,11 @@ public partial class RuleManager : System.Web.UI.Page
         ddlSplit.SelectedValue = "Lines";
         //ddlSplit.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Lines", "0"));
         ddlDictionary.Items.Insert(0, new System.Web.UI.WebControls.ListItem("General Insurane", "0"));
-        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Lines", "0"));
+        #region Insert Neibourhood Finding
+        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Charecters", "0"));
+        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Words", "1"));
+        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Lines", "2"));
+        #endregion
         //ddlOperator.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Any", "0"));
         ddlOperator.SelectedValue = "Any";
     }
@@ -537,479 +541,18 @@ public partial class RuleManager : System.Web.UI.Page
         }
         else
         {
-            #region Save File to Temp Folder
-
-            if (fupFile.HasFile)
+            if (rbtDocType.SelectedValue == "DOC")
             {
-                #region Save File
-                string oldFile = Server.MapPath("~/TempUpload/" + Path.GetFileName(fupFile.PostedFile.FileName));
+                #region Save File to Temp Folder
 
-                fupFile.SaveAs(oldFile);
-
-                string newFileName = Path.GetFileNameWithoutExtension(fupFile.PostedFile.FileName) + "_" + DateTime.Now.Ticks + ".pdf";
-                string newFile = Server.MapPath("~/TempUpload/" + newFileName);
-                #endregion
-
-                #region veriable declaration
-                string strCompleteContent = ExtractTextFromPdf(oldFile);
-                string searchText = Convert.ToString(txtContext.Text);
-                int strNeighbourhood = Convert.ToInt32(txtNeighbourhood.Text);
-                string strExprOption = Convert.ToString(rbExprOptions.SelectedItem.Text);
-                string strOperator = Convert.ToString(ddlOperator.SelectedItem.Value);
-                string strPosition = Convert.ToString(rbtPosition.SelectedItem.Value);
-                string strSynonym = string.IsNullOrEmpty(String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
-                        .Where(li => li.Selected)
-                        .ToList())) ? "All" : (ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
-                        .Where(li => li.Selected)
-                        .ToList().Count == ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>().ToList().Count) ? "All" :
-                         String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
-                        .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
-                        .ToList());
-                int curTxtLength = 0;
-                int lastValueCurTxt = 0;
-                string strCurrText = string.Empty;
-                int currPos = 0;
-
-                string[] searchValues = new string[0];
-                string strExpr1 = Convert.ToString(txtExpr1st.Text);
-                string strExpr2 = Convert.ToString(txtExpr2nd.Text);
-                string strExprText = string.Empty;
-
-                #endregion
-                if ((!chkIgnoreContext.Checked) || (string.IsNullOrEmpty(searchText)))
-                    if ((strOperator != "RegEx"))
-                    {
-                        searchValues = searchText.Split(',');
-                    }
-                #region Synonym Operation
-                if (chkSynonym.Checked == true)              //Modified by Ananya
-                {
-                    foreach (string m in strSynonym.Split(','))
-                    {
-                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m }).ToArray();
-
-                    }
-                }
-                #endregion
-                #region Operator Operation
-                switch (strOperator)
-                {
-                    case "Range":
-                        #region RangeOperation
-                        switch (strExprOption)
-                        {
-                            case "Date":
-                                Regex regex;
-                                string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
-                                XmlDocument doc = new XmlDocument();
-                                doc.Load(strXml);
-
-                                XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
-                                foreach (XmlNode innernode in nodeList)
-                                {
-
-                                    regex = new Regex(@innernode.InnerText);
-
-                                    foreach (Match m in regex.Matches(strCompleteContent))
-                                    {
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                                    }
-                                }
-                                
-                                break;
-                            case "Number":
-                                string[] numbers = Regex.Split(strCompleteContent, @"\D+");
-                                foreach (string value in numbers)
-                                {
-                                    if (!string.IsNullOrEmpty(value))
-                                    {
-                                        int i = int.Parse(value);
-                                        if (Enumerable.Range(Convert.ToInt32(strExpr1), Convert.ToInt32(strExpr2)).Contains(i))
-                                        {
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
-                                        }
-
-                                    }
-                                }
-                                break;
-                            case "Amount":
-                                Regex regexAmount;
-                                string strXmlAmount = Server.MapPath("~/RegEx/AmountExpression.xml");
-                                XmlDocument docAmount = new XmlDocument();
-                                docAmount.Load(strXmlAmount);
-
-                                XmlNodeList nodeListAmount = docAmount.DocumentElement.SelectNodes(@"/RegEx/Exp");
-                                foreach (XmlNode innernode in nodeListAmount)
-                                {
-                                    regexAmount = new Regex(@innernode.InnerText);
-
-                                    foreach (Match m in regexAmount.Matches(strCompleteContent))
-                                    {
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                                    }
-                                }
-                                break;
-
-                            case "Percent":
-                                Regex regexPercent;
-                                string strXmlPercent = Server.MapPath("~/RegEx/PercentExpression.xml");
-                                XmlDocument docPercent = new XmlDocument();
-                                docPercent.Load(strXmlPercent);
-
-                                XmlNodeList nodeListPercent = docPercent.DocumentElement.SelectNodes(@"/RegEx/Exp");
-                                foreach (XmlNode innernode in nodeListPercent)
-                                {
-
-                                    regexPercent = new Regex(@innernode.InnerText);
-
-                                    foreach (Match m in regexPercent.Matches(strCompleteContent))
-                                    {
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                        #endregion
-                        break;
-                    case "Any":
-                        #region AnyOperation
-                        switch (strExprOption)
-                        {
-                            case "Date":
-                                Regex regex;
-                                string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
-                                XmlDocument doc = new XmlDocument();
-                                doc.Load(strXml);
-
-                                XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
-                                foreach (XmlNode innernode in nodeList)
-                                {
-
-                                    regex = new Regex(@innernode.InnerText);
-
-                                    foreach (Match m in regex.Matches(strCompleteContent))
-                                    {
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                                    }
-                                }
-                                
-                                break;
-                            case "Number":
-                                string[] numbers = Regex.Split(strCompleteContent, @"\D+");
-                                foreach (string value in numbers)
-                                {
-                                    if (!string.IsNullOrEmpty(value))
-                                    {
-                                        int i = int.Parse(value);
-                                        
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
-                                        
-
-                                    }
-                                }
-                                break;
-                            case "Amount":
-                                Regex regexAmount;
-                                string strXmlAmount = Server.MapPath("~/RegEx/AmountExpression.xml");
-                                XmlDocument docAmount = new XmlDocument();
-                                docAmount.Load(strXmlAmount);
-
-                                XmlNodeList nodeListAmount = docAmount.DocumentElement.SelectNodes(@"/RegEx/Exp");
-                                foreach (XmlNode innernode in nodeListAmount)
-                                {
-                                    regexAmount = new Regex(@innernode.InnerText);
-
-                                    foreach (Match m in regexAmount.Matches(strCompleteContent))
-                                    {
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                                    }
-                                }
-                                
-                                break;
-
-                            case "Percent":
-                                Regex regexPercent;
-                                string strXmlPercent = Server.MapPath("~/RegEx/PercentExpression.xml");
-                                XmlDocument docPercent = new XmlDocument();
-                                docPercent.Load(strXmlPercent);
-
-                                XmlNodeList nodeListPercent = docPercent.DocumentElement.SelectNodes(@"/RegEx/Exp");
-                                foreach (XmlNode innernode in nodeListPercent)
-                                {
-
-                                    regexPercent = new Regex(@innernode.InnerText);
-
-                                    foreach (Match m in regexPercent.Matches(strCompleteContent))
-                                    {
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                                    }
-                                }
-                                
-
-                                break;
-                            default:
-                                break;
-                        }
-                        #endregion
-                        break;
-                    case "RegEx":
-                        #region RegExOperation
-
-                        //var regexCustom = new Regex(@"" + searchText + "");
-                        var regexCustom = new Regex('@' + searchText);
-                        //var regexCustom1 = new Regex(@"\D+");
-                        foreach (Match m in regexCustom.Matches(strCompleteContent))
-                        {
-
-                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
-
-                        }
-                        //string[] strRegex = Regex.Split(strCompleteContent,regexCustom.ToString());
-                        //foreach (string value in strRegex)
-                        //{
-                        //    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { value }).ToArray();
-                        //}
-                        #endregion
-                        break;
-                    case "Between":
-                        #region BetweenOperation
-                        switch (strExprOption)
-                        {
-                            case "String":
-                                string strBetween = Between(strCompleteContent, strExpr1, strExpr2);
-                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strBetween.ToString() }).ToArray();
-                                break;
-                            case "None":
-                                string strBetweenNone = Between(strCompleteContent, strExpr1, strExpr2);
-                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strBetweenNone.ToString() }).ToArray();
-                                break;
-                            default:
-                                break;
-                        }
-                        #endregion
-                        break;
-                    case "After":
-                        #region AfterOperation
-                        switch (strExprOption)
-                        {
-                            case "String":
-                                switch (strPosition)
-                                {
-                                    case "First":
-                                        string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
-
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
-                                        break;
-                                    case "Last":
-
-                                        var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                        string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
-
-                                        break;
-                                    case "None":
-                                        var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                        foreach (Match m in regexAfter.Matches(strCompleteContent))
-                                        {
-
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
-
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                break;
-                            case "None":
-                                switch (strPosition)
-                                {
-                                    case "First":
-                                        string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
-
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
-                                        break;
-                                    case "Last":
-
-                                        var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                        string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
-
-                                        break;
-                                    case "None":
-                                        var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                        foreach (Match m in regexAfter.Matches(strCompleteContent))
-                                        {
-
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
-
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                break;
-                            default:
-                                break;
-                        }
-                        #endregion
-                        break;
-                    case "Before":
-                        #region BeforeOperation
-                        switch (strExprOption)
-                        {
-                            case "String":
-                                switch (strPosition)
-                                {
-                                    case "First":
-                                        var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
-                                        string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
-
-                                        break;
-                                    case "Last":
-
-                                        var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
-                                        string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
-
-                                        break;
-                                    case "None":
-                                        var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
-                                        foreach (Match m in regexBefore.Matches(strCompleteContent))
-                                        {
-
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
-
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-
-                                break;
-                            case "None":
-                                switch (strPosition)
-                                {
-                                    case "First":
-                                        var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
-                                        string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
-
-                                        break;
-                                    case "Last":
-
-                                        var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
-                                        string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
-
-                                        break;
-                                    case "None":
-                                        var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
-                                        foreach (Match m in regexBefore.Matches(strCompleteContent))
-                                        {
-
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
-
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-
-                                break;
-                            default:
-                                break;
-                        }
-                        #endregion
-                        break;
-                    default:
-                        break;
-                }
-                #endregion
-
-                #region Implement Neighbourhood
-                switch (strOperator)
-                {
-                    case "After":
-                        for (int i = 0; i < searchValues.Length; i++)
-                        {
-                            currPos = strCompleteContent.IndexOf(searchValues[i]);
-                            curTxtLength = searchValues[i].Length;
-                            lastValueCurTxt = curTxtLength + (strNeighbourhood);
-                            if (currPos >= 0)
-                                searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
-                        }
-                        break;
-                    case "Before":
-                        for (int i = 0; i < searchValues.Length; i++)
-                        {
-                            currPos = strCompleteContent.IndexOf(searchValues[i]);
-                            curTxtLength = searchValues[i].Length;
-                            lastValueCurTxt = curTxtLength + (strNeighbourhood);
-                            if (currPos >= 0)
-                                searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
-                        }
-                        break;
-                    default:
-                        for (int i = 0; i < searchValues.Length; i++)
-                        {
-                            currPos = strCompleteContent.IndexOf(searchValues[i]);
-                            curTxtLength = searchValues[i].Length;
-                            lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
-                            if (currPos >= 0)
-                                searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
-                        }
-                        break;
-                }
-
-                #endregion
-                lblFieldValue.Text = string.Join(", ", searchValues);
-
-                highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
-                ViewState["OldFile"] = "TempUpload/" + fupFile.PostedFile.FileName;
-                ViewState["NewFile"] = "TempUpload/" + newFileName;
-                ViewState["FileName"] = fupFile.PostedFile.FileName;
-
-                //highlightPDFAnnotation(oldFile, newFile, 1, strSearchTexh);
-                hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
-            }
-            else
-            {
-                string strMode = "";
-                if (ViewState["Mode"] == null)
-                {
-                    ViewState["Mode"] = "ADD";
-                    strMode = "ADD";
-                }
-                else
-                {
-                    strMode = ViewState["Mode"].ToString();
-                }
-                if (strMode == "EDIT")
-                {
-
-                    hdnPDFSrc.Value = ViewState["NewFile"].ToString();
-                }
-                else
+                if (fupFile.HasFile)
                 {
                     #region Save File
-                    string strFileName = Convert.ToString(ViewState["FileName"]);
-                    string oldFile = Server.MapPath("~/TempUpload/" + strFileName);
-                    //fupFile.SaveAs(oldFile);
+                    string oldFile = Server.MapPath("~/TempUpload/" + Path.GetFileName(fupFile.PostedFile.FileName));
 
-                    string newFileName = Path.GetFileNameWithoutExtension(oldFile) + "_" + DateTime.Now.Ticks + ".pdf";
+                    fupFile.SaveAs(oldFile);
+
+                    string newFileName = Path.GetFileNameWithoutExtension(fupFile.PostedFile.FileName) + "_" + DateTime.Now.Ticks + ".pdf";
                     string newFile = Server.MapPath("~/TempUpload/" + newFileName);
                     #endregion
 
@@ -1021,13 +564,13 @@ public partial class RuleManager : System.Web.UI.Page
                     string strOperator = Convert.ToString(ddlOperator.SelectedItem.Value);
                     string strPosition = Convert.ToString(rbtPosition.SelectedItem.Value);
                     string strSynonym = string.IsNullOrEmpty(String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
-                        .Where(li => li.Selected)
-                        .ToList())) ? "All" : (ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
-                        .Where(li => li.Selected)
-                        .ToList().Count == ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>().ToList().Count) ? "All" :
-                         String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
-                        .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
-                        .ToList());
+                            .Where(li => li.Selected)
+                            .ToList())) ? "All" : (ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                            .Where(li => li.Selected)
+                            .ToList().Count == ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>().ToList().Count) ? "All" :
+                             String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                            .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
+                            .ToList());
                     int curTxtLength = 0;
                     int lastValueCurTxt = 0;
                     string strCurrText = string.Empty;
@@ -1045,11 +588,12 @@ public partial class RuleManager : System.Web.UI.Page
                             searchValues = searchText.Split(',');
                         }
                     #region Synonym Operation
-                    if (chkSynonym.Checked)
+                    if (chkSynonym.Checked == true)              //Modified by Ananya
                     {
                         foreach (string m in strSynonym.Split(','))
                         {
                             searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m }).ToArray();
+
                         }
                     }
                     #endregion
@@ -1160,6 +704,7 @@ public partial class RuleManager : System.Web.UI.Page
 
                                         }
                                     }
+
                                     break;
                                 case "Number":
                                     string[] numbers = Regex.Split(strCompleteContent, @"\D+");
@@ -1168,10 +713,9 @@ public partial class RuleManager : System.Web.UI.Page
                                         if (!string.IsNullOrEmpty(value))
                                         {
                                             int i = int.Parse(value);
-                                            //if (Enumerable.Range(Convert.ToInt32(strExpr1), Convert.ToInt32(strExpr2)).Contains(i))
-                                            //{
+
                                             searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
-                                            //}
+
 
                                         }
                                     }
@@ -1193,6 +737,7 @@ public partial class RuleManager : System.Web.UI.Page
 
                                         }
                                     }
+
                                     break;
 
                                 case "Percent":
@@ -1213,6 +758,8 @@ public partial class RuleManager : System.Web.UI.Page
 
                                         }
                                     }
+
+
                                     break;
                                 default:
                                     break;
@@ -1397,6 +944,7 @@ public partial class RuleManager : System.Web.UI.Page
                             break;
                     }
                     #endregion
+
                     #region Implement Neighbourhood
                     switch (strOperator)
                     {
@@ -1433,38 +981,946 @@ public partial class RuleManager : System.Web.UI.Page
                     }
 
                     #endregion
-                    //#region Implement Neighbourhood
-                    //for (int i = 0; i < searchValues.Length; i++)
-                    //{
-                    //    currPos = strCompleteContent.IndexOf(searchValues[i]);
-                    //    curTxtLength = searchValues[i].Length;
-                    //    lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
-                    //    if (currPos >= 0)
-                    //        searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
-                    //}
-
-                    //#endregion
                     lblFieldValue.Text = string.Join(", ", searchValues);
 
                     highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
-                    ViewState["OldFile"] = "TempUpload/" + strFileName;
+                    ViewState["OldFile"] = "TempUpload/" + fupFile.PostedFile.FileName;
                     ViewState["NewFile"] = "TempUpload/" + newFileName;
-                    ViewState["FileName"] = strFileName;
+                    ViewState["FileName"] = fupFile.PostedFile.FileName;
 
                     //highlightPDFAnnotation(oldFile, newFile, 1, strSearchTexh);
                     hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
                 }
+                else
+                {
+                    string strMode = "";
+                    if (ViewState["Mode"] == null)
+                    {
+                        ViewState["Mode"] = "ADD";
+                        strMode = "ADD";
+                    }
+                    else
+                    {
+                        strMode = ViewState["Mode"].ToString();
+                    }
+                    if (strMode == "EDIT")
+                    {
+
+                        hdnPDFSrc.Value = ViewState["NewFile"].ToString();
+                    }
+                    else
+                    {
+                        #region Save File
+                        string strFileName = Convert.ToString(ViewState["FileName"]);
+                        string oldFile = Server.MapPath("~/TempUpload/" + strFileName);
+                        //fupFile.SaveAs(oldFile);
+
+                        string newFileName = Path.GetFileNameWithoutExtension(oldFile) + "_" + DateTime.Now.Ticks + ".pdf";
+                        string newFile = Server.MapPath("~/TempUpload/" + newFileName);
+                        #endregion
+
+                        #region veriable declaration
+                        string strCompleteContent = ExtractTextFromPdf(oldFile);
+                        string searchText = Convert.ToString(txtContext.Text);
+                        int strNeighbourhood = Convert.ToInt32(txtNeighbourhood.Text);
+                        string strExprOption = Convert.ToString(rbExprOptions.SelectedItem.Text);
+                        string strOperator = Convert.ToString(ddlOperator.SelectedItem.Value);
+                        string strPosition = Convert.ToString(rbtPosition.SelectedItem.Value);
+                        string strSynonym = string.IsNullOrEmpty(String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                            .Where(li => li.Selected)
+                            .ToList())) ? "All" : (ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                            .Where(li => li.Selected)
+                            .ToList().Count == ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>().ToList().Count) ? "All" :
+                             String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                            .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
+                            .ToList());
+                        int curTxtLength = 0;
+                        int lastValueCurTxt = 0;
+                        string strCurrText = string.Empty;
+                        int currPos = 0;
+
+                        string[] searchValues = new string[0];
+                        string strExpr1 = Convert.ToString(txtExpr1st.Text);
+                        string strExpr2 = Convert.ToString(txtExpr2nd.Text);
+                        string strExprText = string.Empty;
+
+                        #endregion
+                        if ((!chkIgnoreContext.Checked) || (string.IsNullOrEmpty(searchText)))
+                            if ((strOperator != "RegEx"))
+                            {
+                                searchValues = searchText.Split(',');
+                            }
+                        #region Synonym Operation
+                        if (chkSynonym.Checked)
+                        {
+                            foreach (string m in strSynonym.Split(','))
+                            {
+                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m }).ToArray();
+                            }
+                        }
+                        #endregion
+                        #region Operator Operation
+                        switch (strOperator)
+                        {
+                            case "Range":
+                                #region RangeOperation
+                                switch (strExprOption)
+                                {
+                                    case "Date":
+                                        Regex regex;
+                                        string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
+                                        XmlDocument doc = new XmlDocument();
+                                        doc.Load(strXml);
+
+                                        XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                        foreach (XmlNode innernode in nodeList)
+                                        {
+
+                                            regex = new Regex(@innernode.InnerText);
+
+                                            foreach (Match m in regex.Matches(strCompleteContent))
+                                            {
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                            }
+                                        }
+
+                                        break;
+                                    case "Number":
+                                        string[] numbers = Regex.Split(strCompleteContent, @"\D+");
+                                        foreach (string value in numbers)
+                                        {
+                                            if (!string.IsNullOrEmpty(value))
+                                            {
+                                                int i = int.Parse(value);
+                                                if (Enumerable.Range(Convert.ToInt32(strExpr1), Convert.ToInt32(strExpr2)).Contains(i))
+                                                {
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
+                                                }
+
+                                            }
+                                        }
+                                        break;
+                                    case "Amount":
+                                        Regex regexAmount;
+                                        string strXmlAmount = Server.MapPath("~/RegEx/AmountExpression.xml");
+                                        XmlDocument docAmount = new XmlDocument();
+                                        docAmount.Load(strXmlAmount);
+
+                                        XmlNodeList nodeListAmount = docAmount.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                        foreach (XmlNode innernode in nodeListAmount)
+                                        {
+                                            regexAmount = new Regex(@innernode.InnerText);
+
+                                            foreach (Match m in regexAmount.Matches(strCompleteContent))
+                                            {
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                            }
+                                        }
+                                        break;
+
+                                    case "Percent":
+                                        Regex regexPercent;
+                                        string strXmlPercent = Server.MapPath("~/RegEx/PercentExpression.xml");
+                                        XmlDocument docPercent = new XmlDocument();
+                                        docPercent.Load(strXmlPercent);
+
+                                        XmlNodeList nodeListPercent = docPercent.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                        foreach (XmlNode innernode in nodeListPercent)
+                                        {
+
+                                            regexPercent = new Regex(@innernode.InnerText);
+
+                                            foreach (Match m in regexPercent.Matches(strCompleteContent))
+                                            {
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                #endregion
+                                break;
+                            case "Any":
+                                #region AnyOperation
+                                switch (strExprOption)
+                                {
+                                    case "Date":
+                                        Regex regex;
+                                        string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
+                                        XmlDocument doc = new XmlDocument();
+                                        doc.Load(strXml);
+
+                                        XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                        foreach (XmlNode innernode in nodeList)
+                                        {
+
+                                            regex = new Regex(@innernode.InnerText);
+
+                                            foreach (Match m in regex.Matches(strCompleteContent))
+                                            {
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                            }
+                                        }
+                                        break;
+                                    case "Number":
+                                        string[] numbers = Regex.Split(strCompleteContent, @"\D+");
+                                        foreach (string value in numbers)
+                                        {
+                                            if (!string.IsNullOrEmpty(value))
+                                            {
+                                                int i = int.Parse(value);
+                                                //if (Enumerable.Range(Convert.ToInt32(strExpr1), Convert.ToInt32(strExpr2)).Contains(i))
+                                                //{
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
+                                                //}
+
+                                            }
+                                        }
+                                        break;
+                                    case "Amount":
+                                        Regex regexAmount;
+                                        string strXmlAmount = Server.MapPath("~/RegEx/AmountExpression.xml");
+                                        XmlDocument docAmount = new XmlDocument();
+                                        docAmount.Load(strXmlAmount);
+
+                                        XmlNodeList nodeListAmount = docAmount.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                        foreach (XmlNode innernode in nodeListAmount)
+                                        {
+                                            regexAmount = new Regex(@innernode.InnerText);
+
+                                            foreach (Match m in regexAmount.Matches(strCompleteContent))
+                                            {
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                            }
+                                        }
+                                        break;
+
+                                    case "Percent":
+                                        Regex regexPercent;
+                                        string strXmlPercent = Server.MapPath("~/RegEx/PercentExpression.xml");
+                                        XmlDocument docPercent = new XmlDocument();
+                                        docPercent.Load(strXmlPercent);
+
+                                        XmlNodeList nodeListPercent = docPercent.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                        foreach (XmlNode innernode in nodeListPercent)
+                                        {
+
+                                            regexPercent = new Regex(@innernode.InnerText);
+
+                                            foreach (Match m in regexPercent.Matches(strCompleteContent))
+                                            {
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                #endregion
+                                break;
+                            case "RegEx":
+                                #region RegExOperation
+
+                                //var regexCustom = new Regex(@"" + searchText + "");
+                                var regexCustom = new Regex('@' + searchText);
+                                //var regexCustom1 = new Regex(@"\D+");
+                                foreach (Match m in regexCustom.Matches(strCompleteContent))
+                                {
+
+                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                }
+                                //string[] strRegex = Regex.Split(strCompleteContent,regexCustom.ToString());
+                                //foreach (string value in strRegex)
+                                //{
+                                //    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { value }).ToArray();
+                                //}
+                                #endregion
+                                break;
+                            case "Between":
+                                #region BetweenOperation
+                                switch (strExprOption)
+                                {
+                                    case "String":
+                                        string strBetween = Between(strCompleteContent, strExpr1, strExpr2);
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strBetween.ToString() }).ToArray();
+                                        break;
+                                    case "None":
+                                        string strBetweenNone = Between(strCompleteContent, strExpr1, strExpr2);
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strBetweenNone.ToString() }).ToArray();
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                #endregion
+                                break;
+                            case "After":
+                                #region AfterOperation
+                                switch (strExprOption)
+                                {
+                                    case "String":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
+
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
+                                                break;
+                                            case "Last":
+
+                                                var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
+
+                                                break;
+                                            case "None":
+                                                var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                foreach (Match m in regexAfter.Matches(strCompleteContent))
+                                                {
+
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                        break;
+                                    case "None":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
+
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
+                                                break;
+                                            case "Last":
+
+                                                var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
+
+                                                break;
+                                            case "None":
+                                                var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                foreach (Match m in regexAfter.Matches(strCompleteContent))
+                                                {
+
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                #endregion
+                                break;
+                            case "Before":
+                                #region BeforeOperation
+                                switch (strExprOption)
+                                {
+                                    case "String":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
+
+                                                break;
+                                            case "Last":
+
+                                                var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
+
+                                                break;
+                                            case "None":
+                                                var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
+                                                foreach (Match m in regexBefore.Matches(strCompleteContent))
+                                                {
+
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+
+                                        break;
+                                    case "None":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
+
+                                                break;
+                                            case "Last":
+
+                                                var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
+
+                                                break;
+                                            case "None":
+                                                var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
+                                                foreach (Match m in regexBefore.Matches(strCompleteContent))
+                                                {
+
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                #endregion
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        #region Implement Neighbourhood
+                        switch (strOperator)
+                        {
+                            case "After":
+                                for (int i = 0; i < searchValues.Length; i++)
+                                {
+                                    currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                    curTxtLength = searchValues[i].Length;
+                                    lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                                    if (currPos >= 0)
+                                        searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
+                                }
+                                break;
+                            case "Before":
+                                for (int i = 0; i < searchValues.Length; i++)
+                                {
+                                    currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                    curTxtLength = searchValues[i].Length;
+                                    lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                                    if (currPos >= 0)
+                                        searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                                }
+                                break;
+                            default:
+                                for (int i = 0; i < searchValues.Length; i++)
+                                {
+                                    currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                    curTxtLength = searchValues[i].Length;
+                                    lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
+                                    if (currPos >= 0)
+                                        searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                                }
+                                break;
+                        }
+
+                        #endregion
+                        //#region Implement Neighbourhood
+                        //for (int i = 0; i < searchValues.Length; i++)
+                        //{
+                        //    currPos = strCompleteContent.IndexOf(searchValues[i]);
+                        //    curTxtLength = searchValues[i].Length;
+                        //    lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
+                        //    if (currPos >= 0)
+                        //        searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                        //}
+
+                        //#endregion
+                        lblFieldValue.Text = string.Join(", ", searchValues);
+
+                        highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
+                        ViewState["OldFile"] = "TempUpload/" + strFileName;
+                        ViewState["NewFile"] = "TempUpload/" + newFileName;
+                        ViewState["FileName"] = strFileName;
+
+                        //highlightPDFAnnotation(oldFile, newFile, 1, strSearchTexh);
+                        hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
+                    }
+                }
+
+                cTestChart.Series["Testing"].Points.DataBind(chartData, "Key", "Value", string.Empty);
+                cTestChart.Series["Testing"].ChartType = SeriesChartType.StackedColumn;
+                cTestChart.Series["Testing"].ChartTypeName = "StackedColumn";
+                cTestChart.ChartAreas[0].AxisX.Interval = 1;
+                cTestChart.ChartAreas[0].Area3DStyle.Enable3D = false;
+                DataBind();
+                mpShow.Show();
+
+                #endregion
             }
+            else
+            {
+                //Apply on Previous Rule
+                #region Apply on Previous Rule
+                int masterRuleID =Convert.ToInt32(ddlRule.SelectedValue);
+                RuleDescHandler objRuleDescH = new RuleDescHandler();
+                RuleDesc objRule = objRuleDescH.GetRuleDescDetailsByID(masterRuleID);
 
-            cTestChart.Series["Testing"].Points.DataBind(chartData, "Key", "Value", string.Empty);
-            cTestChart.Series["Testing"].ChartType = SeriesChartType.StackedColumn;
-            cTestChart.Series["Testing"].ChartTypeName = "StackedColumn";
-            cTestChart.ChartAreas[0].AxisX.Interval = 1;
-            cTestChart.ChartAreas[0].Area3DStyle.Enable3D = false;
-            DataBind();
-            mpShow.Show();
+                #region Save File
+                string strFileName = Convert.ToString(objRule.UploadedFile); //Convert.ToString(ViewState["FileName"]);
+                string oldFile = Convert.ToString(objRule.OriginalDocumentName);// Server.MapPath("~/TempUpload/" + strFileName);
+                
+                string newFileName = Convert.ToString(objRule.UploadedFile) + "_" + DateTime.Now.Ticks + ".pdf";
+                string newFile = Server.MapPath("~/TempUpload/" + newFileName);
+                #endregion
 
-            #endregion
+                #region veriable declaration
+                string strCompleteContent =Convert.ToString(objRule.FieldValue);//For Apply on Previous Rule Content should fetch from previous rule.
+                string searchText = Convert.ToString(txtContext.Text);
+                int strNeighbourhood = Convert.ToInt32(txtNeighbourhood.Text);
+                string strExprOption = Convert.ToString(rbExprOptions.SelectedItem.Text);
+                string strOperator = Convert.ToString(ddlOperator.SelectedItem.Value);
+                string strPosition = Convert.ToString(rbtPosition.SelectedItem.Value);
+                string strSynonym = string.IsNullOrEmpty(String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                        .Where(li => li.Selected)
+                        .ToList())) ? "All" : (ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                        .Where(li => li.Selected)
+                        .ToList().Count == ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>().ToList().Count) ? "All" :
+                         String.Join(",", ddlSynonym.Items.Cast<System.Web.UI.WebControls.ListItem>()
+                        .Where(li => li.Selected).Select(x => string.Format("{0}", x.Value))
+                        .ToList());
+                int curTxtLength = 0;
+                int lastValueCurTxt = 0;
+                string strCurrText = string.Empty;
+                int currPos = 0;
+
+                string[] searchValues = new string[0];
+                string strExpr1 = Convert.ToString(txtExpr1st.Text);
+                string strExpr2 = Convert.ToString(txtExpr2nd.Text);
+                string strExprText = string.Empty;
+
+                #endregion
+
+                if ((!chkIgnoreContext.Checked) || (string.IsNullOrEmpty(searchText)))
+                    if ((strOperator != "RegEx"))
+                    {
+                        searchValues = searchText.Split(',');
+                    }
+                #region Synonym Operation
+                if (chkSynonym.Checked)
+                {
+                    foreach (string m in strSynonym.Split(','))
+                    {
+                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m }).ToArray();
+                    }
+                }
+                #endregion
+                #region Operator Operation
+                switch (strOperator)
+                {
+                    case "Range":
+                        #region RangeOperation
+                        switch (strExprOption)
+                        {
+                            case "Date":
+                                Regex regex;
+                                string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
+                                XmlDocument doc = new XmlDocument();
+                                doc.Load(strXml);
+
+                                XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                foreach (XmlNode innernode in nodeList)
+                                {
+
+                                    regex = new Regex(@innernode.InnerText);
+
+                                    foreach (Match m in regex.Matches(strCompleteContent))
+                                    {
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                    }
+                                }
+
+                                break;
+                            case "Number":
+                                string[] numbers = Regex.Split(strCompleteContent, @"\D+");
+                                foreach (string value in numbers)
+                                {
+                                    if (!string.IsNullOrEmpty(value))
+                                    {
+                                        int i = int.Parse(value);
+                                        if (Enumerable.Range(Convert.ToInt32(strExpr1), Convert.ToInt32(strExpr2)).Contains(i))
+                                        {
+                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
+                                        }
+
+                                    }
+                                }
+                                break;
+                            case "Amount":
+                                Regex regexAmount;
+                                string strXmlAmount = Server.MapPath("~/RegEx/AmountExpression.xml");
+                                XmlDocument docAmount = new XmlDocument();
+                                docAmount.Load(strXmlAmount);
+
+                                XmlNodeList nodeListAmount = docAmount.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                foreach (XmlNode innernode in nodeListAmount)
+                                {
+                                    regexAmount = new Regex(@innernode.InnerText);
+
+                                    foreach (Match m in regexAmount.Matches(strCompleteContent))
+                                    {
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                    }
+                                }
+                                break;
+
+                            case "Percent":
+                                Regex regexPercent;
+                                string strXmlPercent = Server.MapPath("~/RegEx/PercentExpression.xml");
+                                XmlDocument docPercent = new XmlDocument();
+                                docPercent.Load(strXmlPercent);
+
+                                XmlNodeList nodeListPercent = docPercent.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                foreach (XmlNode innernode in nodeListPercent)
+                                {
+
+                                    regexPercent = new Regex(@innernode.InnerText);
+
+                                    foreach (Match m in regexPercent.Matches(strCompleteContent))
+                                    {
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
+                    case "Any":
+                        #region AnyOperation
+                        switch (strExprOption)
+                        {
+                            case "Date":
+                                Regex regex;
+                                string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
+                                XmlDocument doc = new XmlDocument();
+                                doc.Load(strXml);
+
+                                XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                foreach (XmlNode innernode in nodeList)
+                                {
+
+                                    regex = new Regex(@innernode.InnerText);
+
+                                    foreach (Match m in regex.Matches(strCompleteContent))
+                                    {
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                    }
+                                }
+                                break;
+                            case "Number":
+                                string[] numbers = Regex.Split(strCompleteContent, @"\D+");
+                                foreach (string value in numbers)
+                                {
+                                    if (!string.IsNullOrEmpty(value))
+                                    {
+                                        int i = int.Parse(value);
+                                        //if (Enumerable.Range(Convert.ToInt32(strExpr1), Convert.ToInt32(strExpr2)).Contains(i))
+                                        //{
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { i.ToString() }).ToArray();
+                                        //}
+
+                                    }
+                                }
+                                break;
+                            case "Amount":
+                                Regex regexAmount;
+                                string strXmlAmount = Server.MapPath("~/RegEx/AmountExpression.xml");
+                                XmlDocument docAmount = new XmlDocument();
+                                docAmount.Load(strXmlAmount);
+
+                                XmlNodeList nodeListAmount = docAmount.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                foreach (XmlNode innernode in nodeListAmount)
+                                {
+                                    regexAmount = new Regex(@innernode.InnerText);
+
+                                    foreach (Match m in regexAmount.Matches(strCompleteContent))
+                                    {
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                    }
+                                }
+                                break;
+
+                            case "Percent":
+                                Regex regexPercent;
+                                string strXmlPercent = Server.MapPath("~/RegEx/PercentExpression.xml");
+                                XmlDocument docPercent = new XmlDocument();
+                                docPercent.Load(strXmlPercent);
+
+                                XmlNodeList nodeListPercent = docPercent.DocumentElement.SelectNodes(@"/RegEx/Exp");
+                                foreach (XmlNode innernode in nodeListPercent)
+                                {
+
+                                    regexPercent = new Regex(@innernode.InnerText);
+
+                                    foreach (Match m in regexPercent.Matches(strCompleteContent))
+                                    {
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
+                    case "RegEx":
+                        #region RegExOperation
+
+                        //var regexCustom = new Regex(@"" + searchText + "");
+                        var regexCustom = new Regex('@' + searchText);
+                        //var regexCustom1 = new Regex(@"\D+");
+                        foreach (Match m in regexCustom.Matches(strCompleteContent))
+                        {
+
+                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Value.ToString() }).ToArray();
+
+                        }
+                        //string[] strRegex = Regex.Split(strCompleteContent,regexCustom.ToString());
+                        //foreach (string value in strRegex)
+                        //{
+                        //    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { value }).ToArray();
+                        //}
+                        #endregion
+                        break;
+                    case "Between":
+                        #region BetweenOperation
+                        switch (strExprOption)
+                        {
+                            case "String":
+                                string strBetween = Between(strCompleteContent, strExpr1, strExpr2);
+                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strBetween.ToString() }).ToArray();
+                                break;
+                            case "None":
+                                string strBetweenNone = Between(strCompleteContent, strExpr1, strExpr2);
+                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strBetweenNone.ToString() }).ToArray();
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
+                    case "After":
+                        #region AfterOperation
+                        switch (strExprOption)
+                        {
+                            case "String":
+                                switch (strPosition)
+                                {
+                                    case "First":
+                                        string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
+
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
+                                        break;
+                                    case "Last":
+
+                                        var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                        string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
+
+                                        break;
+                                    case "None":
+                                        var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                        foreach (Match m in regexAfter.Matches(strCompleteContent))
+                                        {
+
+                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                break;
+                            case "None":
+                                switch (strPosition)
+                                {
+                                    case "First":
+                                        string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
+
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
+                                        break;
+                                    case "Last":
+
+                                        var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                        string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
+
+                                        break;
+                                    case "None":
+                                        var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                        foreach (Match m in regexAfter.Matches(strCompleteContent))
+                                        {
+
+                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
+                    case "Before":
+                        #region BeforeOperation
+                        switch (strExprOption)
+                        {
+                            case "String":
+                                switch (strPosition)
+                                {
+                                    case "First":
+                                        var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
+                                        string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
+
+                                        break;
+                                    case "Last":
+
+                                        var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
+                                        string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
+
+                                        break;
+                                    case "None":
+                                        var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
+                                        foreach (Match m in regexBefore.Matches(strCompleteContent))
+                                        {
+
+                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+
+                                break;
+                            case "None":
+                                switch (strPosition)
+                                {
+                                    case "First":
+                                        var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
+                                        string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
+
+                                        break;
+                                    case "Last":
+
+                                        var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
+                                        string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                        searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
+
+                                        break;
+                                    case "None":
+                                        var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
+                                        foreach (Match m in regexBefore.Matches(strCompleteContent))
+                                        {
+
+                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+
+                                break;
+                            default:
+                                break;
+                        }
+                        #endregion
+                        break;
+                    default:
+                        break;
+                }
+                #endregion
+                #region Implement Neighbourhood
+                switch (strOperator)
+                {
+                    case "After":
+                        for (int i = 0; i < searchValues.Length; i++)
+                        {
+                            currPos = strCompleteContent.IndexOf(searchValues[i]);
+                            curTxtLength = searchValues[i].Length;
+                            lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                            if (currPos >= 0)
+                                searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
+                        }
+                        break;
+                    case "Before":
+                        for (int i = 0; i < searchValues.Length; i++)
+                        {
+                            currPos = strCompleteContent.IndexOf(searchValues[i]);
+                            curTxtLength = searchValues[i].Length;
+                            lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                            if (currPos >= 0)
+                                searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                        }
+                        break;
+                    default:
+                        for (int i = 0; i < searchValues.Length; i++)
+                        {
+                            currPos = strCompleteContent.IndexOf(searchValues[i]);
+                            curTxtLength = searchValues[i].Length;
+                            lastValueCurTxt = curTxtLength + (strNeighbourhood * 2);
+                            if (currPos >= 0)
+                                searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                        }
+                        break;
+                }
+
+                #endregion
+
+                lblFieldValue.Text = string.Join(", ", searchValues);
+
+                highlightPDFAnnotation(oldFile, newFile, 1, searchValues); // Heighlight matched item
+                ViewState["OldFile"] = "TempUpload/" + strFileName;
+                ViewState["NewFile"] = "TempUpload/" + newFileName;
+                ViewState["FileName"] = strFileName;
+
+                //highlightPDFAnnotation(oldFile, newFile, 1, strSearchTexh);
+                hdnPDFSrc.Value = "TempUpload/" + newFileName + "";
+                #endregion
+            }
         }
 
     }
