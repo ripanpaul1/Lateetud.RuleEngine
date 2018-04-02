@@ -50,6 +50,7 @@
     <Compile Include="RuleMastHandler.cs" />
     <Compile Include="ServiceHistoryHandler.cs" />
     <Compile Include="UserMasterHandler.cs" />
+    <Compile Include="VwRuleApplicationSummaryHandler.cs" />
     <Compile Include="ValidationHandler.cs" />
     <Compile Include="VwAPIRuleApplicationSummaryHandler.cs" />
     <Compile Include="VwRuleDescHandler.cs" />

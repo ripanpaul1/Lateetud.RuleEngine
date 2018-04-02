@@ -47,6 +47,8 @@
     <Compile Include="APICallHistoryDBAccess.cs" />
     <Compile Include="APIRuleApplicationSummary.cs" />
     <Compile Include="APIRuleApplicationSummaryDBAccess.cs" />
+    <Compile Include="VwRuleApplicationSummary.cs" />
+    <Compile Include="VwRuleApplicationSummaryDBAccess.cs" />
     <Compile Include="ValidationDBAccess.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDBAccess.cs" />
