@@ -33,7 +33,10 @@ public partial class ServiceReport : System.Web.UI.Page
     {
         GvRuleApplicationSummary.PageIndex = e.NewPageIndex;
         LoadLogDetails();
+<<<<<<< HEAD
         //DataBind();
+=======
+>>>>>>> pb-development
     }
 
     protected void lnkBtnID_Click(object sender, EventArgs e)
