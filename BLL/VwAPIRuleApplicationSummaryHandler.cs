@@ -23,5 +23,17 @@ namespace BLL
         {
             return ruleSummaryDB.GetResultByRunID(RunID);
         }
+        public List<VwAPIRuleApplicationSummary> LoadByRunIDAPI(long RunId)
+        {
+            return ruleSummaryDB.LoadByRunIDAPI(RunId);
+        }
+        public VwAPIRuleApplicationSummary APIReportLoadByID(int ID)
+        {
+            return ruleSummaryDB.LoadApiDetailsByID(ID);
+        }
+        public bool UpdateAPIFieldValue(VwAPIRuleApplicationSummary objRuleSummary)
+        {
+            return ruleSummaryDB.UpdateFieldAPI(objRuleSummary);
+        }
     }
 }

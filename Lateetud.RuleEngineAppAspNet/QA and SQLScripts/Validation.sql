@@ -69,7 +69,7 @@ CREATE PROCEDURE [dbo].[proc_Validate_InsertAndUpdate]
 AS
 BEGIN
 
-IF Exists(Select RuleDescID from Validation where RuleDescID=@RuleDescID)
+IF Exists(Select RuleDescID from [Validation] where RuleDescID=@RuleDescID)
 Begin
 Update [dbo].[Validation]
 SET [IsActive]=@IsActive,

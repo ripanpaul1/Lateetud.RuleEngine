@@ -39,7 +39,7 @@
    <%-- <li class="top"><a href="ServiceManagement.aspx" class="top_link"><span>Service Management</span></a></li>--%>
 	<li class="top"><a href="#nogo53" id="report" class="top_link"><span class="down">Reports</span></a>
 		<ul class="sub">
-			<%--<li><a href="ServiceLogReport.aspx">Service Log Report</a></li>--%>
+			<li><a href="ServiceReport.aspx">Service Log Report</a></li>
 			<li><a href="SummaryReport.aspx">Summary Report</a></li>
 			<li><a href="DateWiseSummaryReport.aspx">Date Wise Summary</a></li>
 		</ul>
