@@ -102,11 +102,22 @@ namespace DAL
 
             DataTable table = SqlDBHelper.ExecuteParamerizedSelectCommand("proc_RuleApplicationSummary_GetDateWiseSuccessFailure", CommandType.StoredProcedure, parameters);
 
-            
+
             return table;
 
         }
-    }
 
+        public bool UpdateField(RuleApplicationSummary _ruleDetails)
+        {
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+            new SqlParameter("@ID",_ruleDetails.ID),      
+            new SqlParameter("@FieldValue",_ruleDetails.FieldValue),
+            };
+            return SqlDBHelper.ExecuteNonQuery("proc_RuleApplicationSummary_UpdateFieldValue", CommandType.StoredProcedure, parameters);
+        }
+    }
+    
 
 }

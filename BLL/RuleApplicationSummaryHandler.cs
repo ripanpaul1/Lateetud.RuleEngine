@@ -35,5 +35,9 @@ namespace BLL
         {
             return ruleSummaryDB.GetDateWiseSuccessFailure(RunDate);
         }
+        public bool UpdateFieldValue(RuleApplicationSummary objRuleSummary)
+        {
+            return ruleSummaryDB.UpdateField(objRuleSummary);
+        }
     }
 }
