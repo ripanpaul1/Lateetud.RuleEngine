@@ -234,7 +234,10 @@
                                                     <asp:TextBox ID="txtNeighbourhood" runat="server" Text="0"></asp:TextBox>
                                                 </td>
                                                 <td style="background-color: #CCFFCC">
-                                                    <asp:DropDownList ID="ddlLines" runat="server">
+                                                    <asp:DropDownList ID="ddlNeighbourhood" runat="server">
+                                                        <asp:ListItem>Characters</asp:ListItem>
+                                                        <asp:ListItem>Words</asp:ListItem>
+                                                        <%--<asp:ListItem>Lines</asp:ListItem>--%>
                                                     </asp:DropDownList>
                                                 </td>
                                             </tr>

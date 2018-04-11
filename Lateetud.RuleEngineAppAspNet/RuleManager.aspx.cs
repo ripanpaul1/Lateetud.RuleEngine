@@ -54,9 +54,9 @@ public partial class RuleManager : System.Web.UI.Page
         //ddlSplit.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Lines", "0"));
         ddlDictionary.Items.Insert(0, new System.Web.UI.WebControls.ListItem("General Insurane", "0"));
         #region Insert Neibourhood Finding
-        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Charecters", "0"));
-        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Words", "1"));
-        ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Lines", "2"));
+        //ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Charecters", "0"));
+        //ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Words", "1"));
+        //ddlLines.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Lines", "2"));
         #endregion
         //ddlOperator.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Any", "0"));
         ddlOperator.SelectedValue = "Any";
@@ -229,11 +229,11 @@ public partial class RuleManager : System.Web.UI.Page
                                 string strXml = Server.MapPath("~/RegEx/DateExpression.xml");
                                 XmlDocument doc = new XmlDocument();
                                 doc.Load(strXml);
-                                
+
                                 XmlNodeList nodeList = doc.DocumentElement.SelectNodes(@"/RegEx/Exp");
                                 foreach (XmlNode innernode in nodeList)
                                 {
-                                    
+
                                     regex = new Regex(@innernode.InnerText);
 
                                     foreach (Match m in regex.Matches(strCompleteContent))
@@ -295,7 +295,7 @@ public partial class RuleManager : System.Web.UI.Page
 
                                     }
                                 }
-                                
+
 
                                 break;
                             default:
@@ -576,6 +576,7 @@ public partial class RuleManager : System.Web.UI.Page
                     string strCurrText = string.Empty;
                     int currPos = 0;
 
+                    string neighbourhoodOptions = ddlNeighbourhood.SelectedValue;
                     string[] searchValues = new string[0];
                     string strExpr1 = Convert.ToString(txtExpr1st.Text);
                     string strExpr2 = Convert.ToString(txtExpr2nd.Text);
@@ -804,139 +805,145 @@ public partial class RuleManager : System.Web.UI.Page
                             break;
                         case "After":
                             #region AfterOperation
-                            switch (strExprOption)
+                            if (neighbourhoodOptions != "Words")
                             {
-                                case "String":
-                                    switch (strPosition)
-                                    {
-                                        case "First":
-                                            string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
+                                switch (strExprOption)
+                                {
+                                    case "String":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
 
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
-                                            break;
-                                        case "Last":
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
+                                                break;
+                                            case "Last":
 
-                                            var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                            string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
+                                                var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
 
-                                            break;
-                                        case "None":
-                                            var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                            foreach (Match m in regexAfter.Matches(strCompleteContent))
-                                            {
+                                                break;
+                                            case "None":
+                                                var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                foreach (Match m in regexAfter.Matches(strCompleteContent))
+                                                {
 
-                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
 
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
 
-                                    break;
-                                case "None":
-                                    switch (strPosition)
-                                    {
-                                        case "First":
-                                            string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
+                                        break;
+                                    case "None":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                string wordAfterMy = GetWordAfter(searchText, strCompleteContent);
 
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
-                                            break;
-                                        case "Last":
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { wordAfterMy.ToString() }).ToArray();
+                                                break;
+                                            case "Last":
 
-                                            var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                            string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
+                                                var regexAfter1 = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                string strValueAfter = Regex.Match(strCompleteContent, regexAfter1.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueAfter }).ToArray();
 
-                                            break;
-                                        case "None":
-                                            var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
-                                            foreach (Match m in regexAfter.Matches(strCompleteContent))
-                                            {
+                                                break;
+                                            case "None":
+                                                var regexAfter = new Regex(@"\b" + Regex.Escape(searchText) + @"\s+(\w+)");
+                                                foreach (Match m in regexAfter.Matches(strCompleteContent))
+                                                {
 
-                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
 
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
 
-                                    break;
-                                default:
-                                    break;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             #endregion
                             break;
                         case "Before":
                             #region BeforeOperation
-                            switch (strExprOption)
+                            if (neighbourhoodOptions != "Words")
                             {
-                                case "String":
-                                    switch (strPosition)
-                                    {
-                                        case "First":
-                                            var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
-                                            string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
+                                switch (strExprOption)
+                                {
+                                    case "String":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
 
-                                            break;
-                                        case "Last":
+                                                break;
+                                            case "Last":
 
-                                            var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
-                                            string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
+                                                var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
 
-                                            break;
-                                        case "None":
-                                            var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
-                                            foreach (Match m in regexBefore.Matches(strCompleteContent))
-                                            {
+                                                break;
+                                            case "None":
+                                                var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
+                                                foreach (Match m in regexBefore.Matches(strCompleteContent))
+                                                {
 
-                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
 
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
-
-                                    break;
-                                case "None":
-                                    switch (strPosition)
-                                    {
-                                        case "First":
-                                            var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
-                                            string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
-
-                                            break;
-                                        case "Last":
-
-                                            var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
-                                            string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
-                                            searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
-
-                                            break;
-                                        case "None":
-                                            var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
-                                            foreach (Match m in regexBefore.Matches(strCompleteContent))
-                                            {
-
-                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
-
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
 
 
-                                    break;
-                                default:
-                                    break;
+                                        break;
+                                    case "None":
+                                        switch (strPosition)
+                                        {
+                                            case "First":
+                                                var regexBeforeFirst = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeFirst = Regex.Match(strCompleteContent, regexBeforeFirst.ToString(), RegexOptions.IgnoreCase).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeFirst }).ToArray();
+
+                                                break;
+                                            case "Last":
+
+                                                var regexBeforeLast = new Regex(@"(\S+)\s+" + searchText + "");
+                                                string strValueBeforeLast = Regex.Match(strCompleteContent, regexBeforeLast.ToString(), RegexOptions.RightToLeft).Groups[1].Value.ToString();
+                                                searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { strValueBeforeLast }).ToArray();
+
+                                                break;
+                                            case "None":
+                                                var regexBefore = new Regex(@"(\S+)\s+" + searchText + "");
+                                                foreach (Match m in regexBefore.Matches(strCompleteContent))
+                                                {
+
+                                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { m.Groups[1].Value.ToString() }).ToArray();
+
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             #endregion
                             break;
@@ -946,26 +953,82 @@ public partial class RuleManager : System.Web.UI.Page
                     #endregion
 
                     #region Implement Neighbourhood
+
+                    
                     switch (strOperator)
                     {
                         case "After":
-                            for (int i = 0; i < searchValues.Length; i++)
+                            switch (neighbourhoodOptions)
                             {
-                                currPos = strCompleteContent.IndexOf(searchValues[i]);
-                                curTxtLength = searchValues[i].Length;
-                                lastValueCurTxt = curTxtLength + (strNeighbourhood);
-                                if (currPos >= 0)
-                                    searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
+                                case "Characters":
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                        curTxtLength = searchValues[i].Length;
+                                        lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                                        if (currPos >= 0)
+                                            searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
+                                    }
+                                    break;
+                                case "Words":
+                                    string temp = "";
+                                    int occurence = 1;
+                                    int position = strNeighbourhood;
+                                    string resultSearch = GetNxtWord(strCompleteContent, searchText, occurence, position);
+                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { resultSearch }).ToArray();
+                                    for (int count = 0; count < searchValues.Length; count++)
+                                    {
+                                        temp += searchValues[count];
+                                    }
+                                    //resultSearch = resultSearch + " "+searchText;
+                                    //lblFieldValue.Text = temp;
+                                    break;
+                                default:
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                        curTxtLength = searchValues[i].Length;
+                                        lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                                        if (currPos >= 0)
+                                            searchValues[i] = strCompleteContent.Substring(currPos, lastValueCurTxt);
+                                    }
+                                    break;
                             }
                             break;
                         case "Before":
-                            for (int i = 0; i < searchValues.Length; i++)
+                            switch (neighbourhoodOptions)
                             {
-                                currPos = strCompleteContent.IndexOf(searchValues[i]);
-                                curTxtLength = searchValues[i].Length;
-                                lastValueCurTxt = curTxtLength + (strNeighbourhood);
-                                if (currPos >= 0)
-                                    searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                                case "Characters":
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                        curTxtLength = searchValues[i].Length;
+                                        lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                                        if (currPos >= 0)
+                                            searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                                    }
+                                    break;
+                                case "Words":
+                                    string temp = "";
+                                    int occurence = 1;
+                                    int position = strNeighbourhood;
+                                    string resultSearch = GetWordBefore(strCompleteContent, searchText, occurence, position);
+                                    searchValues = (searchValues ?? Enumerable.Empty<string>()).Concat(new[] { resultSearch }).ToArray();
+                                    for (int count = 0; count < searchValues.Length; count++)
+                                    {
+                                        temp += searchValues[count];
+                                    }
+                                    break;
+                                default:
+                                    for (int i = 0; i < searchValues.Length; i++)
+                                    {
+                                        currPos = strCompleteContent.IndexOf(searchValues[i]);
+                                        curTxtLength = searchValues[i].Length;
+                                        lastValueCurTxt = curTxtLength + (strNeighbourhood);
+                                        if (currPos >= 0)
+                                            searchValues[i] = strCompleteContent.Substring(currPos - strNeighbourhood, lastValueCurTxt);
+                                    }
+                                    break;
                             }
                             break;
                         default:
@@ -1476,20 +1539,20 @@ public partial class RuleManager : System.Web.UI.Page
             {
                 //Apply on Previous Rule
                 #region Apply on Previous Rule
-                int masterRuleID =Convert.ToInt32(ddlRule.SelectedValue);
+                int masterRuleID = Convert.ToInt32(ddlRule.SelectedValue);
                 RuleDescHandler objRuleDescH = new RuleDescHandler();
                 RuleDesc objRule = objRuleDescH.GetRuleDescDetailsByID(masterRuleID);
 
                 #region Save File
                 string strFileName = Convert.ToString(objRule.UploadedFile); //Convert.ToString(ViewState["FileName"]);
                 string oldFile = Convert.ToString(objRule.OriginalDocumentName);// Server.MapPath("~/TempUpload/" + strFileName);
-                
+
                 string newFileName = Convert.ToString(objRule.UploadedFile) + "_" + DateTime.Now.Ticks + ".pdf";
                 string newFile = Server.MapPath("~/TempUpload/" + newFileName);
                 #endregion
 
                 #region veriable declaration
-                string strCompleteContent =Convert.ToString(objRule.FieldValue);//For Apply on Previous Rule Content should fetch from previous rule.
+                string strCompleteContent = Convert.ToString(objRule.FieldValue);//For Apply on Previous Rule Content should fetch from previous rule.
                 string searchText = Convert.ToString(txtContext.Text);
                 int strNeighbourhood = Convert.ToInt32(txtNeighbourhood.Text);
                 string strExprOption = Convert.ToString(rbExprOptions.SelectedItem.Text);
@@ -2285,7 +2348,7 @@ public partial class RuleManager : System.Web.UI.Page
         mpCreateRule.Show();
     }
 
-    
+
 
     protected void btnEditRuleSet_Click(object sender, EventArgs e)
     {
@@ -2477,22 +2540,22 @@ public partial class RuleManager : System.Web.UI.Page
     protected void btnValidateSave_Click(object sender, EventArgs e)
     {
 
-            int validationID = Convert.ToInt32(ViewState["VALIDATIONID"]);
-        
-            ValidationHandler objvalidateHandler = new ValidationHandler();
-        
-            Validation objValidate = new Validation();
+        int validationID = Convert.ToInt32(ViewState["VALIDATIONID"]);
 
-            objValidate.RuleDescID = validationID;
-            objValidate.IsActive = true;
-            objValidate.EntryDate = DateTime.Now;
-            objValidate.ModifiedDate = DateTime.Now;
-            objValidate.ExpressionContext = rbtnExpressions.SelectedValue.ToString();
-            objValidate.ExpressionText = txtCustom.Text;
-            objvalidateHandler.InsertAndUpdate(objValidate);
-        
+        ValidationHandler objvalidateHandler = new ValidationHandler();
+
+        Validation objValidate = new Validation();
+
+        objValidate.RuleDescID = validationID;
+        objValidate.IsActive = true;
+        objValidate.EntryDate = DateTime.Now;
+        objValidate.ModifiedDate = DateTime.Now;
+        objValidate.ExpressionContext = rbtnExpressions.SelectedValue.ToString();
+        objValidate.ExpressionText = txtCustom.Text;
+        objvalidateHandler.InsertAndUpdate(objValidate);
+
     }
-    
+
     protected void ddlRuleSet_SelectedIndexChanged(object sender, EventArgs e)
     {
         RuleDescHandler ruleDescHndlr = new RuleDescHandler();
@@ -2503,5 +2566,50 @@ public partial class RuleManager : System.Web.UI.Page
         ddlRule.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Rules--", "0"));
         ScriptManager.RegisterStartupScript(this.Page, GetType(), "popIt", "showHide();", true);
         upnlRule.Update();
+    }
+    public static string GetNxtWord(string completetext, string searchWord, int occurence, int position)
+    {
+        string text = completetext.Replace('\n', ' ');
+        string str = "";
+        int i = 0;
+        while ((i = text.IndexOf(searchWord, i)) != -1)
+        {
+
+            str = str + " " + i.ToString();
+            i++;
+        }
+        string[] index = str.Split(' ');
+        int indx = Convert.ToInt32(index[occurence]);
+        string selectedstrng = text.Substring(indx);
+        string[] coutn = selectedstrng.Split(' ');
+
+        string[] noOfWords = searchWord.Split(' ');
+        int len = noOfWords.Length;
+
+        string result = coutn[position + len - 1];
+        return result;
+    }
+    public static string GetWordBefore(string text, string searchWord, int occurence, int position)
+    {
+
+        string flag = searchWord;
+        string strCompleteText = text.Replace('\n', ' ');
+
+        string str = "";
+        int i = 0;
+        while ((i = strCompleteText.IndexOf(searchWord, i)) != -1)
+        {
+
+            str = str + " " + i.ToString();
+            i++;
+        }
+        string[] strSplit = str.Split(' ');
+        int j = occurence;
+        int indx = Convert.ToInt32(strSplit[j]);
+        string mytext = strCompleteText.Substring(0, indx);
+        string[] resultText = mytext.Split(' ');
+        int len = resultText.Length;
+        string rslt = resultText[len - 1 - position];
+        return rslt;
     }
 }
