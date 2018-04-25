@@ -39,3 +39,5 @@ C:\Work\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\obj\De
 C:\Work\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\obj\Debug\Lateetud.RuleEngine.WindowsService.csproj.CopyComplete
 C:\Work\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\obj\Debug\Lateetud.RuleEngine.WindowsService.exe
 C:\Work\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\obj\Debug\Lateetud.RuleEngine.WindowsService.pdb
+E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\obj\Debug\Lateetud.RuleEngine.WindowsService.csproj.CoreCompileInputs.cache
+E:\Repository\Lateetud.RuleEngine\Lateetud.RuleEngine.WindowsService\obj\Debug\Lateetud.RuleEngine.WindowsService.csproj.CopyComplete

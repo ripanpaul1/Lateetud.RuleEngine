@@ -9,7 +9,6 @@ E:\OfficeWork\Lateetud.RuleEngine\DAL\bin\Debug\DAL.pdb
 E:\OfficeWork\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 E:\OfficeWork\Lateetud.RuleEngine\DAL\obj\Debug\DAL.dll
 E:\OfficeWork\Lateetud.RuleEngine\DAL\obj\Debug\DAL.pdb
-E:\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 E:\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.dll
 E:\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.pdb
 E:\Repository\Lateetud.RuleEngine\DAL\bin\Debug\DAL.dll
@@ -27,3 +26,5 @@ C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CoreCompileInput
 C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.dll
 C:\Work\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.pdb
+E:\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+E:\Repository\Lateetud.RuleEngine\DAL\obj\Debug\DAL.csproj.CopyComplete

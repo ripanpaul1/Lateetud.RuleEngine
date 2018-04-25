@@ -41,3 +41,5 @@ C:\Work\Repository\Lateetud.RuleEngine\BLL\obj\Debug\BLL.csproj.CoreCompileInput
 C:\Work\Repository\Lateetud.RuleEngine\BLL\obj\Debug\BLL.csproj.CopyComplete
 C:\Work\Repository\Lateetud.RuleEngine\BLL\obj\Debug\BLL.dll
 C:\Work\Repository\Lateetud.RuleEngine\BLL\obj\Debug\BLL.pdb
+E:\Repository\Lateetud.RuleEngine\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+E:\Repository\Lateetud.RuleEngine\BLL\obj\Debug\BLL.csproj.CopyComplete
